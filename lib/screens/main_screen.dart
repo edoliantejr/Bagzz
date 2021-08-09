@@ -13,39 +13,45 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int numCartItems = 0;
-  Widget bodyPage = HomeScreen();
   @override
   Widget build(BuildContext context) {
     num devicePixel = MediaQuery.of(context).devicePixelRatio;
 
     return Scaffold(
       backgroundColor: colorWhite,
-      appBar: AppBar(
-        backgroundColor: colorWhite,
-        elevation: 0,
-        leading: Container(
-            margin: EdgeInsets.symmetric(
-                horizontal: 24 / devicePixel, vertical: 14 / devicePixel),
-            child: svgIcon('assets/icons/drawer.svg')),
-        title: const Text(
-          'bagzz',
-          style: TextStyle(
-              color: colorBlack,
-              fontFamily: playFair,
-              fontSize: 26,
-              fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: CircleAvatar(
-                backgroundColor: Colors.grey[900],
-                backgroundImage: AssetImage('assets/images/avatar.jpg'),
-                radius: 18,
-              ))
-        ],
+      body: NestedScrollView(
+      
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              backgroundColor: colorWhite,
+              elevation: 0,
+              leading: Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 24 / devicePixel, vertical: 14 / devicePixel),
+                  child: svgIcon('assets/icons/drawer.svg')),
+              title: const Text(
+                'bagzz',
+                style: TextStyle(
+                    color: colorBlack,
+                    fontFamily: playFair,
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold),
+              ),
+              actions: [
+                Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey[900],
+                      backgroundImage: AssetImage('assets/images/avatar.jpg'),
+                      radius: 18,
+                    ))
+              ],
+            )
+          ];
+        },
+        body: HomeScreen(),
       ),
-      body:  bodyPage,
       bottomNavigationBar: bottomNavigation(),
     );
   }

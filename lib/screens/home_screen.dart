@@ -25,12 +25,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        HeaderImageSlider(context, controller),
-        Expanded(
-          child: GridView.builder(
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          HeaderImageSlider(context, controller),
+          GridView.builder(
+              shrinkWrap: true,
+              primary: false,
               itemCount: bags_gridview_item.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -39,11 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 childAspectRatio: .9,
               ),
               itemBuilder: (context, i) {
-                return bagGridView(bags_gridview_item[i].image, bags_gridview_item[i].name);
+                return bagGridView(
+                    bags_gridview_item[i].image, bags_gridview_item[i].name);
               }),
-        ),
-        
-      ],
+        ],
+      ),
     );
   }
 }

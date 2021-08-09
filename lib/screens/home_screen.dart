@@ -1,6 +1,8 @@
 import 'package:bagzz/constant/constant.dart';
-import 'package:bagzz/models/bags_slides.dart';
+import 'package:bagzz/models/bags_gridview_item.dart';
+import 'package:bagzz/models/bags__image_slides.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,8 +26,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         HeaderImageSlider(context, controller),
+        Expanded(
+          child: GridView.builder(
+              itemCount: bags_gridview_item.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
+                childAspectRatio: .9,
+              ),
+              itemBuilder: (context, i) {
+                return bagGridView(bags_gridview_item[i].image, bags_gridview_item[i].name);
+              }),
+        ),
+        
       ],
     );
   }
@@ -34,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //Widget for Image Slider on the Home Page Header
 Widget HeaderImageSlider(BuildContext context, PageController controller) {
   return Container(
-    margin: EdgeInsets.symmetric(vertical: 28, horizontal: 12),
+    margin: EdgeInsets.symmetric(vertical: 28, horizontal: 11),
     height: 205,
     width: 714,
     child: Stack(
@@ -100,7 +117,7 @@ Widget imageSlide(String image, String title) {
         width: 714,
         child: Image(
           image: AssetImage(image),
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
         ),
       ),
       Positioned(
@@ -115,7 +132,7 @@ Widget imageSlide(String image, String title) {
               fontFamily: 'Playfair',
               background: new Paint()
                 ..color = Colors.white
-                ..strokeWidth = 27
+                ..strokeWidth = 30
                 ..style = PaintingStyle.stroke,
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -125,5 +142,67 @@ Widget imageSlide(String image, String title) {
         ),
       ),
     ],
+  );
+}
+
+//Widget Gridview for lists of bags
+Widget bagGridView(String image, String name) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 11, right: 15, bottom: 11),
+    child: Container(
+      height: 210,
+      width: 170,
+      color: Color(0XFFF1F1F1),
+      child: Stack(
+        children: [
+          Positioned(
+              top: 6,
+              right: 9,
+              child: Icon(
+                Icons.favorite_border_outlined,
+                color: Colors.black,
+                size: 18,
+              )),
+          Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Image(image: AssetImage(image)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 11),
+                  child: Text(
+                    name,
+                    style: TextStyle(
+                        fontFamily: playFair,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 11),
+                  child: InkWell(
+                    onTap: () {},
+                    child: Text(
+                      'SHOP NOW',
+                      style: TextStyle(
+                          fontFamily: workSans,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 2,
+                  width: 88,
+                  color: Colors.black,
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    ),
   );
 }

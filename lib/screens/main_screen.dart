@@ -45,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
               ))
         ],
       ),
-      body: bodyPage,
+      body:  bodyPage,
       bottomNavigationBar: bottomNavigation(),
     );
   }
@@ -57,6 +57,7 @@ Widget bottomNavigation() {
     children: [
       DotNavigationBar(
         borderRadius: 40,
+
         currentIndex: -1,
         onTap: (int index) {},
         items: [
@@ -80,22 +81,22 @@ Widget bottomNavigation() {
           )
         ],
         itemPadding: EdgeInsets.symmetric(
-          vertical: 23,
+          vertical: 18,
           horizontal: 29,
         ),
-        //paddingR: const EdgeInsets.all(14),
+        // paddingR: const EdgeInsets.all(14),
         marginR: const EdgeInsets.all(8),
       ),
-      numShopBagtItem(2),
+      numShopBagItem(2),
     ],
   );
 }
 
-//widget overylay to show number of items in the cart as a notification alert
-Widget numShopBagtItem(int numCartItems) {
+//widget overlay to show number of items in the cart as a notification alert
+Widget numShopBagItem(int numCartItems) {
   Color color = Colors.black;
   return Positioned(
-    top: 32,
+    top: 28,
     right: 33,
     child: Container(
       decoration: BoxDecoration(

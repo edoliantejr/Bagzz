@@ -1,5 +1,6 @@
 import 'package:bagzz/components/svg_icon.dart';
 import 'package:bagzz/constant/constant.dart';
+import 'package:bagzz/models/bags_gridview_item.dart';
 import 'package:bagzz/screens/home_screen.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
+              
               backgroundColor: colorWhite,
               elevation: 0,
               leading: Container(
@@ -93,7 +95,7 @@ Widget bottomNavigation() {
         // paddingR: const EdgeInsets.all(14),
         marginR: const EdgeInsets.all(8),
       ),
-      numShopBagItem(2),
+      numShopBagItem(bags_gridview_item.length),
     ],
   );
 }

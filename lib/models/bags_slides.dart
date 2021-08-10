@@ -1,14 +1,26 @@
 class Bags {
-  String? image;
-  String? title;
+  String image;
+  String title;
+  String name;
 
-  Bags({this.image, this.title});
+  Bags({required this.image, required this.title, required this.name});
 }
 
 final List<Bags> bags = [
   Bags(
-      image: 'assets/bag-header-01.png', title: " This \n season's \n latest "),
-  Bags(image: 'assets/bag02.png', title: " This \n season's \n best buy "),
-  Bags(image: 'assets/bag03.png', title: " This \n season's \n popular "),
-  Bags(image: 'assets/bag04.png', title: " This \n season's \n latest "),
+      image: 'assets/images/bag-header-01.jpg',
+      title: "This season's latest",
+      name: "Artsy"),
+  Bags(
+      image: 'assets/images/bag02.png',
+      title: " This season's best buy",
+      name: "Artsy"),
+  Bags(
+      image: 'assets/images/bag03.png',
+      title: " This season's popular",
+      name: "Artsy"),
+  Bags(
+      image: 'assets/images/bag04.png',
+      title: " This season's latest",
+      name: "Artsy"),
 ];

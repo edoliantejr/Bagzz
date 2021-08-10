@@ -1,5 +1,6 @@
 import 'package:bagzz/components/svg_icon.dart';
 import 'package:bagzz/constant/constant.dart';
+import 'package:bagzz/models/bags_gridview_item.dart';
 import 'package:bagzz/screens/home_screen.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -13,39 +14,46 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int numCartItems = 0;
-  Widget bodyPage = HomeScreen();
   @override
   Widget build(BuildContext context) {
     num devicePixel = MediaQuery.of(context).devicePixelRatio;
 
     return Scaffold(
       backgroundColor: colorWhite,
-      appBar: AppBar(
-        backgroundColor: colorWhite,
-        elevation: 0,
-        leading: Container(
-            margin: EdgeInsets.symmetric(
-                horizontal: 24 / devicePixel, vertical: 14 / devicePixel),
-            child: svgIcon('assets/icons/drawer.svg')),
-        title: const Text(
-          'bagzz',
-          style: TextStyle(
-              color: colorBlack,
-              fontFamily: playFair,
-              fontSize: 26,
-              fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: CircleAvatar(
-                backgroundColor: Colors.grey[900],
-                backgroundImage: AssetImage('assets/images/avatar.jpg'),
-                radius: 18,
-              ))
-        ],
+      body: NestedScrollView(
+      
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              
+              backgroundColor: colorWhite,
+              elevation: 0,
+              leading: Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 24 / devicePixel, vertical: 14 / devicePixel),
+                  child: svgIcon('assets/icons/drawer.svg')),
+              title: const Text(
+                'bagzz',
+                style: TextStyle(
+                    color: colorBlack,
+                    fontFamily: playFair,
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold),
+              ),
+              actions: [
+                Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey[900],
+                      backgroundImage: AssetImage('assets/images/avatar.jpg'),
+                      radius: 18,
+                    ))
+              ],
+            )
+          ];
+        },
+        body: HomeScreen(),
       ),
-      body: bodyPage,
       bottomNavigationBar: bottomNavigation(),
     );
   }
@@ -57,6 +65,7 @@ Widget bottomNavigation() {
     children: [
       DotNavigationBar(
         borderRadius: 40,
+
         currentIndex: -1,
         onTap: (int index) {},
         items: [
@@ -80,22 +89,22 @@ Widget bottomNavigation() {
           )
         ],
         itemPadding: EdgeInsets.symmetric(
-          vertical: 23,
+          vertical: 18,
           horizontal: 29,
         ),
-        //paddingR: const EdgeInsets.all(14),
+        // paddingR: const EdgeInsets.all(14),
         marginR: const EdgeInsets.all(8),
       ),
-      numShopBagtItem(2),
+      numShopBagItem(bags_gridview_item.length),
     ],
   );
 }
 
-//widget overylay to show number of items in the cart as a notification alert
-Widget numShopBagtItem(int numCartItems) {
+//widget overlay to show number of items in the cart as a notification alert
+Widget numShopBagItem(int numCartItems) {
   Color color = Colors.black;
   return Positioned(
-    top: 32,
+    top: 28,
     right: 33,
     child: Container(
       decoration: BoxDecoration(

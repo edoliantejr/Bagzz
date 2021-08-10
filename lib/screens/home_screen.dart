@@ -45,6 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 return bagGridView(
                     bags_gridview_item[i].image, bags_gridview_item[i].name);
               }),
+          gridView(),
+          gridText(),
         ],
       ),
     );
@@ -208,4 +210,37 @@ Widget bagGridView(String image, String name) {
       ),
     ),
   );
+}
+
+Widget gridView() {
+  return Center(
+    child: Container(
+      margin: EdgeInsets.only(top: 10.0),
+      child: Container(
+          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          decoration: BoxDecoration(
+              border: Border.all(
+            color: Colors.black,
+          )),
+          child: Text("CHECK ALL LATEST",
+              style: TextStyle(
+                fontFamily: 'WorkSans',
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ))),
+    ),
+  );
+}
+
+Widget gridText() {
+  return Container(
+      padding: EdgeInsets.only(left: 11.0, top: 56.0),
+      alignment: Alignment.centerLeft,
+      margin: EdgeInsets.only(top: 10.0),
+      child: Text("Shop By Categories",
+          style: TextStyle(
+            fontFamily: playFair,
+            fontSize: 24.0,
+            fontWeight: FontWeight.bold,
+          )));
 }

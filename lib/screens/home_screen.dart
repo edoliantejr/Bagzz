@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-    physics: BouncingScrollPhysics(),
+      physics: BouncingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 //Widget bagGridviewItems for bagGridView
   Widget bagGridViewItems(int id, String image, String name) {
-    print('Ojbect id: $id');
+
     return Padding(
       padding: const EdgeInsets.only(left: 11, right: 15, bottom: 11),
       child: Container(

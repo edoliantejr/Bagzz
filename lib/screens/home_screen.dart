@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget gridView() {
     return Center(
       child: Container(
-        margin: EdgeInsets.only(top: 10.0),
+        margin: EdgeInsets.only(top: 20.0),
         child: Container(
             padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             decoration: BoxDecoration(
@@ -239,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget gridText() {
     return Container(
-        padding: EdgeInsets.only(left: 11.0, top: 56.0),
+        padding: EdgeInsets.only(left: 11.0, top: 40.0),
         alignment: Alignment.centerLeft,
         margin: EdgeInsets.only(top: 10.0),
         child: Text("Shop By Categories",

@@ -1,6 +1,7 @@
 import 'package:bagzz/components/svg_icon.dart';
 import 'package:bagzz/constant/constant.dart';
 import 'package:bagzz/models/bags_gridview_item.dart';
+import 'package:bagzz/screens/cart_screen.dart';
 import 'package:bagzz/screens/home_screen.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,15 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int numCartItems = 0;
+  int currentIndex = 0;
+  ScrollController scrollController = new ScrollController();
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     num devicePixel = MediaQuery.of(context).devicePixelRatio;
@@ -21,11 +31,9 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: colorWhite,
       body: NestedScrollView(
-      
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              
               backgroundColor: colorWhite,
               elevation: 0,
               leading: Container(
@@ -57,74 +65,95 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: bottomNavigation(),
     );
   }
-}
 
 //bottom navigation widget
-Widget bottomNavigation() {
-  return Stack(
-    children: [
-      DotNavigationBar(
-        borderRadius: 40,
-
-        currentIndex: -1,
-        onTap: (int index) {},
-        items: [
-          DotNavigationBarItem(
-            icon: svgIcon('assets/icons/home.svg'),
+  Widget bottomNavigation() {
+    return Stack(
+      children: [
+        DotNavigationBar(
+          enableFloatingNavBar: true,
+          borderRadius: 40,
+          selectedItemColor: null,
+          currentIndex: -1,
+          onTap: (int index) {
+            onTabChange(index);
+          },
+          items: [
+            DotNavigationBarItem(
+              icon: svgIcon('assets/icons/home.svg'),
+            ),
+            DotNavigationBarItem(
+              icon: svgIcon('assets/icons/search.svg'),
+            ),
+            DotNavigationBarItem(
+              icon: svgIcon('assets/icons/favorite_filled.svg'),
+            ),
+            DotNavigationBarItem(
+              icon: svgIcon('assets/icons/cart.svg'),
+            ),
+          ],
+          boxShadow: [
+            BoxShadow(
+              color: colorBlack.withOpacity(0.1),
+              blurRadius: 5,
+            )
+          ],
+          itemPadding: EdgeInsets.symmetric(
+            vertical: 18,
+            horizontal: 29,
           ),
-          DotNavigationBarItem(
-            icon: svgIcon('assets/icons/search.svg'),
-          ),
-          DotNavigationBarItem(
-            icon: svgIcon('assets/icons/favorite_filled.svg'),
-          ),
-          DotNavigationBarItem(
-            icon: svgIcon('assets/icons/cart.svg'),
-          ),
-        ],
-        boxShadow: [
-          BoxShadow(
-            color: colorBlack.withOpacity(0.1),
-            blurRadius: 5,
-          )
-        ],
-        itemPadding: EdgeInsets.symmetric(
-          vertical: 18,
-          horizontal: 29,
+          // paddingR: const EdgeInsets.all(14),
+          marginR: const EdgeInsets.all(8),
         ),
-        // paddingR: const EdgeInsets.all(14),
-        marginR: const EdgeInsets.all(8),
-      ),
-      numShopBagItem(bags_gridview_item.length),
-    ],
-  );
-}
+        numShopBagItem(bags_gridview_item.length),
+      ],
+    );
+  }
 
 //widget overlay to show number of items in the cart as a notification alert
-Widget numShopBagItem(int numCartItems) {
-  Color color = Colors.black;
-  return Positioned(
-    top: 28,
-    right: 33,
-    child: Container(
-      decoration: BoxDecoration(
-          color: color = numCartItems > 0 ? color : Colors.transparent,
-          border: Border.all(
-              color: color =
-                  numCartItems > 0 ? Colors.white : Colors.transparent),
-          borderRadius: BorderRadius.circular(40)),
-      height: 20,
-      width: 20,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(1.0),
-          child: Text(
-            '$numCartItems',
-            style: TextStyle(
-                color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+  Widget numShopBagItem(int numCartItems) {
+    Color color = Colors.black;
+    return Positioned(
+      top: 28,
+      right: 33,
+      child: Container(
+        decoration: BoxDecoration(
+            color: color = numCartItems > 0 ? color : Colors.transparent,
+            border: Border.all(
+                color: color =
+                    numCartItems > 0 ? colorWhite : Colors.transparent),
+            borderRadius: BorderRadius.circular(40)),
+        height: 20,
+        width: 20,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(1.0),
+            child: Text(
+              '$numCartItems',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
+
+
+  final List<Widget> children = [
+    HomeScreen(),
+  ];
+
+  void onTabChange(int index) {
+    setState(() {
+      currentIndex = index;
+      if (index == 3) {
+        showCartSheet(context);
+      }
+    });
+  }
+
+
 }

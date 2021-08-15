@@ -72,7 +72,7 @@ class _MainScreenState extends State<MainScreen> {
     return Stack(
       children: [
         DotNavigationBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: colorWhite,
           enableFloatingNavBar: true,
           borderRadius: 40,
           selectedItemColor: null,
@@ -114,7 +114,7 @@ class _MainScreenState extends State<MainScreen> {
 
 //widget overlay to show number of items in the cart as a notification alert
   Widget numShopBagItem(int numCartItems) {
-    Color color = Colors.black;
+    Color color = colorBlack;
     return Positioned(
       top: 28,
       right: 33,
@@ -133,7 +133,7 @@ class _MainScreenState extends State<MainScreen> {
             child: Text(
               '$numCartItems',
               style: TextStyle(
-                  color: Colors.white,
+                  color: colorWhite,
                   fontSize: 14,
                   fontWeight: FontWeight.bold),
             ),

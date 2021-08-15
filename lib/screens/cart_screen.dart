@@ -1,87 +1,10 @@
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:bagzz/constant/constant.dart';
 import 'package:bagzz/models/bags_gridview_item.dart';
 import 'package:flutter/material.dart';
 
-//show cart as modal bottom sheet
-showCartSheet(BuildContext context) {
-  double topPadding = MediaQuery.of(context).padding.top;
-  return showModalBottomSheet(
-    backgroundColor: colorWhite.withOpacity(0.9),
-    context: context,
-    isScrollControlled: true,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-    ),
-    builder: (context) {
-      return Material(
-        color: Colors.transparent,
-        child: Wrap(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height - (topPadding + 48),
-              padding: EdgeInsets.only(top: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Center(
-                      child:
-                          Container(height: 2, width: 125, color: colorBlack)),
-                  SizedBox(height: 45),
-                  Expanded(
-                    flex: 8,
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 5,
-                        itemBuilder: (context, i) {
-                          Random _random = new Random();
-                          return cartItems(
-                              context,
-                              bags_gridview_item[i].image,
-                              bags_gridview_item[i].name,
-                              _random.nextInt(10),
-                              bags_gridview_item[i].category,
-                              bags_gridview_item[i].style,
-                              bags_gridview_item[i].price);
-                        }),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 15, top: 15),
-                      child: Container(
-                          height: 43,
-                          width: 193,
-                          color: colorBlack,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Center(
-                              child: Text(
-                                'PROCEED TO BUY',
-                                style: TextStyle(
-                                    color: colorWhite,
-                                    fontSize: 16,
-                                    fontFamily: workSans),
-                              ),
-                            ),
-                          )),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
-//show cart items
+//design for cart item
 Widget cartItems(BuildContext context, String image, String name, int quantity,
     String category, String style, int price) {
   return Padding(
@@ -104,6 +27,8 @@ Widget cartItems(BuildContext context, String image, String name, int quantity,
                   SizedBox(
                     height: 5,
                   ),
+
+                  //design for add and minus quantity
                   Container(
                     child: Row(
                       children: [
@@ -192,4 +117,23 @@ Widget cartItems(BuildContext context, String image, String name, int quantity,
       ],
     ),
   );
+}
+
+//list view to show cart items
+Widget cartItemsListView() {
+  return ListView.builder(
+      physics: BouncingScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: 5,
+      itemBuilder: (context, i) {
+        Random _random = new Random();
+        return cartItems(
+            context,
+            bags_gridview_item[i].image,
+            bags_gridview_item[i].name,
+            _random.nextInt(10),
+            bags_gridview_item[i].category,
+            bags_gridview_item[i].style,
+            bags_gridview_item[i].price);
+      });
 }

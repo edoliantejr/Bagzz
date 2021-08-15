@@ -1,3 +1,4 @@
+import 'package:bagzz/components/bottomSheet.dart';
 import 'package:bagzz/components/svg_icon.dart';
 import 'package:bagzz/constant/constant.dart';
 import 'package:bagzz/models/bags_gridview_item.dart';
@@ -71,6 +72,7 @@ class _MainScreenState extends State<MainScreen> {
     return Stack(
       children: [
         DotNavigationBar(
+          backgroundColor: Colors.transparent,
           enableFloatingNavBar: true,
           borderRadius: 40,
           selectedItemColor: null,
@@ -141,7 +143,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-
   final List<Widget> children = [
     HomeScreen(),
   ];
@@ -150,10 +151,8 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       currentIndex = index;
       if (index == 3) {
-        showCartSheet(context);
+        showBottomSheets(context, cartItemsListView, 'PROCEED TO BUY');
       }
     });
   }
-
-
 }

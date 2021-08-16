@@ -15,12 +15,4 @@ final List<Bags> bags = [
       image: 'assets/images/bag-header-02.jpg',
       title: "This season's latest",
       name: "Artsy"),
-  // Bags(
-  //     image: 'assets/images/bag03.png',
-  //     title: " This season's popular",
-  //     name: "Artsy"),
-  // Bags(
-  //     image: 'assets/images/bag04.png',
-  //     title: " This season's latest",
-  //     name: "Artsy"),
 ];

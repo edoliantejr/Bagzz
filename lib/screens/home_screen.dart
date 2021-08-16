@@ -12,7 +12,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<int> likedBagsItemIds = [];
+  //list for storing liked bags
+  final List<int> likedBags = [];
+
   //init controller
   final PageController controller =
       PageController(initialPage: 0, keepPage: true);
@@ -138,7 +140,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
 //Widget bagGridviewItems for bagGridView
   Widget bagGridViewItems(int id, String image, String name) {
-
     return Padding(
       padding: const EdgeInsets.only(left: 11, right: 15, bottom: 11),
       child: Container(
@@ -154,20 +155,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
                     setState(() {
-                      if (likedBagsItemIds.contains(id)) {
-                        likedBagsItemIds.remove(id);
+                      if (likedBags.contains(id)) {
+                        likedBags.remove(id);
                       } else {
-                        likedBagsItemIds.add(id);
+                        likedBags.add(id);
                       }
                     });
                   },
                   child: Icon(
-                    likedBagsItemIds.contains(id)
+                    likedBags.contains(id)
                         ? Icons.favorite
                         : Icons.favorite_border_outlined,
-                    color: likedBagsItemIds.contains(id)
-                        ? Colors.red
-                        : Colors.black,
+                    color: likedBags.contains(id) ? Colors.red : Colors.black,
                     size: 24,
                   ),
                 )),

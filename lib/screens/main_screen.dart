@@ -133,9 +133,7 @@ class _MainScreenState extends State<MainScreen> {
             child: Text(
               '$numCartItems',
               style: TextStyle(
-                  color: colorWhite,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold),
+                  color: colorWhite, fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -150,8 +148,15 @@ class _MainScreenState extends State<MainScreen> {
   void onTabChange(int index) {
     setState(() {
       currentIndex = index;
+
+      //show wishlist bottom sheet
+      if (index == 2) {
+        showBottomSheets(context, cartItemsListView, addAllToCart);
+      }
+
+      //show cart bottom sheet
       if (index == 3) {
-        showBottomSheets(context, cartItemsListView, 'PROCEED TO BUY');
+        showBottomSheets(context, cartItemsListView, proceedToBuy);
       }
     });
   }

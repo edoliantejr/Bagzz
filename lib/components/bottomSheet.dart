@@ -41,7 +41,7 @@ showBottomSheets(BuildContext context, Widget itemslistView(), String btnText) {
                           color: colorBlack,
                           child: TextButton(
                             onPressed: () {
-                              if (btnText == '') {
+                              if (btnText == proceedToBuy) {
                               } else {}
                             },
                             child: Center(

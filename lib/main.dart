@@ -6,7 +6,6 @@ import 'package:flutter/widgets.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: MainScreen(),
-    debugShowCheckedModeBanner: false,
+    home: MainScreen()
   ));
 }

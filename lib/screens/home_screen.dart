@@ -1,6 +1,8 @@
 import 'package:bagzz/constant/constant.dart';
 import 'package:bagzz/models/bags_gridview_item.dart';
 import 'package:bagzz/models/bags__image_slides.dart';
+import 'package:bagzz/models/category.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -32,17 +34,34 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          headerImageSlider(context, controller),
-          bagGridView(),
+          HeaderImageSlider(context, controller),
+          GridView.builder(
+              shrinkWrap: true,
+              primary: false,
+              itemCount: bags_gridview_item.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
+                childAspectRatio: .8,
+              ),
+              itemBuilder: (context, i) {
+                return bagGridView(
+                    bags_gridview_item[i].image, bags_gridview_item[i].name);
+              }),
+          gridView(),
+          gridText(),
+          gridviewCategory(),
+          gridBrowse(),
         ],
       ),
     );
   }
 
 //Widget for Image Slider on the Home Page Header
-  Widget headerImageSlider(BuildContext context, PageController controller) {
+  Widget HeaderImageSlider(BuildContext context, PageController controller) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 11),
+      margin: EdgeInsets.symmetric(vertical: 28, horizontal: 11),
       height: 205,
       width: 714,
       child: Stack(
@@ -136,9 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-//Widget bagGridviewItems for bagGridView
-  Widget bagGridViewItems(int id, String image, String name) {
-
+//Widget Gridview for lists of bags
+  Widget bagGridView(String image, String name) {
     return Padding(
       padding: const EdgeInsets.only(left: 11, right: 15, bottom: 11),
       child: Container(
@@ -150,26 +168,10 @@ class _HomeScreenState extends State<HomeScreen> {
             Positioned(
                 top: 6,
                 right: 9,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    setState(() {
-                      if (likedBagsItemIds.contains(id)) {
-                        likedBagsItemIds.remove(id);
-                      } else {
-                        likedBagsItemIds.add(id);
-                      }
-                    });
-                  },
-                  child: Icon(
-                    likedBagsItemIds.contains(id)
-                        ? Icons.favorite
-                        : Icons.favorite_border_outlined,
-                    color: likedBagsItemIds.contains(id)
-                        ? Colors.red
-                        : Colors.black,
-                    size: 24,
-                  ),
+                child: Icon(
+                  Icons.favorite_border_outlined,
+                  color: Colors.black,
+                  size: 18,
                 )),
             Center(
               child: Column(
@@ -215,23 +217,108 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-//show gridview of bag items
-  Widget bagGridView() {
+  Widget gridView() {
+    return Center(
+      child: Container(
+        margin: EdgeInsets.only(top: 20.0),
+        child: Container(
+            padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            decoration: BoxDecoration(
+                border: Border.all(
+              color: Colors.black,
+            )),
+            child: Text("CHECK ALL LATEST",
+                style: TextStyle(
+                  fontFamily: 'WorkSans',
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ))),
+      ),
+    );
+  }
+
+  Widget gridText() {
+    return Container(
+        padding: EdgeInsets.only(left: 11.0, top: 40.0),
+        alignment: Alignment.centerLeft,
+        margin: EdgeInsets.only(top: 10.0),
+        child: Text("Shop By Categories",
+            style: TextStyle(
+              fontFamily: playFair,
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+            )));
+  }
+
+  Widget gridCategoryItems(int id, String image, String categoryTitle) {
+    return Container(
+      padding: const EdgeInsets.only(left: 11, right: 15, bottom: 11),
+      height: 224,
+      width: 170,
+      child: Stack(
+        children: [
+          Image(
+            image: AssetImage(image),
+            fit: BoxFit.cover,
+          ),
+          Positioned(
+              top: 162.5,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                color: colorBlack,
+                child: Text(
+                  categoryTitle,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: colorWhite,
+                    fontFamily: playFair,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ))
+        ],
+      ),
+    );
+  }
+
+  Widget gridviewCategory() {
     return GridView.builder(
         shrinkWrap: true,
         primary: false,
         itemCount: bags_gridview_item.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 24,
-          childAspectRatio: .9,
+          mainAxisSpacing: 5,
+          crossAxisSpacing: 5,
+          childAspectRatio: .65,
         ),
         itemBuilder: (context, i) {
-          return bagGridViewItems(
-            bags_gridview_item[i].id,
-            bags_gridview_item[i].image,
-            bags_gridview_item[i].name,
+          return gridCategoryItems(
+            categlist[i].id,
+            categlist[i].image,
+            categlist[i].categoryTitle,
           );
         });
+  }
+
+  Widget gridBrowse() {
+    return Center(
+      child: Container(
+        child: Container(
+            padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            decoration: BoxDecoration(
+                border: Border.all(
+              color: Colors.black,
+            )),
+            child: Text("BROWSE ALL CATEGORIES",
+                style: TextStyle(
+                  fontFamily: 'WorkSans',
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                ))),
+      ),
+    );
   }
 }

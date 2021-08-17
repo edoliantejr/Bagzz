@@ -1,4 +1,5 @@
 import 'package:bagzz/constant/constant.dart';
+import 'package:bagzz/constant/font_names.dart';
 import 'package:flutter/material.dart';
 
 //show modal bottom sheet
@@ -50,7 +51,7 @@ showBottomSheets(BuildContext context, Widget itemslistView(), String btnText) {
                                 style: TextStyle(
                                     color: colorWhite,
                                     fontSize: 16,
-                                    fontFamily: workSans),
+                                    fontFamily: FontNames.workSans),
                               ),
                             ),
                           )),

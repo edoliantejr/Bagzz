@@ -1,9 +1,10 @@
 import 'package:bagzz/components/bottomSheet.dart';
 import 'package:bagzz/components/svg_icon.dart';
 import 'package:bagzz/constant/constant.dart';
+import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bags_gridview_item.dart';
-import 'package:bagzz/screens/cart_screen.dart';
-import 'package:bagzz/screens/home_screen.dart';
+import 'package:bagzz/ui/views/cart/cart_screen.dart';
+import 'package:bagzz/ui/views/home/home_screen.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
                 'bagzz',
                 style: TextStyle(
                     color: colorBlack,
-                    fontFamily: playFair,
+                    fontFamily: FontNames.playFair,
                     fontSize: 26,
                     fontWeight: FontWeight.bold),
               ),
@@ -140,10 +141,6 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
-
-  final List<Widget> children = [
-    HomeScreen(),
-  ];
 
   void onTabChange(int index) {
     setState(() {

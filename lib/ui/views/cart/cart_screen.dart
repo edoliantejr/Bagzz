@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:bagzz/constant/constant.dart';
+import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bags_gridview_item.dart';
 import 'package:flutter/material.dart';
 
@@ -81,26 +82,26 @@ Widget cartItems(BuildContext context, String image, String name, int quantity,
                           color: colorBlack,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          fontFamily: playFair)),
+                          fontFamily: FontNames.playFair)),
                   SizedBox(height: 8),
                   Text(category,
                       style: TextStyle(
                           color: colorBlack,
                           fontSize: 12,
-                          fontFamily: workSans,
+                          fontFamily: FontNames.workSans,
                           fontWeight: FontWeight.w400)),
                   Text(style,
                       style: TextStyle(
                           color: colorBlack,
                           fontSize: 10,
-                          fontFamily: workSans)),
+                          fontFamily: FontNames.workSans)),
                   SizedBox(height: 20),
                   Text(
                     '\$ $price',
                     style: TextStyle(
                         color: colorBlack,
                         fontSize: 18,
-                        fontFamily: workSans,
+                        fontFamily: FontNames.workSans,
                         fontWeight: FontWeight.bold),
                   )
                 ],

@@ -2,7 +2,6 @@ import 'package:bagzz/constant/constant.dart';
 import 'package:bagzz/models/bags_gridview_item.dart';
 import 'package:bagzz/models/bags__image_slides.dart';
 import 'package:bagzz/models/category.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -14,12 +13,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<int> likedBagsItemIds = [];
+  //list for storing liked bags
+  final List<int> likedBags = [];
+
   //init controller
   final PageController controller =
       PageController(initialPage: 0, keepPage: true);
 
-//override dispose class to also dispose the conroller to avoid memory leakage
+//override dispose class to also dispose the controller to avoid memory leakage
   @override
   void dispose() {
     controller.dispose();
@@ -34,21 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          HeaderImageSlider(context, controller),
-          GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              itemCount: bags_gridview_item.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                childAspectRatio: .8,
-              ),
-              itemBuilder: (context, i) {
-                return bagGridView(
-                    bags_gridview_item[i].image, bags_gridview_item[i].name);
-              }),
+          headerImageSlider(context, controller),
+          bagGridView(),
           gridView(),
           gridText(),
           gridviewCategory(),
@@ -59,9 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 //Widget for Image Slider on the Home Page Header
-  Widget HeaderImageSlider(BuildContext context, PageController controller) {
+  Widget headerImageSlider(BuildContext context, PageController controller) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 28, horizontal: 11),
+      margin: EdgeInsets.symmetric(horizontal: 11),
       height: 205,
       width: 714,
       child: Stack(
@@ -155,8 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-//Widget Gridview for lists of bags
-  Widget bagGridView(String image, String name) {
+//Widget bagGridviewItems for bagGridView
+  Widget bagGridViewItems(int id, String image, String name) {
     return Padding(
       padding: const EdgeInsets.only(left: 11, right: 15, bottom: 11),
       child: Container(
@@ -168,10 +156,24 @@ class _HomeScreenState extends State<HomeScreen> {
             Positioned(
                 top: 6,
                 right: 9,
-                child: Icon(
-                  Icons.favorite_border_outlined,
-                  color: Colors.black,
-                  size: 18,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    setState(() {
+                      if (likedBags.contains(id)) {
+                        likedBags.remove(id);
+                      } else {
+                        likedBags.add(id);
+                      }
+                    });
+                  },
+                  child: Icon(
+                    likedBags.contains(id)
+                        ? Icons.favorite
+                        : Icons.favorite_border_outlined,
+                    color: likedBags.contains(id) ? Colors.red : Colors.black,
+                    size: 24,
+                  ),
                 )),
             Center(
               child: Column(
@@ -215,6 +217,26 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+//show gridview of bag items
+  Widget bagGridView() {
+    return GridView.builder(
+        shrinkWrap: true,
+        primary: false,
+        itemCount: bags_gridview_item.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 24,
+          childAspectRatio: .9,
+        ),
+        itemBuilder: (context, i) {
+          return bagGridViewItems(
+            bags_gridview_item[i].id,
+            bags_gridview_item[i].image,
+            bags_gridview_item[i].name,
+          );
+        });
   }
 
   Widget gridView() {
@@ -287,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return GridView.builder(
         shrinkWrap: true,
         primary: false,
-        itemCount: bags_gridview_item.length,
+        itemCount: categlist.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 5,

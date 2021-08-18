@@ -96,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          ImageSlider(bags),
+          ImageSlider(bags: bags),
           BagGridView(bags: bags_gridview_item),
           CategoryGridView(
             categories: categlist,

@@ -6,7 +6,8 @@ import 'slider_item.dart';
 class ImageSlider extends StatefulWidget {
   final List<Bag> bags;
 
-  ImageSlider(this.bags);
+  const ImageSlider({Key? key, required this.bags}) : super(key: key);
+
 
   @override
   _ImageSliderState createState() => _ImageSliderState();

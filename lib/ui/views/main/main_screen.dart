@@ -3,6 +3,7 @@ import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/models/bags_gridview_item.dart';
 import 'package:bagzz/ui/views/cart/cart_screen.dart';
 import 'package:bagzz/ui/views/home/home_screen.dart';
+import 'package:bagzz/ui/views/wishlist/wish_list_page.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Bag> bags = [
     Bag(
       id: 2,
-      image: 'assets/images/bag-header-01.jpg',
+      image: 'assets/images/bag02.png',
       title: "This season's latest",
       name: "Artsy",
       price: 1364,
@@ -42,7 +43,91 @@ class _MainScreenState extends State<MainScreen> {
     ),
     Bag(
       id: 1,
-      image: 'assets/images/bag-header-02.jpg',
+      image: 'assets/images/bag03.png',
+      title: "This season's latest",
+      name: "Artsy",
+      price: 1364,
+      category: 'Wallet with chain',
+      style: 'Style #36252 0YK0G 1000',
+      desc: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      shipInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      payInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+    ),
+    Bag(
+      id: 1,
+      image: 'assets/images/bag05.png',
+      title: "This season's latest",
+      name: "Artsy",
+      price: 1364,
+      category: 'Wallet with chain',
+      style: 'Style #36252 0YK0G 1000',
+      desc: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      shipInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      payInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+    ),
+    Bag(
+      id: 1,
+      image: 'assets/images/bag04.png',
+      title: "This season's latest",
+      name: "Artsy",
+      price: 1364,
+      category: 'Wallet with chain',
+      style: 'Style #36252 0YK0G 1000',
+      desc: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      shipInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      payInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+    ),
+    Bag(
+      id: 1,
+      image: 'assets/images/bag05.png',
+      title: "This season's latest",
+      name: "Artsy",
+      price: 1364,
+      category: 'Wallet with chain',
+      style: 'Style #36252 0YK0G 1000',
+      desc: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      shipInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      payInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+    ),
+    Bag(
+      id: 1,
+      image: 'assets/images/bag04.png',
       title: "This season's latest",
       name: "Artsy",
       price: 1364,
@@ -193,7 +278,7 @@ class _MainScreenState extends State<MainScreen> {
 
       //show wishlist bottom sheet
       if (index == 2) {
-        CartPage.open(context, bags);
+        WishListPage.open(context, bags);
       }
 
       //show cart bottom sheet

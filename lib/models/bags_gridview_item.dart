@@ -22,6 +22,7 @@ final List<Bag> bags_gridview_item = [
         'ut labore et dolore magna aliqua.'
         ' Vitae congue mauris rhoncus aenean vel elit. ',
   ),
+  
   Bag(
     id: 2,
     image: 'assets/images/bag03.png',

@@ -1,16 +1,16 @@
-import 'dart:math';
 import 'dart:ui';
+
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bag.dart';
-import 'package:bagzz/ui/views/cart/cart_item.dart';
+import 'package:bagzz/ui/views/wishlist/wish_list_item.dart';
 import 'package:flutter/material.dart';
 
-class CartPage extends StatelessWidget {
+class WishListPage extends StatelessWidget {
   final List<Bag> bags;
 
-  const CartPage({Key? key, required this.bags}) : super(key: key);
+  const WishListPage({Key? key, required this.bags}) : super(key: key);
 
-  static Future<dynamic> open(BuildContext context, List<Bag> bags) {
+  static open(BuildContext context, List<Bag> bags) {
     return showModalBottomSheet(
       backgroundColor: Colors.white.withOpacity(0.8),
       context: context,
@@ -20,7 +20,7 @@ class CartPage extends StatelessWidget {
             topLeft: Radius.circular(40), topRight: Radius.circular(40)),
       ),
       builder: (context) {
-        return CartPage(
+        return WishListPage(
           bags: bags,
         );
       },
@@ -29,6 +29,7 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return ConstrainedBox(
       constraints: BoxConstraints(
           minHeight: MediaQuery.of(context).size.height / 2.5,
@@ -45,17 +46,13 @@ class CartPage extends StatelessWidget {
           SizedBox(height: 45),
           Flexible(
             child: ListView.builder(
-            physics: BouncingScrollPhysics(),
-            shrinkWrap: true,
-            primary: false,
-            itemCount: bags.length,
-            itemBuilder: (context, i) {
-            Random _random = new Random();
-            return CartItem(
-            bags[i],
-            quantity: _random.nextInt(100),
-            );
-            }),
+                physics: BouncingScrollPhysics(),
+                shrinkWrap: true,
+                primary: false,
+                itemCount: bags.length,
+                itemBuilder: (context, i) {
+                  return WishListItem(bags[i]);
+                }),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 15, top: 25),
@@ -67,7 +64,7 @@ class CartPage extends StatelessWidget {
                   onPressed: () {},
                   child: Center(
                     child: Text(
-                      'PROCEED TO BUY',
+                      'ADD ALL TO CART',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -81,5 +78,3 @@ class CartPage extends StatelessWidget {
     );
   }
 }
-
-

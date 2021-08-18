@@ -262,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
             fit: BoxFit.cover,
           ),
           Positioned(
-              top: 162.5,
+              bottom: 11,
               right: 0,
               child: Container(
                 padding: EdgeInsets.all(8.0),
@@ -290,9 +290,9 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: bags_gridview_item.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 5,
-          crossAxisSpacing: 5,
-          childAspectRatio: .65,
+          mainAxisSpacing: 0,
+          crossAxisSpacing: 0,
+          childAspectRatio: .8,
         ),
         itemBuilder: (context, i) {
           return gridCategoryItems(

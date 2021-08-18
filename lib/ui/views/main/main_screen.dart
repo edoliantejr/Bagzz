@@ -1,12 +1,11 @@
-import 'package:bagzz/components/bottomSheet.dart';
-import 'package:bagzz/components/svg_icon.dart';
-import 'package:bagzz/constant/constant.dart';
 import 'package:bagzz/constant/font_names.dart';
+import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/models/bags_gridview_item.dart';
 import 'package:bagzz/ui/views/cart/cart_screen.dart';
 import 'package:bagzz/ui/views/home/home_screen.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -19,6 +18,50 @@ class _MainScreenState extends State<MainScreen> {
   int numCartItems = 0;
   int currentIndex = 0;
   ScrollController scrollController = new ScrollController();
+  final List<Bag> bags = [
+    Bag(
+      id: 2,
+      image: 'assets/images/bag-header-01.jpg',
+      title: "This season's latest",
+      name: "Artsy",
+      price: 1364,
+      category: 'Wallet with chain',
+      style: 'Style #36252 0YK0G 1000',
+      desc: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      shipInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      payInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+    ),
+    Bag(
+      id: 1,
+      image: 'assets/images/bag-header-02.jpg',
+      title: "This season's latest",
+      name: "Artsy",
+      price: 1364,
+      category: 'Wallet with chain',
+      style: 'Style #36252 0YK0G 1000',
+      desc: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      shipInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      payInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+    ),
+  ];
 
   @override
   void dispose() {
@@ -31,21 +74,21 @@ class _MainScreenState extends State<MainScreen> {
     num devicePixel = MediaQuery.of(context).devicePixelRatio;
 
     return Scaffold(
-      backgroundColor: colorWhite,
+      backgroundColor: Colors.white,
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              backgroundColor: colorWhite,
+              backgroundColor: Colors.white,
               elevation: 0,
               leading: Container(
                   margin: EdgeInsets.symmetric(
                       horizontal: 24 / devicePixel, vertical: 14 / devicePixel),
-                  child: svgIcon('assets/icons/drawer.svg')),
+                  child: SvgPicture.asset('assets/icons/drawer.svg')),
               title: const Text(
                 'bagzz',
                 style: TextStyle(
-                    color: colorBlack,
+                    color: Colors.black,
                     fontFamily: FontNames.playFair,
                     fontSize: 26,
                     fontWeight: FontWeight.bold),
@@ -73,7 +116,7 @@ class _MainScreenState extends State<MainScreen> {
     return Stack(
       children: [
         DotNavigationBar(
-          backgroundColor: colorWhite,
+          backgroundColor: Colors.white,
           enableFloatingNavBar: true,
           borderRadius: 40,
           selectedItemColor: null,
@@ -83,21 +126,21 @@ class _MainScreenState extends State<MainScreen> {
           },
           items: [
             DotNavigationBarItem(
-              icon: svgIcon('assets/icons/home.svg'),
+              icon: SvgPicture.asset('assets/icons/home.svg'),
             ),
             DotNavigationBarItem(
-              icon: svgIcon('assets/icons/search.svg'),
+              icon: SvgPicture.asset('assets/icons/search.svg'),
             ),
             DotNavigationBarItem(
-              icon: svgIcon('assets/icons/favorite_filled.svg'),
+              icon: SvgPicture.asset('assets/icons/favorite_filled.svg'),
             ),
             DotNavigationBarItem(
-              icon: svgIcon('assets/icons/cart.svg'),
+              icon: SvgPicture.asset('assets/icons/cart.svg'),
             ),
           ],
           boxShadow: [
             BoxShadow(
-              color: colorBlack.withOpacity(0.1),
+              color: Colors.black.withOpacity(0.1),
               blurRadius: 5,
             )
           ],
@@ -115,7 +158,7 @@ class _MainScreenState extends State<MainScreen> {
 
 //widget overlay to show number of items in the cart as a notification alert
   Widget numShopBagItem(int numCartItems) {
-    Color color = colorBlack;
+    Color color = Colors.black;
     return Positioned(
       top: 28,
       right: 33,
@@ -124,7 +167,7 @@ class _MainScreenState extends State<MainScreen> {
             color: color = numCartItems > 0 ? color : Colors.transparent,
             border: Border.all(
                 color: color =
-                    numCartItems > 0 ? colorWhite : Colors.transparent),
+                    numCartItems > 0 ? Colors.white : Colors.transparent),
             borderRadius: BorderRadius.circular(40)),
         height: 20,
         width: 20,
@@ -134,7 +177,9 @@ class _MainScreenState extends State<MainScreen> {
             child: Text(
               '$numCartItems',
               style: TextStyle(
-                  color: colorWhite, fontSize: 14, fontWeight: FontWeight.bold),
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -148,12 +193,12 @@ class _MainScreenState extends State<MainScreen> {
 
       //show wishlist bottom sheet
       if (index == 2) {
-        showBottomSheets(context, cartItemsListView, addAllToCart);
+        CartPage.open(context, bags);
       }
 
       //show cart bottom sheet
       if (index == 3) {
-        showBottomSheets(context, cartItemsListView, proceedToBuy);
+        CartPage.open(context, bags);
       }
     });
   }

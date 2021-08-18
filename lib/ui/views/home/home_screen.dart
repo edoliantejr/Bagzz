@@ -1,4 +1,4 @@
-import 'package:bagzz/models/bags__image_slides.dart';
+import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/models/bags_gridview_item.dart';
 import 'package:bagzz/models/category.dart';
 import 'package:bagzz/ui/widgets/bag_grid_view.dart';
@@ -35,6 +35,50 @@ class _HomeScreenState extends State<HomeScreen> {
         categoryTitle: 'Shoulder Bags'),
     Category(
         id: 4, image: 'assets/images/model4.png', categoryTitle: 'Tote Bags'),
+  ];
+  final List<Bag> bags = [
+    Bag(
+      id: 2,
+      image: 'assets/images/bag-header-01.jpg',
+      title: "This season's latest",
+      name: "Artsy",
+      price: 1364,
+      category: 'Wallet with chain',
+      style: 'Style #36252 0YK0G 1000',
+      desc: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      shipInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      payInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+    ),
+    Bag(
+      id: 1,
+      image: 'assets/images/bag-header-02.jpg',
+      title: "This season's latest",
+      name: "Artsy",
+      price: 1364,
+      category: 'Wallet with chain',
+      style: 'Style #36252 0YK0G 1000',
+      desc: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      shipInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+      payInfo: 'Lorem ipsum dolor sit amet, '
+          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
+          'ut labore et dolore magna aliqua.'
+          ' Vitae congue mauris rhoncus aenean vel elit. ',
+    ),
   ];
 
 //override dispose class to also dispose the controller to avoid memory leakage

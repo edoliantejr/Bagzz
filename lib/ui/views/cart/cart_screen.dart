@@ -1,27 +1,104 @@
 import 'dart:math';
 import 'dart:ui';
-import 'package:bagzz/constant/constant.dart';
+
 import 'package:bagzz/constant/font_names.dart';
-import 'package:bagzz/models/bags_gridview_item.dart';
+import 'package:bagzz/models/bag.dart';
 import 'package:flutter/material.dart';
 
-//design for cart item
-Widget cartItems(BuildContext context, String image, String name, int quantity,
-    String category, String style, int price) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-    child: Column(
-      children: [
-        Container(
-          height: 116.38,
-          width: MediaQuery.of(context).size.width - 65,
-          child: Row(
+class CartPage extends StatelessWidget {
+  final List<Bag> bags;
+
+  const CartPage({Key? key, required this.bags}) : super(key: key);
+
+  static Future<dynamic> open(BuildContext context, List<Bag> bags) {
+    return showModalBottomSheet(
+      backgroundColor: Colors.white.withOpacity(0.9),
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+      ),
+      builder: (context) {
+        return CartPage(
+          bags: bags,
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height -
+          (MediaQuery.of(context).padding.top + 48),
+      padding: EdgeInsets.only(top: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Center(child: Container(height: 2, width: 125, color: Colors.black)),
+          SizedBox(height: 45),
+          Expanded(
+            child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: bags.length,
+                itemBuilder: (context, i) {
+                  Random _random = new Random();
+                  return CartItem(
+                    bags[i],
+                    quantity: _random.nextInt(100),
+                  );
+                }),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15, top: 15),
+            child: Container(
+                height: 43,
+                width: 193,
+                color: Colors.black,
+                child: TextButton(
+                  onPressed: () {},
+                  child: Center(
+                    child: Text(
+                      'PROCEED TO BUY',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: FontNames.workSans),
+                    ),
+                  ),
+                )),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class CartItem extends StatelessWidget {
+  final Bag bag;
+  final int quantity;
+
+  const CartItem(
+    this.bag, {
+    Key? key,
+    required this.quantity,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 5),
+      child: Column(
+        children: [
+          Row(
             children: [
               //column for image
               Column(
                 children: [
                   Image(
-                    image: AssetImage(image),
+                    image: AssetImage(bag.image),
                     height: 81,
                     width: 81,
                   ),
@@ -36,29 +113,29 @@ Widget cartItems(BuildContext context, String image, String name, int quantity,
                         Container(
                           width: 29,
                           height: 25,
-                          color: colorBlack,
+                          color: Colors.black,
                           child: Center(
                               child: Text('-',
                                   style: TextStyle(
-                                      color: colorWhite, fontSize: 14))),
+                                      color: Colors.white, fontSize: 14))),
                         ),
                         Container(
                           width: 29,
                           height: 25,
-                          color: colorWhite,
+                          color: Colors.white,
                           child: Center(
                               child: Text('$quantity',
                                   style: TextStyle(
-                                      color: colorBlack, fontSize: 14))),
+                                      color: Colors.black, fontSize: 14))),
                         ),
                         Container(
                           width: 29,
                           height: 25,
-                          color: colorBlack,
+                          color: Colors.black,
                           child: Center(
                               child: Text(
                             '+',
-                            style: TextStyle(color: colorWhite, fontSize: 14),
+                            style: TextStyle(color: Colors.white, fontSize: 14),
                           )),
                         )
                       ],
@@ -77,29 +154,29 @@ Widget cartItems(BuildContext context, String image, String name, int quantity,
                   SizedBox(
                     height: 18,
                   ),
-                  Text(name,
+                  Text(bag.name,
                       style: TextStyle(
-                          color: colorBlack,
+                          color: Colors.black,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           fontFamily: FontNames.playFair)),
                   SizedBox(height: 8),
-                  Text(category,
+                  Text(bag.category,
                       style: TextStyle(
-                          color: colorBlack,
+                          color: Colors.black,
                           fontSize: 12,
                           fontFamily: FontNames.workSans,
                           fontWeight: FontWeight.w400)),
-                  Text(style,
+                  Text(bag.style,
                       style: TextStyle(
-                          color: colorBlack,
+                          color: Colors.black,
                           fontSize: 10,
                           fontFamily: FontNames.workSans)),
                   SizedBox(height: 20),
                   Text(
-                    '\$ $price',
+                    '${bag.price}',
                     style: TextStyle(
-                        color: colorBlack,
+                        color: Colors.black,
                         fontSize: 18,
                         fontFamily: FontNames.workSans,
                         fontWeight: FontWeight.bold),
@@ -108,33 +185,14 @@ Widget cartItems(BuildContext context, String image, String name, int quantity,
               )
             ],
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 10),
-          height: 2,
-          width: MediaQuery.of(context).size.width - 65,
-          color: colorBlack,
-        )
-      ],
-    ),
-  );
-}
-
-//list view to show cart items
-Widget cartItemsListView() {
-  return ListView.builder(
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: 5,
-      itemBuilder: (context, i) {
-        Random _random = new Random();
-        return cartItems(
-            context,
-            bags_gridview_item[i].image,
-            bags_gridview_item[i].name,
-            _random.nextInt(10),
-            bags_gridview_item[i].category,
-            bags_gridview_item[i].style,
-            bags_gridview_item[i].price);
-      });
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            height: 1,
+            width: MediaQuery.of(context).size.width - 65,
+            color: Colors.black,
+          )
+        ],
+      ),
+    );
+  }
 }

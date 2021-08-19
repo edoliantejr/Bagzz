@@ -1,13 +1,12 @@
 import 'package:bagzz/models/bag.dart';
 import 'package:flutter/material.dart';
 
-import 'slider_item.dart';
+import 'image_slider_item.dart';
 
 class ImageSlider extends StatefulWidget {
   final List<Bag> bags;
 
   const ImageSlider({Key? key, required this.bags}) : super(key: key);
-
 
   @override
   _ImageSliderState createState() => _ImageSliderState();
@@ -26,7 +25,7 @@ class _ImageSliderState extends State<ImageSlider> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 11),
+      margin: EdgeInsets.only(left: 13,right: 13),
       height: 205,
       width: 714,
       child: Stack(

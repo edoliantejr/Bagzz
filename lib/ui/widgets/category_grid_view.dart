@@ -39,9 +39,7 @@ class CategoryGridView extends StatelessWidget {
         itemCount: categories.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 5,
-          crossAxisSpacing: 5,
-          childAspectRatio: .65,
+          childAspectRatio: .84,
         ),
         itemBuilder: (context, i) {
           return CategoryItem(categories[i]);
@@ -86,8 +84,8 @@ class CategoryItem extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Positioned(
-              top: 162.5,
-              right: 0,
+              bottom: 0,
+              right: 1,
               child: Container(
                 padding: EdgeInsets.all(8.0),
                 color: Colors.black,

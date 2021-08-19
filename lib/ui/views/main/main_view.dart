@@ -1,9 +1,8 @@
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bag.dart';
-import 'package:bagzz/models/bags_gridview_item.dart';
-import 'package:bagzz/ui/views/cart/cart_screen.dart';
-import 'package:bagzz/ui/views/home/home_screen.dart';
-import 'package:bagzz/ui/views/wishlist/wish_list_page.dart';
+import 'package:bagzz/ui/views/cart/cart_view.dart';
+import 'package:bagzz/ui/views/home/home_view.dart';
+import 'package:bagzz/ui/views/wishlist/wishlist_view.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,11 +20,11 @@ class _MainScreenState extends State<MainScreen> {
   ScrollController scrollController = new ScrollController();
   final List<Bag> bags = [
     Bag(
-      id: 2,
+      id: 1,
       image: 'assets/images/bag02.png',
-      title: "This season's latest",
+      title: " This season's best buy",
       name: "Artsy",
-      price: 1364,
+      price: 564,
       category: 'Wallet with chain',
       style: 'Style #36252 0YK0G 1000',
       desc: 'Lorem ipsum dolor sit amet, '
@@ -42,10 +41,10 @@ class _MainScreenState extends State<MainScreen> {
           ' Vitae congue mauris rhoncus aenean vel elit. ',
     ),
     Bag(
-      id: 1,
+      id: 2,
       image: 'assets/images/bag03.png',
-      title: "This season's latest",
-      name: "Artsy",
+      title: " This season's popular",
+      name: "Berkely",
       price: 1364,
       category: 'Wallet with chain',
       style: 'Style #36252 0YK0G 1000',
@@ -63,32 +62,11 @@ class _MainScreenState extends State<MainScreen> {
           ' Vitae congue mauris rhoncus aenean vel elit. ',
     ),
     Bag(
-      id: 1,
-      image: 'assets/images/bag05.png',
-      title: "This season's latest",
-      name: "Artsy",
-      price: 1364,
-      category: 'Wallet with chain',
-      style: 'Style #36252 0YK0G 1000',
-      desc: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      shipInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      payInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-    ),
-    Bag(
-      id: 1,
+      id: 3,
       image: 'assets/images/bag04.png',
-      title: "This season's latest",
-      name: "Artsy",
-      price: 1364,
+      title: " This season's latest",
+      name: "Capucinos",
+      price: 899,
       category: 'Wallet with chain',
       style: 'Style #36252 0YK0G 1000',
       desc: 'Lorem ipsum dolor sit amet, '
@@ -105,32 +83,11 @@ class _MainScreenState extends State<MainScreen> {
           ' Vitae congue mauris rhoncus aenean vel elit. ',
     ),
     Bag(
-      id: 1,
+      id: 4,
       image: 'assets/images/bag05.png',
-      title: "This season's latest",
-      name: "Artsy",
-      price: 1364,
-      category: 'Wallet with chain',
-      style: 'Style #36252 0YK0G 1000',
-      desc: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      shipInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      payInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-    ),
-    Bag(
-      id: 1,
-      image: 'assets/images/bag04.png',
-      title: "This season's latest",
-      name: "Artsy",
-      price: 1364,
+      title: " This season's latest",
+      name: "Monogram",
+      price: 2999,
       category: 'Wallet with chain',
       style: 'Style #36252 0YK0G 1000',
       desc: 'Lorem ipsum dolor sit amet, '
@@ -236,23 +193,21 @@ class _MainScreenState extends State<MainScreen> {
           // paddingR: const EdgeInsets.all(14),
           marginR: const EdgeInsets.all(8),
         ),
-        numShopBagItem(bags_gridview_item.length),
+        numShopBagItem(bags.length),
       ],
     );
   }
 
 //widget overlay to show number of items in the cart as a notification alert
   Widget numShopBagItem(int numCartItems) {
-    Color color = Colors.black;
     return Positioned(
       top: 28,
       right: 33,
       child: Container(
         decoration: BoxDecoration(
-            color: color = numCartItems > 0 ? color : Colors.transparent,
+            color: numCartItems > 0 ? Colors.black : Colors.transparent,
             border: Border.all(
-                color: color =
-                    numCartItems > 0 ? Colors.white : Colors.transparent),
+                color: numCartItems > 0 ? Colors.white : Colors.transparent),
             borderRadius: BorderRadius.circular(40)),
         height: 20,
         width: 20,
@@ -261,7 +216,7 @@ class _MainScreenState extends State<MainScreen> {
             padding: const EdgeInsets.all(1.0),
             child: Text(
               '$numCartItems',
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
                   fontWeight: FontWeight.bold),

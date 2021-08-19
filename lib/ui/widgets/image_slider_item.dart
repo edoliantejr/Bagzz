@@ -1,4 +1,3 @@
-import 'package:bagzz/resources/colors.dart';
 import 'package:flutter/material.dart';
 
 class SliderItem extends StatelessWidget {
@@ -10,7 +9,6 @@ class SliderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Stack(
       children: [
         Container(

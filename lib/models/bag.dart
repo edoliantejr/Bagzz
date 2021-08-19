@@ -21,7 +21,4 @@ class Bag {
       required this.desc,
       required this.shipInfo,
       required this.payInfo});
-
-
 }
-

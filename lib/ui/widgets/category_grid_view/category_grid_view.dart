@@ -39,6 +39,7 @@ class CategoryGridView extends StatelessWidget {
         itemCount: categories.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
+          mainAxisSpacing: 16,
           childAspectRatio: .84,
         ),
         itemBuilder: (context, i) {
@@ -49,6 +50,7 @@ class CategoryGridView extends StatelessWidget {
   Widget browseAllCategory() {
     return Center(
       child: Container(
+        padding: EdgeInsets.symmetric(vertical: 22),
         child: Container(
             padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             decoration: BoxDecoration(

@@ -30,11 +30,8 @@ class SliderItem extends StatelessWidget {
               title,
               style: TextStyle(
                 fontFamily: 'Playfair',
-                background: new Paint()
-                  ..color = Colors.white
-                  ..strokeWidth = 30
-                  ..style = PaintingStyle.stroke,
-                fontSize: 22,
+                backgroundColor: Colors.white,
+                fontSize: 23,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),

@@ -1,18 +1,18 @@
 import 'package:bagzz/models/bag.dart';
 import 'package:flutter/material.dart';
 
-import 'image_slider_item.dart';
+import 'bag_banner_slider_item.dart';
 
-class ImageSlider extends StatefulWidget {
+class BagBannerSlider extends StatefulWidget {
   final List<Bag> bags;
 
-  const ImageSlider({Key? key, required this.bags}) : super(key: key);
+  const BagBannerSlider({Key? key, required this.bags}) : super(key: key);
 
   @override
-  _ImageSliderState createState() => _ImageSliderState();
+  _BagBannerSliderState createState() => _BagBannerSliderState();
 }
 
-class _ImageSliderState extends State<ImageSlider> {
+class _BagBannerSliderState extends State<BagBannerSlider> {
   final PageController controller =
       PageController(initialPage: 0, keepPage: true);
 

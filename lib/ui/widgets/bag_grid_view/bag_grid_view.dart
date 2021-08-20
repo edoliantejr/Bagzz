@@ -1,5 +1,5 @@
 import 'package:bagzz/models/bag.dart';
-import 'package:bagzz/ui/widgets/bag_grid_view_item.dart';
+import 'package:bagzz/ui/widgets/bag_grid_view/bag_item/bag_item.dart';
 import 'package:flutter/material.dart';
 
 class BagGridView extends StatelessWidget {
@@ -17,7 +17,7 @@ class BagGridView extends StatelessWidget {
             itemCount: bags.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 24,
+              mainAxisSpacing: 16,
               childAspectRatio: .9,
             ),
             itemBuilder: (context, i) {

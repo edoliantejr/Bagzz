@@ -1,6 +1,6 @@
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bag.dart';
-import 'package:bagzz/ui/widgets/bag_item/bag_item_view_model.dart';
+import 'package:bagzz/ui/widgets/bag_grid_view/bag_item/bag_item_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -26,7 +26,7 @@ class BagItem extends StatelessWidget {
                   child: Column(
                     children: [
                       InkWell(
-                        onTap: model.onBagImagePressed,
+                        onTap: (){},
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Image(image: AssetImage(bag.image)),
@@ -51,7 +51,7 @@ class BagItem extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: FontNames.workSans,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 14),
+                                fontSize: 15),
                           ),
                         ),
                       ),
@@ -66,10 +66,11 @@ class BagItem extends StatelessWidget {
                 Positioned(
                     top: 6,
                     right: 9,
-                    child: GestureDetector(
-                      onTap: model.addToWishList,
+                    child: InkWell(
+                      onTap:  model.addToWishList,
                       child: Container(
-                        padding: EdgeInsets.all(4),
+                        padding: EdgeInsets.all(6),
+
                         child: Icon(
                           Icons.favorite_border_outlined,
                           color: Colors.black,

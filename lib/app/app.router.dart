@@ -12,7 +12,7 @@ import 'package:stacked/stacked.dart';
 import '../models/bag.dart';
 import '../ui/views/bag_item_details/bag_item_details_page.dart';
 import '../ui/views/home/home_screen.dart';
-import '../ui/views/main/main_screen.dart';
+import '../ui/views/main/main_screen_view.dart';
 
 class Routes {
   static const String mainScreen = '/';
@@ -60,7 +60,7 @@ class StackedRouter extends RouterBase {
           bag: args.bag,
         ),
         settings: data,
-        transitionsBuilder: TransitionsBuilders.slideLeft,
+        transitionsBuilder: TransitionsBuilders.zoomIn,
         transitionDuration: const Duration(milliseconds: 800),
       );
     },

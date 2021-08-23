@@ -1,7 +1,10 @@
+import 'package:bagzz/app/app.locator.dart';
+import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:stacked/stacked.dart';
 
 class MainScreenViewModel extends BaseViewModel {
+  final navigatorService = locator<NavigationService>();
   final List<Bag> bagsList = [];
   int numCartItems = 0;
   int currentIndex = 0;
@@ -102,5 +105,4 @@ class MainScreenViewModel extends BaseViewModel {
     ];
     bagsList.addAll(bags);
   }
-
 }

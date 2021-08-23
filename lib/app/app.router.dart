@@ -6,6 +6,7 @@
 
 // ignore_for_file: public_member_api_docs
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -33,6 +34,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.MainPage, page: HomeScreen),
     RouteDef(Routes.BagItemDetailsPage, page: BagItemDetailsPage),
   ];
+
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, StackedRouteFactory>{
@@ -47,8 +49,8 @@ class StackedRouter extends RouterBase {
         pageBuilder: (context, animation, secondaryAnimation) =>
             const HomeScreen(),
         settings: data,
-        transitionsBuilder: TransitionsBuilders.fadeIn,
-        transitionDuration: const Duration(milliseconds: 800),
+        transitionsBuilder: TransitionsBuilders.slideLeft,
+        transitionDuration: const Duration(milliseconds: 200),
       );
     },
     BagItemDetailsPage: (data) {
@@ -60,8 +62,8 @@ class StackedRouter extends RouterBase {
           bag: args.bag,
         ),
         settings: data,
-        transitionsBuilder: TransitionsBuilders.zoomIn,
-        transitionDuration: const Duration(milliseconds: 800),
+        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionDuration: const Duration(milliseconds: 200),
       );
     },
   };
@@ -75,5 +77,6 @@ class StackedRouter extends RouterBase {
 class BagItemDetailsPageArguments {
   final Key? key;
   final Bag bag;
+
   BagItemDetailsPageArguments({this.key, required this.bag});
 }

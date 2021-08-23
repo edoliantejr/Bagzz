@@ -19,50 +19,48 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    num devicePixel = MediaQuery.of(context).devicePixelRatio;
     return ViewModelBuilder<MainScreenViewModel>.reactive(
         viewModelBuilder: () => MainScreenViewModel(),
         onModelReady: (model) => model.init(),
         builder: (builder, model, child) {
           return Scaffold(
-            backgroundColor: Colors.white,
-            body: NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  SliverAppBar(
-                    backgroundColor: Colors.white,
-                    elevation: 0,
-                    leading: Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal: 24 / devicePixel,
-                            vertical: 14 / devicePixel),
-                        child: SvgPicture.asset('assets/icons/drawer.svg')),
-                    title: const Text(
-                      'bagzz',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: FontNames.playFair,
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    actions: [
-                      Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey[900],
-                            backgroundImage:
-                                AssetImage('assets/images/avatar.jpg'),
-                            radius: 18,
-                          ))
-                    ],
-                  )
-                ];
-              },
-              body: HomeScreen(),
-            ),
-            bottomNavigationBar: bottomNavigation(model.bagsList),
-          );
+              backgroundColor: Colors.white,
+              body: NestedScrollView(
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      leading: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 13),
+                          width: 24,
+                          height: 14,
+                          child: SvgPicture.asset('assets/icons/drawer.svg')),
+                      title: const Text(
+                        'bagzz',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: FontNames.playFair,
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      actions: [
+                        Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                              backgroundImage:
+                                  AssetImage('assets/images/avatar.png'),
+                              radius: 18,
+                            ))
+                      ],
+                    )
+                  ];
+                },
+                body: HomeScreen(),
+              ),
+              bottomNavigationBar: bottomNavigation(model.bagsList));
         });
   }
 
@@ -141,16 +139,14 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void onTabChange(int index, List<Bag> bags) {
-    setState(() {
-      //show wishlist bottom sheet
-      if (index == 2) {
-        WishListPage.open(context, bags);
-      }
+    //show wishlist bottom sheet
+    if (index == 2) {
+      WishListPage.open(context, bags);
+    }
 
-      //show cart bottom sheet
-      if (index == 3) {
-        CartPage.open(context, bags);
-      }
-    });
+    //show cart bottom sheet
+    if (index == 3) {
+      CartPage.open(context, bags);
+    }
   }
 }

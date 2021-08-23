@@ -1,9 +1,8 @@
 import 'package:bagzz/ui/views/home/home_screen_view_model.dart';
+import 'package:bagzz/ui/widgets/bag_banner_slider/bag_banner_slider.dart';
 import 'package:bagzz/ui/widgets/bag_grid_view/bag_grid_view.dart';
 import 'package:bagzz/ui/widgets/category_grid_view/category_grid_view.dart';
-import 'package:bagzz/ui/widgets/bag_banner_slider/bag_banner_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeScreen extends StatefulWidget {

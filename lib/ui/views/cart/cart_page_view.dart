@@ -12,6 +12,8 @@ class CartPage extends StatelessWidget {
 
   static Future<dynamic> open(BuildContext context, List<Bag> bags) {
     return showModalBottomSheet(
+      useRootNavigator: false,
+      elevation: 0,
       backgroundColor: Colors.white.withOpacity(0.8),
       context: context,
       isScrollControlled: true,

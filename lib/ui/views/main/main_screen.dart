@@ -1,118 +1,76 @@
 import 'package:bagzz/constant/font_names.dart';
-import 'package:bagzz/models/bag.dart';
-import 'package:bagzz/models/bags_gridview_item.dart';
-import 'package:bagzz/ui/views/cart/cart_screen.dart';
+import 'package:bagzz/ui/views/cart/cart_screen_view_model.dart';
 import 'package:bagzz/ui/views/home/home_screen.dart';
+import 'package:bagzz/ui/views/main/main_screen_view_model.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:stacked/stacked.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
-
-  @override
-  _MainScreenState createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  int numCartItems = 0;
-  int currentIndex = 0;
-  ScrollController scrollController = new ScrollController();
-  final List<Bag> bags = [
-    Bag(
-      id: 2,
-      image: 'assets/images/bag-header-01.jpg',
-      title: "This season's latest",
-      name: "Artsy",
-      price: 1364,
-      category: 'Wallet with chain',
-      style: 'Style #36252 0YK0G 1000',
-      desc: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      shipInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      payInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-    ),
-    Bag(
-      id: 1,
-      image: 'assets/images/bag-header-02.jpg',
-      title: "This season's latest",
-      name: "Artsy",
-      price: 1364,
-      category: 'Wallet with chain',
-      style: 'Style #36252 0YK0G 1000',
-      desc: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      shipInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      payInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-    ),
-  ];
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     num devicePixel = MediaQuery.of(context).devicePixelRatio;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              leading: Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: 24 / devicePixel, vertical: 14 / devicePixel),
-                  child: SvgPicture.asset('assets/icons/drawer.svg')),
-              title: const Text(
-                'bagzz',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: FontNames.playFair,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold),
-              ),
-              actions: [
-                Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.grey[900],
-                      backgroundImage: AssetImage('assets/images/avatar.jpg'),
-                      radius: 18,
-                    ))
-              ],
-            )
-          ];
-        },
-        body: HomeScreen(),
-      ),
-      bottomNavigationBar: bottomNavigation(),
-    );
+    return ViewModelBuilder<MainScreenViewModel>.reactive(
+        viewModelBuilder: () => MainScreenViewModel(),
+        builder: (context, model, widget) {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                    leading: Container(
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 24 / devicePixel,
+                            vertical: 14 / devicePixel),
+                        child: SvgPicture.asset('assets/icons/drawer.svg')),
+                    title: const Text(
+                      'bagzz',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: FontNames.playFair,
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    actions: [
+                      Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey[900],
+                            backgroundImage:
+                                AssetImage('assets/images/avatar.jpg'),
+                            radius: 18,
+                          ))
+                    ],
+                  )
+                ];
+              },
+              body: HomeScreen(),
+            ),
+            bottomNavigationBar: MyBottomNavigation(
+                onTabChange: (index) => model.onTabChange(index, context)),
+          );
+        });
   }
+}
 
-//bottom navigation widget
-  Widget bottomNavigation() {
+class MyBottomNavigation extends ViewModelWidget<CartScreenViewModel> {
+  final ValueChanged<int> onTabChange;
+
+  const MyBottomNavigation({
+    Key? key,
+    required this.onTabChange,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, CartScreenViewModel model) {
     return Stack(
       children: [
         DotNavigationBar(
@@ -121,9 +79,7 @@ class _MainScreenState extends State<MainScreen> {
           borderRadius: 40,
           selectedItemColor: null,
           currentIndex: -1,
-          onTap: (int index) {
-            onTabChange(index);
-          },
+          onTap: onTabChange,
           items: [
             DotNavigationBarItem(
               icon: SvgPicture.asset('assets/icons/home.svg'),
@@ -151,12 +107,13 @@ class _MainScreenState extends State<MainScreen> {
           // paddingR: const EdgeInsets.all(14),
           marginR: const EdgeInsets.all(8),
         ),
-        numShopBagItem(bags_gridview_item.length),
+        numShopBagItem(model.shoppingCart.length),
       ],
     );
+    ;
   }
 
-//widget overlay to show number of items in the cart as a notification alert
+  //widget overlay to show number of items in the cart as a notification alert
   Widget numShopBagItem(int numCartItems) {
     Color color = Colors.black;
     return Positioned(
@@ -185,21 +142,5 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
-  }
-
-  void onTabChange(int index) {
-    setState(() {
-      currentIndex = index;
-
-      //show wishlist bottom sheet
-      if (index == 2) {
-        CartPage.open(context, bags);
-      }
-
-      //show cart bottom sheet
-      if (index == 3) {
-        CartPage.open(context, bags);
-      }
-    });
   }
 }

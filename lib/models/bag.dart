@@ -1,4 +1,6 @@
-class Bag {
+import 'package:equatable/equatable.dart';
+
+class Bag extends Equatable {
   int id;
   String image;
   String title;
@@ -22,6 +24,7 @@ class Bag {
       required this.shipInfo,
       required this.payInfo});
 
-
+  @override
+  List<Object?> get props =>
+      [id, image, title, name, price, category, style, desc, shipInfo, payInfo];
 }
-

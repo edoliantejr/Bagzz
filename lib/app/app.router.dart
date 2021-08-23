@@ -11,6 +11,7 @@ import 'package:stacked/stacked.dart';
 
 import '../models/bag.dart';
 import '../ui/views/bag_item_details/bag_item_details_page.dart';
+import '../ui/views/cart/cart_screen.dart';
 import '../ui/views/home/home_screen.dart';
 import '../ui/views/main/main_screen.dart';
 
@@ -18,10 +19,12 @@ class Routes {
   static const String mainScreen = '/';
   static const String MainPage = '/home-screen';
   static const String BagItemDetailsPage = '/bag-item-details-page';
+  static const String CartPage = '/cart-page';
   static const all = <String>{
     mainScreen,
     MainPage,
     BagItemDetailsPage,
+    CartPage,
   };
 }
 
@@ -32,6 +35,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.mainScreen, page: MainScreen),
     RouteDef(Routes.MainPage, page: HomeScreen),
     RouteDef(Routes.BagItemDetailsPage, page: BagItemDetailsPage),
+    RouteDef(Routes.CartPage, page: CartPage),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -60,8 +64,17 @@ class StackedRouter extends RouterBase {
           bag: args.bag,
         ),
         settings: data,
-        transitionsBuilder: TransitionsBuilders.slideLeft,
+        transitionsBuilder: TransitionsBuilders.zoomIn,
         transitionDuration: const Duration(milliseconds: 800),
+      );
+    },
+    CartPage: (data) {
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const CartPage(),
+        settings: data,
+        transitionsBuilder: TransitionsBuilders.slideTop,
+        transitionDuration: const Duration(milliseconds: 300),
       );
     },
   };

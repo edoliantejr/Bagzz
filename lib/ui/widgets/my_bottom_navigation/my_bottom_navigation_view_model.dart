@@ -5,11 +5,10 @@ import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:stacked/stacked.dart';
 
-class CartScreenViewModel extends BaseViewModel {
+class MyBottomNavigationViewModel extends BaseViewModel {
   final apiService = locator<ApiService>();
   Map<Bag, int> shoppingCart = {};
 
-  List<Bag> get bagsOnCart => shoppingCart.keys.toList();
   late StreamSubscription<Map<Bag, int>> streamSubscription;
 
   init() {

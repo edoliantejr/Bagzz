@@ -34,7 +34,6 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.MainPage, page: HomeScreen),
     RouteDef(Routes.BagItemDetailsPage, page: BagItemDetailsPage),
   ];
-
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, StackedRouteFactory>{
@@ -58,8 +57,8 @@ class StackedRouter extends RouterBase {
       return PageRouteBuilder<dynamic>(
         pageBuilder: (context, animation, secondaryAnimation) =>
             BagItemDetailsPage(
-          key: args.key,
           bag: args.bag,
+          key: args.key,
         ),
         settings: data,
         transitionsBuilder: TransitionsBuilders.fadeIn,
@@ -75,8 +74,7 @@ class StackedRouter extends RouterBase {
 
 /// BagItemDetailsPage arguments holder class
 class BagItemDetailsPageArguments {
-  final Key? key;
   final Bag bag;
-
-  BagItemDetailsPageArguments({this.key, required this.bag});
+  final Key? key;
+  BagItemDetailsPageArguments({required this.bag, this.key});
 }

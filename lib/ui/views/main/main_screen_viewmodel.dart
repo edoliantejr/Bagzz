@@ -6,6 +6,7 @@ import 'package:stacked/stacked.dart';
 class MainScreenViewModel extends BaseViewModel {
   final navigatorService = locator<NavigationService>();
   final List<Bag> bagsList = [];
+  final List bags = [];
   int numCartItems = 0;
   int currentIndex = 0;
 

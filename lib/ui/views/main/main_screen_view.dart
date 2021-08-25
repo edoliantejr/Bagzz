@@ -3,6 +3,7 @@ import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
 import 'package:bagzz/ui/views/home/home_screen.dart';
 import 'package:bagzz/ui/views/main/main_screen_viewmodel.dart';
+import 'package:bagzz/ui/views/search/search_view.dart';
 import 'package:bagzz/ui/views/wishlist/wishlist_view.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -139,6 +140,11 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void onTabChange(int index, List<Bag> bags) {
+    //show search bottom sheet
+    if (index == 1) {
+      SearchBottomSheet.open(context, bags);
+    }
+
     //show wishlist bottom sheet
     if (index == 2) {
       WishListPage.open(context, bags);

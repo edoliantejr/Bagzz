@@ -38,7 +38,6 @@ class BagBannerSlider extends StatelessWidget {
                               bottom: 70,
                               right: 13,
                               child: Container(
-                                height: 84,
                                 width: 92,
                                 child: Text(
                                   model.bags[i].title,

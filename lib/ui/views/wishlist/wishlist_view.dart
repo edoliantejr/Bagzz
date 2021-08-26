@@ -46,7 +46,7 @@ class WishListPage extends StatelessWidget {
             child: bags.isEmpty
                 ? Container(
                     height: 100,
-                    child: Center(child: Text('Cart is empty. Add item')),
+                    child: Center(child: Text('No items on wishlist.')),
                   )
                 : ListView.builder(
                     physics: BouncingScrollPhysics(),

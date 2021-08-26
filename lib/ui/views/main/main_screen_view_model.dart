@@ -1,8 +1,3 @@
-import 'dart:async';
-import 'dart:math';
-
-import 'package:bagzz/app/app.locator.dart';
-import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/api/mock_data.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
 import 'package:flutter/widgets.dart';
@@ -15,10 +10,10 @@ class MainScreenViewModel extends BaseViewModel {
 
   init() {
     // TODO: testing only. Demo to add bag to cart.
-    Stream.periodic(Duration(seconds: 5)).listen((event) {
-      locator<ApiService>()
-          .addToCart(MOCK_BAGS[Random.secure().nextInt(MOCK_BAGS.length - 1)]);
-    });
+    // Stream.periodic(Duration(seconds: 5)).listen((event) {
+    //   locator<ApiService>()
+    //       .addToCart(MOCK_BAGS[Random.secure().nextInt(MOCK_BAGS.length - 1)]);
+    // });
   }
 
   @override

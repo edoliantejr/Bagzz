@@ -12,8 +12,6 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    num devicePixel = MediaQuery.of(context).devicePixelRatio;
-
     return ViewModelBuilder<MainScreenViewModel>.reactive(
         viewModelBuilder: () => MainScreenViewModel(),
         onModelReady: (model) => model.init(),
@@ -28,10 +26,12 @@ class MainScreen extends StatelessWidget {
                     backgroundColor: Colors.white,
                     elevation: 0,
                     leading: Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal: 24 / devicePixel,
-                            vertical: 14 / devicePixel),
-                        child: SvgPicture.asset('assets/icons/drawer.svg')),
+                        padding: EdgeInsets.all(13),
+                        child: SvgPicture.asset(
+                          'assets/icons/drawer.svg',
+                          height: 14,
+                          width: 24,
+                        )),
                     title: const Text(
                       'bagzz',
                       style: TextStyle(

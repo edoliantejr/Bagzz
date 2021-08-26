@@ -89,7 +89,7 @@ class BagItemDetailsPage extends StatelessWidget {
                                       fontSize: 14),
                                 )),
                             InkWell(
-                              onTap: () {},
+                              onTap: model.addBagToCart,
                               child: Container(
                                 margin: EdgeInsets.symmetric(vertical: 8),
                                 padding: EdgeInsets.symmetric(vertical: 2),

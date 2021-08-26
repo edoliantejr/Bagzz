@@ -1,9 +1,14 @@
+import 'package:bagzz/app/app.locator.dart';
+import 'package:bagzz/core/service/api/api_service.dart';
+import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class BagItemDetailsViewModel extends BaseViewModel {
   final Bag bag;
+  final apiNavigator = locator<ApiService>();
+  final snackBarNavigator = locator<SnackBarService>();
 
   BagItemDetailsViewModel({required this.bag});
 
@@ -26,5 +31,10 @@ class BagItemDetailsViewModel extends BaseViewModel {
   void dispose() {
     pageController.dispose();
     super.dispose();
+  }
+
+  void addBagToCart() {
+    apiNavigator.addToCart(bag);
+    snackBarNavigator.showSnackBar('Bag added to cart');
   }
 }

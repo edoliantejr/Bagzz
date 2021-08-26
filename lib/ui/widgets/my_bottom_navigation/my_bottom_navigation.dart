@@ -60,7 +60,6 @@ class MyBottomNavigation extends StatelessWidget {
             ],
           );
         });
-    ;
   }
 
   //widget overlay to show number of items in the cart as a notification alert

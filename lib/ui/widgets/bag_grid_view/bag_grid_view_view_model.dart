@@ -5,20 +5,20 @@ import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:stacked/stacked.dart';
 
-class BagItemViewModel extends BaseViewModel {
-  final Bag bag;
+class BagGridViewModel extends BaseViewModel {
+  final List<Bag> bags;
 
-  BagItemViewModel(this.bag);
+  BagGridViewModel(this.bags);
 
   final navigatorService = locator<NavigationService>();
   final snackBarService = locator<SnackBarService>();
 
-  void onBagImagePressed() {
+  void onBagImagePressed(int index) {
     navigatorService.pushNamed(Routes.BagItemDetailsPage,
-        arguments: BagItemDetailsPageArguments(bag: bag));
+        arguments: BagItemDetailsPageArguments(bag: bags[index]));
   }
 
-  void addToWishList(){
+  void addToWishList() {
     snackBarService.showSnackBar('Bag added to wish list.');
   }
 }

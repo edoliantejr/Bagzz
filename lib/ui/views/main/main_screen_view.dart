@@ -1,10 +1,11 @@
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/ui/views/home/home_screen.dart';
-import 'package:bagzz/ui/views/main/main_screen_view_model.dart';
 import 'package:bagzz/ui/widgets/my_bottom_navigation/my_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
+
+import 'main_screen_view_model.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -45,7 +46,7 @@ class MainScreen extends StatelessWidget {
                           child: CircleAvatar(
                             backgroundColor: Colors.grey[900],
                             backgroundImage:
-                                AssetImage('assets/images/avatar.jpg'),
+                                AssetImage('assets/images/avatar.png'),
                             radius: 18,
                           ))
                     ],

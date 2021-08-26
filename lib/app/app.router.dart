@@ -12,9 +12,9 @@ import 'package:stacked/stacked.dart';
 
 import '../models/bag.dart';
 import '../ui/views/bag_item_details/bag_item_details_page.dart';
-import '../ui/views/cart/cart_screen.dart';
+import '../ui/views/cart/cart_page_view.dart';
 import '../ui/views/home/home_screen.dart';
-import '../ui/views/main/main_screen.dart';
+import '../ui/views/main/main_screen_view.dart';
 
 class Routes {
   static const String mainScreen = '/';
@@ -52,7 +52,7 @@ class StackedRouter extends RouterBase {
         pageBuilder: (context, animation, secondaryAnimation) =>
             const HomeScreen(),
         settings: data,
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionsBuilder: TransitionsBuilders.slideLeft,
         transitionDuration: const Duration(milliseconds: 800),
       );
     },
@@ -61,11 +61,11 @@ class StackedRouter extends RouterBase {
       return PageRouteBuilder<dynamic>(
         pageBuilder: (context, animation, secondaryAnimation) =>
             BagItemDetailsPage(
-          key: args.key,
           bag: args.bag,
+          key: args.key,
         ),
         settings: data,
-        transitionsBuilder: TransitionsBuilders.zoomIn,
+        transitionsBuilder: TransitionsBuilders.fadeIn,
         transitionDuration: const Duration(milliseconds: 800),
       );
     },
@@ -87,7 +87,7 @@ class StackedRouter extends RouterBase {
 
 /// BagItemDetailsPage arguments holder class
 class BagItemDetailsPageArguments {
-  final Key? key;
   final Bag bag;
-  BagItemDetailsPageArguments({this.key, required this.bag});
+  final Key? key;
+  BagItemDetailsPageArguments({required this.bag, this.key});
 }

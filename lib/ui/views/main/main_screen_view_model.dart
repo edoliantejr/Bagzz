@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/api/mock_data.dart';
-import 'package:bagzz/ui/views/cart/cart_screen.dart';
+import 'package:bagzz/ui/views/cart/cart_page_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
@@ -14,7 +14,6 @@ class MainScreenViewModel extends BaseViewModel {
   ScrollController scrollController = new ScrollController();
 
   init() {
-
     // TODO: testing only. Demo to add bag to cart.
     Stream.periodic(Duration(seconds: 5)).listen((event) {
       locator<ApiService>()

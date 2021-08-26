@@ -2,16 +2,19 @@ import 'dart:ui';
 
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bag.dart';
-import 'package:bagzz/ui/views/cart/cart_screen_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+
+import 'cart_page_viewmodel.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
 
   static Future<dynamic> open(BuildContext context) {
     return showModalBottomSheet(
-      backgroundColor: Colors.white.withOpacity(0.9),
+      useRootNavigator: false,
+      elevation: 0,
+      backgroundColor: Colors.white.withOpacity(0.8),
       context: context,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
@@ -26,63 +29,64 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<CartScreenViewModel>.reactive(
-        viewModelBuilder: () => CartScreenViewModel(),
+    return ViewModelBuilder<CartPageViewModel>.reactive(
+        viewModelBuilder: () => CartPageViewModel(),
         onModelReady: (model) => model.init(),
         builder: (context, model, widget) {
-          return Scaffold(
-            body: Container(
-              height: MediaQuery.of(context).size.height -
-                  (MediaQuery.of(context).padding.top + 48),
-              padding: EdgeInsets.only(top: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Center(
-                      child: Container(
-                          height: 2, width: 125, color: Colors.black)),
-                  SizedBox(height: 45),
-                  Expanded(
-                    child: model.bagsOnCart.isEmpty
-                        ? Container(
-                            height: 100,
-                            child:
-                                Center(child: Text('Cart is empty. Add item')),
-                          )
-                        : ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: model.bagsOnCart.length,
-                            itemBuilder: (context, i) {
-                              final bag = model.bagsOnCart[i];
-                              final bagQuantity = model.shoppingCart[bag];
-                              return CartItem(
-                                bag,
-                                quantity: bagQuantity ?? 0,
-                              );
-                            }),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 15, top: 15),
+          return ConstrainedBox(
+            constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height / 2.5,
+                maxHeight: MediaQuery.of(context).size.height * .91),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
                     child: Container(
-                        height: 43,
-                        width: 193,
-                        color: Colors.black,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Center(
-                            child: Text(
-                              'PROCEED TO BUY',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: FontNames.workSans),
-                            ),
+                        margin: EdgeInsets.all(12),
+                        height: 2,
+                        width: 125,
+                        color: Colors.black)),
+                SizedBox(height: 45),
+                Flexible(
+                  child: model.bagsOnCart.isEmpty
+                      ? Container(
+                          height: 100,
+                          child: Center(child: Text('Cart is empty. Add item')),
+                        )
+                      : ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          primary: false,
+                          itemCount: model.bagsOnCart.length,
+                          itemBuilder: (context, i) {
+                            final bag = model.bagsOnCart[i];
+                            final bagQuantity = model.shoppingCart[bag];
+                            return CartItem(
+                              bag,
+                              quantity: bagQuantity ?? 0,
+                            );
+                          }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 15, top: 15),
+                  child: Container(
+                      height: 43,
+                      width: 193,
+                      color: Colors.black,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Center(
+                          child: Text(
+                            'PROCEED TO BUY',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontFamily: FontNames.workSans),
                           ),
-                        )),
-                  )
-                ],
-              ),
+                        ),
+                      )),
+                )
+              ],
             ),
           );
         });
@@ -130,7 +134,7 @@ class CartItem extends StatelessWidget {
                           child: Center(
                               child: Text('-',
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 14))),
+                                      color: Colors.white, fontSize: 16))),
                         ),
                         Container(
                           width: 29,
@@ -139,7 +143,7 @@ class CartItem extends StatelessWidget {
                           child: Center(
                               child: Text('$quantity',
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: 14))),
+                                      color: Colors.black, fontSize: 16))),
                         ),
                         Container(
                           width: 29,

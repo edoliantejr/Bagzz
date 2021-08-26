@@ -5,9 +5,9 @@ import 'package:bagzz/core/service/navigation/navigator_service_impl.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service_impl.dart';
 import 'package:bagzz/ui/views/bag_item_details/bag_item_details_page.dart';
-import 'package:bagzz/ui/views/cart/cart_screen.dart';
+import 'package:bagzz/ui/views/cart/cart_page_view.dart';
 import 'package:bagzz/ui/views/home/home_screen.dart';
-import 'package:bagzz/ui/views/main/main_screen.dart';
+import 'package:bagzz/ui/views/main/main_screen_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -17,12 +17,12 @@ import 'package:stacked/stacked_annotations.dart';
       page: HomeScreen,
       name: 'MainPage',
       durationInMilliseconds: 800,
-      transitionsBuilder: TransitionsBuilders.fadeIn),
+      transitionsBuilder: TransitionsBuilders.slideLeft),
   CustomRoute(
       page: BagItemDetailsPage,
       name: 'BagItemDetailsPage',
       durationInMilliseconds: 800,
-      transitionsBuilder: TransitionsBuilders.zoomIn),
+      transitionsBuilder: TransitionsBuilders.fadeIn),
   CustomRoute(
       page: CartPage,
       name: 'CartPage',

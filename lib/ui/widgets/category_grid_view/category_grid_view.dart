@@ -1,6 +1,8 @@
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/category.dart';
+import 'package:bagzz/ui/widgets/category_grid_view/category_grid_view_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
 
 class CategoryGridView extends StatelessWidget {
   final List<Category> categories;
@@ -10,13 +12,17 @@ class CategoryGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        title(),
-        gridViewCategory(),
-        browseAllCategory(),
-      ],
-    );
+    return ViewModelBuilder<CategoryGridViewModel>.reactive(
+        viewModelBuilder: () => CategoryGridViewModel(categories: categories),
+        builder: (context, model, child) {
+          return Column(
+            children: [
+              title(),
+              gridViewCategory(model.categories),
+              browseAllCategory(),
+            ],
+          );
+        });
   }
 
   Widget title() {
@@ -32,25 +38,25 @@ class CategoryGridView extends StatelessWidget {
             )));
   }
 
-  Widget gridViewCategory() {
+  Widget gridViewCategory(List<Category> categories) {
     return GridView.builder(
         shrinkWrap: true,
         primary: false,
         itemCount: categories.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 5,
-          crossAxisSpacing: 5,
-          childAspectRatio: .65,
+          mainAxisSpacing: 16,
+          childAspectRatio: .84,
         ),
-        itemBuilder: (context, i) {
-          return CategoryItem(categories[i]);
+        itemBuilder: (context, index) {
+          return CategoryItem(categories[index]);
         });
   }
 
   Widget browseAllCategory() {
     return Center(
       child: Container(
+        padding: EdgeInsets.symmetric(vertical: 22),
         child: Container(
             padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             decoration: BoxDecoration(
@@ -86,8 +92,8 @@ class CategoryItem extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Positioned(
-              top: 162.5,
-              right: 0,
+              bottom: 0,
+              right: 1,
               child: Container(
                 padding: EdgeInsets.all(8.0),
                 color: Colors.black,

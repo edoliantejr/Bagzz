@@ -43,29 +43,36 @@ class WishListPage extends StatelessWidget {
                   color: Colors.black)),
           SizedBox(height: 45),
           Flexible(
-            child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                shrinkWrap: true,
-                primary: false,
-                itemCount: bags.length,
-                itemBuilder: (context, i) {
-                  return WishListItem(bags[i]);
-                }),
+            child: bags.isEmpty
+                ? Container(
+                    height: 100,
+                    child: Center(child: Text('Cart is empty. Add item')),
+                  )
+                : ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: bags.length,
+                    itemBuilder: (context, i) {
+                      return WishListItem(bags[i]);
+                    }),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 15, top: 25),
-            child: Container(
-                height: 43,
-                width: 193,
-                color: Colors.black,
-                child: TextButton(
-                  onPressed: () {},
-                  child: Center(
-                    child: Text(
-                      'ADD ALL TO CART',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
+            child: bags.isEmpty
+                ? Container()
+                : Container(
+                    height: 43,
+                    width: 193,
+                    color: Colors.black,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Center(
+                        child: Text(
+                          'ADD ALL TO CART',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
                           fontFamily: FontNames.workSans),
                     ),
                   ),

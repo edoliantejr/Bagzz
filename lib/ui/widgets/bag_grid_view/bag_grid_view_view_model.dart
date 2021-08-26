@@ -8,7 +8,7 @@ import 'package:stacked/stacked.dart';
 class BagGridViewModel extends BaseViewModel {
   final List<Bag> bags;
 
-  BagGridViewModel(this.bags);
+  BagGridViewModel({required this.bags});
 
   final navigatorService = locator<NavigationService>();
   final snackBarService = locator<SnackBarService>();

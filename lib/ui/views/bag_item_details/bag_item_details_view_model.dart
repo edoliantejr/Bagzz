@@ -7,8 +7,8 @@ import 'package:stacked/stacked.dart';
 
 class BagItemDetailsViewModel extends BaseViewModel {
   final Bag bag;
-  final apiNavigator = locator<ApiService>();
-  final snackBarNavigator = locator<SnackBarService>();
+  final apiService = locator<ApiService>();
+  final snackBarService = locator<SnackBarService>();
 
   BagItemDetailsViewModel({required this.bag});
 
@@ -34,7 +34,7 @@ class BagItemDetailsViewModel extends BaseViewModel {
   }
 
   void addBagToCart() {
-    apiNavigator.addToCart(bag);
-    snackBarNavigator.showSnackBar('Bag added to cart');
+    apiService.addToCart(bag);
+    snackBarService.showSnackBar('Bag added to cart');
   }
 }

@@ -1,10 +1,7 @@
-import 'dart:async';
-import 'dart:math';
-
-import 'package:bagzz/app/app.locator.dart';
-import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/api/mock_data.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
+import 'package:bagzz/ui/views/search/search_view.dart';
+import 'package:bagzz/ui/views/wishlist/wishlist_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
@@ -15,10 +12,10 @@ class MainScreenViewModel extends BaseViewModel {
 
   init() {
     // TODO: testing only. Demo to add bag to cart.
-    Stream.periodic(Duration(seconds: 5)).listen((event) {
-      locator<ApiService>()
-          .addToCart(MOCK_BAGS[Random.secure().nextInt(MOCK_BAGS.length - 1)]);
-    });
+    // Stream.periodic(Duration(seconds: 5)).listen((event) {
+    //   locator<ApiService>()
+    //       .addToCart(MOCK_BAGS[Random.secure().nextInt(MOCK_BAGS.length - 1)]);
+    // });
   }
 
   @override
@@ -33,7 +30,14 @@ class MainScreenViewModel extends BaseViewModel {
   void onTabChange(int index, BuildContext context) {
     currentIndex = index;
     notifyListeners();
-
+    //show search
+    if (index == 1) {
+      SearchBottomSheet.open(context, []);
+    }
+    //show wishlist
+    if (index == 2) {
+      WishListPage.open(context, []);
+    }
     //show cart bottom sheet
     if (index == 3) {
       CartPage.open(context);

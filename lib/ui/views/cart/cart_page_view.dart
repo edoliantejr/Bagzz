@@ -69,21 +69,23 @@ class CartPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 15, top: 15),
-                  child: Container(
-                      height: 43,
-                      width: 193,
-                      color: Colors.black,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Center(
-                          child: Text(
-                            'PROCEED TO BUY',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontFamily: FontNames.workSans),
-                          ),
-                        ),
+                  child: model.bagsOnCart.isEmpty
+                      ? Container()
+                      : Container(
+                          height: 43,
+                          width: 193,
+                          color: Colors.black,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Center(
+                              child: Text(
+                                'PROCEED TO BUY',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontFamily: FontNames.workSans),
+                              ),
+                            ),
                       )),
                 )
               ],

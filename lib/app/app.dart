@@ -16,12 +16,12 @@ import 'package:stacked/stacked_annotations.dart';
   CustomRoute(
       page: HomeScreen,
       name: 'MainPage',
-      durationInMilliseconds: 800,
+      durationInMilliseconds: 300,
       transitionsBuilder: TransitionsBuilders.slideLeft),
   CustomRoute(
       page: BagItemDetailsPage,
       name: 'BagItemDetailsPage',
-      durationInMilliseconds: 800,
+      durationInMilliseconds: 300,
       transitionsBuilder: TransitionsBuilders.fadeIn),
   CustomRoute(
       page: CartPage,

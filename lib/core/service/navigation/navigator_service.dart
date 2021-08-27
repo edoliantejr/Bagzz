@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart'
-    show GlobalKey, NavigatorState, RoutePredicate, required;
+    show GlobalKey, NavigatorState, RoutePredicate;
 
 /// Service that is responsible for navigating around the app
 abstract class NavigationService {

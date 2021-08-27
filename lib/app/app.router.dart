@@ -53,7 +53,7 @@ class StackedRouter extends RouterBase {
             const HomeScreen(),
         settings: data,
         transitionsBuilder: TransitionsBuilders.slideLeft,
-        transitionDuration: const Duration(milliseconds: 800),
+        transitionDuration: const Duration(milliseconds: 300),
       );
     },
     BagItemDetailsPage: (data) {
@@ -66,7 +66,7 @@ class StackedRouter extends RouterBase {
         ),
         settings: data,
         transitionsBuilder: TransitionsBuilders.fadeIn,
-        transitionDuration: const Duration(milliseconds: 800),
+        transitionDuration: const Duration(milliseconds: 300),
       );
     },
     CartPage: (data) {

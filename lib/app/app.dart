@@ -1,5 +1,7 @@
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/api/api_service_impl.dart';
+import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
+import 'package:bagzz/core/service/firebase_auth/firebase_auth_service_impl.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service_impl.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
@@ -32,5 +34,6 @@ import 'package:stacked/stacked_annotations.dart';
   Singleton(classType: NavigationServiceImpl, asType: NavigationService),
   LazySingleton(classType: SnackBarServiceImpl, asType: SnackBarService),
   LazySingleton(classType: ApiServiceImpl, asType: ApiService),
+  LazySingleton(classType: FireBaseAuthServiceImpl,asType: FireBaseAuthService )
 ])
 class App {}

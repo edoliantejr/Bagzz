@@ -11,7 +11,7 @@ class SearchBottomSheet extends StatefulWidget {
   @override
   _SearchBottomSheetState createState() => _SearchBottomSheetState();
 
-  static Future<dynamic> open(BuildContext context, List bagz) {
+  static Future<dynamic> open(BuildContext context) {
     TextEditingController editingController = TextEditingController();
 
     return showModalBottomSheet(

@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       BagBannerSlider(bags: model.bagBannerList),
                       BagGridView(bags: model.bagsList),
                       CategoryGridView(
-                        categories: model.categoryList,
+                        categories: model.categlist,
                       )
                     ],
                   ),

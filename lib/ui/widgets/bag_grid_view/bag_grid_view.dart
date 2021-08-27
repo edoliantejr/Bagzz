@@ -22,7 +22,7 @@ class BagGridView extends StatelessWidget {
                   itemCount: model.bags.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
+                    mainAxisSpacing: 10,
                     childAspectRatio: .85,
                   ),
                   itemBuilder: (context, index) {
@@ -41,7 +41,7 @@ class BagGridView extends StatelessWidget {
                                     onTap: () => model.onBagImagePressed(index),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
+                                          vertical: 5.0),
                                       child: Image(
                                         image:
                                             AssetImage(model.bags[index].image),
@@ -51,7 +51,7 @@ class BagGridView extends StatelessWidget {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 11),
+                                    padding: const EdgeInsets.only(top: 9),
                                     child: Text(
                                       model.bags[index].name,
                                       style: TextStyle(
@@ -60,23 +60,35 @@ class BagGridView extends StatelessWidget {
                                           fontSize: 18),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 11),
-                                    child: InkWell(
-                                      onTap: () {},
-                                      child: Text(
-                                        'SHOP NOW',
-                                        style: TextStyle(
-                                            fontFamily: FontNames.workSans,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 15),
+                                  Expanded(
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      style: TextButton.styleFrom(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 1.0),
+                                          primary: Colors.black,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.zero)),
+                                      child: Container(
+                                        child: Text(
+                                          'SHOP NOW',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: FontNames.workSans,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    height: 2,
-                                    width: 88,
-                                    color: Colors.black,
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 11.0),
+                                    child: Container(
+                                      height: 2,
+                                      width: 88,
+                                      color: Colors.black,
+                                    ),
                                   )
                                 ],
                               ),
@@ -102,20 +114,29 @@ class BagGridView extends StatelessWidget {
                   }),
               Center(
                 child: Container(
-                  margin: EdgeInsets.only(top: 20.0),
-                  child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        color: Colors.black,
-                      )),
-                      child: Text("CHECK ALL LATEST",
-                          style: TextStyle(
-                            fontFamily: 'WorkSans',
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ))),
+                  margin: EdgeInsets.only(top: 10.0),
+                  child: TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 1.0),
+                        backgroundColor: Colors.white,
+                        primary: Colors.black,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero)),
+                    child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                          color: Colors.black,
+                        )),
+                        child: Text("CHECK ALL LATEST",
+                            style: TextStyle(
+                              fontFamily: 'WorkSans',
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ))),
+                  ),
                 ),
               ),
             ],

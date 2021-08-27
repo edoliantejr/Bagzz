@@ -1,19 +1,33 @@
 import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/models/category.dart';
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeScreenViewModel extends BaseViewModel {
   final List<Bag> bagBannerList = [];
-  List<Bag> bagsList = [];
-  List<Category> categoryList = [];
 
-  Future<void> init() async {
-    setBusy(true);
+  //list for storing liked bags
+  final List<int> likedBags = [];
+
+  //init controller
+  final PageController controller =
+      PageController(initialPage: 0, keepPage: true);
+
+  List<Category> categlist = [];
+
+  List<Bag> bagsList = [];
+
+  void init() {
     loadBagBannerData();
-    loadBagsData();
     loadCategoryData();
-    await Future.delayed(Duration(seconds: 2));
-    setBusy(false);
+    loadBagsData();
+  }
+
+//override dispose class to also dispose the controller to avoid memory leakage
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   void loadBagBannerData() {
@@ -164,7 +178,7 @@ class HomeScreenViewModel extends BaseViewModel {
   }
 
   void loadCategoryData() async {
-    final List<Category> category = [
+    final List<Category> likeBagsData = [
       Category(
           id: 1,
           image: 'assets/images/model1.png',
@@ -180,6 +194,8 @@ class HomeScreenViewModel extends BaseViewModel {
       Category(
           id: 4, image: 'assets/images/model4.png', categoryTitle: 'Tote Bags'),
     ];
-    categoryList.addAll(category);
+    categlist.addAll(likeBagsData);
+    await Future.delayed(Duration(seconds: 5));
+    setBusy(false);
   }
 }

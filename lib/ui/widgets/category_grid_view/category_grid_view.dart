@@ -45,8 +45,8 @@ class CategoryGridView extends StatelessWidget {
         itemCount: categories.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 16,
-          childAspectRatio: .84,
+          mainAxisSpacing: 10,
+          childAspectRatio: .85,
         ),
         itemBuilder: (context, index) {
           return CategoryItem(categories[index]);
@@ -57,18 +57,26 @@ class CategoryGridView extends StatelessWidget {
     return Center(
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 22),
-        child: Container(
-            padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            decoration: BoxDecoration(
-                border: Border.all(
-              color: Colors.black,
-            )),
-            child: Text("BROWSE ALL CATEGORIES",
-                style: TextStyle(
-                  fontFamily: 'WorkSans',
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600,
-                ))),
+        child: TextButton(
+          onPressed: () {},
+          style: TextButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 1.0),
+              backgroundColor: Colors.white,
+              primary: Colors.black,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
+          child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                color: Colors.black,
+              )),
+              child: Text("BROWSE ALL CATEGORIES",
+                  style: TextStyle(
+                    fontFamily: 'WorkSans',
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                  ))),
+        ),
       ),
     );
   }

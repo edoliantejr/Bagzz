@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 class WishListPage extends StatelessWidget {
   final List<Bag> bags;
-
   const WishListPage({Key? key, required this.bags}) : super(key: key);
 
   static open(BuildContext context, List<Bag> bags) {
@@ -43,14 +42,19 @@ class WishListPage extends StatelessWidget {
                   color: Colors.black)),
           SizedBox(height: 45),
           Flexible(
-            child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                shrinkWrap: true,
-                primary: false,
-                itemCount: bags.length,
-                itemBuilder: (context, i) {
-                  return WishListItem(bags[i]);
-                }),
+            child: bags.isEmpty
+                ? Container(
+                    height: 100,
+                    child: Center(child: Text('No items on wishlist.')),
+                  )
+                : ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: bags.length,
+                    itemBuilder: (context, i) {
+                      return WishListItem(bags[i]);
+                    }),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 15, top: 25),

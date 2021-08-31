@@ -5,10 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:stacked/stacked.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+
   const Login({Key? key}) : super(key: key);
 
   @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  bool _isObscure = true;
+
+  @override
+
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
       viewModelBuilder: () => LoginViewModel(),
@@ -64,26 +73,35 @@ class Login extends StatelessWidget {
                   SizedBox(height: 20),
                   TextField(
                     controller: model.passwordController,
-                    obscureText: true,
+                    obscureText: _isObscure,
                     style: TextStyle(
                       fontFamily: FontNames.workSans,
                     ),
                     enableSuggestions: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
-                      prefixIconConstraints: BoxConstraints(minWidth: 0),
-                      prefixIcon: Padding(
+                        prefixIconConstraints: BoxConstraints(minWidth: 0),
+                        prefixIcon: Padding(
                         padding: const EdgeInsets.only(right: 12),
-                        child: Icon(
-                          Icons.lock_outline_rounded,
-                          color: Color(0xff1F59B6),
-                        ),
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xff1F59B6)),
-                      ),
+                    child: Icon(
+                      Icons.lock_outline_rounded,
+                      color: Color(0xff1F59B6),
                     ),
                   ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xff1F59B6)),
+                        ),
+                        suffixIcon: IconButton(
+                            icon: Icon(
+                                _isObscure ? Icons.visibility : Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+
+      })),
+                    ),
+
                   SizedBox(height: 19),
                   Align(
                     alignment: Alignment.centerRight,
@@ -159,7 +177,7 @@ class Login extends StatelessWidget {
                   SizedBox(height: 27),
                   Text(
                       'By signing up, you are agree with our Terms & Conditions',
-                      style: TextStyle(fontSize: 12)),
+                      style: TextStyle(fontSize: 11)),
                 ],
               ),
             ),

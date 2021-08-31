@@ -49,7 +49,9 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
           email: email, password: password);
       //TODO: return something if sign up is successful
     } on FirebaseAuthException catch (e) {
-      switch (e.code) {
+      switch (e.code) {    
+               
+           
         case "unknown":
           errorMessage = "Email and Password is empty.";
           break;

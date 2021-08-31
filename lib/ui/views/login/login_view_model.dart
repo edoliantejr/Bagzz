@@ -12,6 +12,7 @@ class LoginViewModel extends BaseViewModel {
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
 
+
   Future loginNow({required String email, required String password}) async {
     setBusy(true);
     await firebaseAuthService.loginWithEmail(email: email, password: password);
@@ -23,4 +24,5 @@ class LoginViewModel extends BaseViewModel {
     await firebaseAuthService.signUpWithEmail(email: email, password: password);
     setBusy(false);
   }
+
 }

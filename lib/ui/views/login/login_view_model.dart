@@ -9,22 +9,45 @@ import 'package:stacked/stacked.dart';
 class LoginViewModel extends BaseViewModel {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool isObscure = true;
   final snackBarService = locator<SnackBarService>();
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
+  bool isObscure = true;
+  bool isEmailValid = false;
+  bool isEmailEmpty = true;
+  bool isPasswordEmpty = true;
+  late FocusNode emailFocusNode;
+  late FocusNode passFocusNode;
+
+  void init(){
+    emailFocusNode=FocusNode();
+    passFocusNode=FocusNode();
+  }
 
   Future loginNow({required String email, required String password}) async {
     setBusy(true);
 
-    final response = await firebaseAuthService.loginWithEmail(
-        email: email, password: password);
-    if (response.success) {
-      navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
-          predicate: (route) => false);
-      snackBarService.showSnackBar('Successful login');
-    } else
-      snackBarService.showSnackBar(response.errorMessage!);
+    if (isEmailEmpty) {
+      snackBarService.showSnackBar('Email is empty');
+    } else if (isEmailValid ==false) {
+      emailFocusNode.requestFocus();
+
+      snackBarService.showSnackBar('Email is invalid');
+     // emailController.
+    } else if (isPasswordEmpty) {
+      snackBarService.showSnackBar('Password is empty');
+    } else if (passwordController.text.length < 8) {
+      snackBarService.showSnackBar('Password must be at least 8 characters');
+    } else {
+      final response = await firebaseAuthService.loginWithEmail(
+          email: email, password: password);
+      if (response.success) {
+        navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
+            predicate: (route) => false);
+        snackBarService.showSnackBar('Successful login');
+      } else
+        snackBarService.showSnackBar(response.errorMessage!);
+    }
 
     setBusy(false);
   }
@@ -34,7 +57,8 @@ class LoginViewModel extends BaseViewModel {
 
     final response = await firebaseAuthService.signUpWithEmail(
         email: email, password: password);
-    if (response.success) {} else {
+    if (response.success) {
+    } else {
       snackBarService.showSnackBar(response.errorMessage!);
     }
     setBusy(false);
@@ -43,7 +67,7 @@ class LoginViewModel extends BaseViewModel {
   Future loginWithGoogle() async {
     setBusy(true);
     final response =
-    await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
+        await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
       print(onError);
     });
     if (response.success)
@@ -58,9 +82,27 @@ class LoginViewModel extends BaseViewModel {
     isObscure = !isObscure;
     setBusy(false);
   }
-   validateEmail(){
 
+  checkEmail() {
+    emailController.text != '' ? isEmailEmpty = false : isEmailEmpty = true;
+    final regExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+    if (regExp.hasMatch(emailController.text)) {
+      isEmailValid = true;
+    } else {
+      isEmailValid = false;
+    }
+
+    // isEmailValid=true;
+    notifyListeners();
   }
 
+  checkPass() {
+    passwordController.text != ''
+        ? isPasswordEmpty = false
+        : isPasswordEmpty = true;
+    notifyListeners();
+  }
 
+  validateEmail() {}
 }

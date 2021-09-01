@@ -109,6 +109,8 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
 
   @override
   Future<void> logOut() async {
-    await _googleSignIn.disconnect();
+    await _firebaseAuth.signOut();
+
+   if(_googleSignIn!=null) await _googleSignIn.disconnect();
   }
 }

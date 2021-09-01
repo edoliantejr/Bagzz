@@ -8,12 +8,17 @@ import 'package:stacked/stacked.dart';
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
+
       viewModelBuilder: () => LoginViewModel(),
+      onModelReady: (model)=>model.init(),
       builder: (context, model, child) {
         return Scaffold(
+          backgroundColor: Colors.white,
           body: SafeArea(
             child: SingleChildScrollView(
               primary: false,
@@ -44,6 +49,8 @@ class Login extends StatelessWidget {
                     SizedBox(height: 62),
                     TextField(
                       controller: model.emailController,
+                      onChanged:(value) => model.checkEmail(),
+                      focusNode: model.emailFocusNode,
                       style: TextStyle(
                         fontFamily: FontNames.workSans,
                       ),
@@ -58,14 +65,21 @@ class Login extends StatelessWidget {
                             color: Color(0xff1F59B6),
                           ),
                         ),
+                        suffixIcon: Icon(
+                          Icons.check_circle,
+                          color: model.isEmailValid?Colors.green:Colors.transparent,
+                        ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Color(0xff1F59B6)),
                         ),
+
                       ),
                     ),
                     SizedBox(height: 20),
                     TextField(
                       controller: model.passwordController,
+                      onChanged:(value) => model.checkPass(),
+                      focusNode: model.passFocusNode,
                       obscureText: model.isObscure,
                       style: TextStyle(
                         fontFamily: FontNames.workSans,
@@ -73,22 +87,22 @@ class Login extends StatelessWidget {
                       enableSuggestions: true,
                       decoration: InputDecoration(
                         hintText: 'Password',
-                          prefixIconConstraints: BoxConstraints(minWidth: 0),
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.only(right: 12),
-                            child: Icon(
-                              Icons.lock_outline_rounded,
-                              color: Color(0xff1F59B6),
-                            ),
+                        prefixIconConstraints: BoxConstraints(minWidth: 0),
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(right: 12),
+                          child: Icon(
+                            Icons.lock_outline_rounded,
+                            color: Color(0xff1F59B6),
                           ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xff1F59B6)),
-                          ),
-                          suffixIcon: IconButton(
-                              icon: Icon(
-                                  model.isObscure ? Icons.visibility : Icons.visibility_off),
-                              onPressed: model.showPassword
-                          ),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xff1F59B6)),
+                        ),
+                        suffixIcon: IconButton(
+                            icon: Icon(model.isObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                            onPressed: model.showPassword),
                       ),
                     ),
                     SizedBox(height: 19),

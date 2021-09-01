@@ -41,14 +41,17 @@ class MainScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                     actions: [
-                      Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey[900],
-                            backgroundImage:
-                                AssetImage('assets/images/avatar.png'),
-                            radius: 18,
-                          ))
+                      InkWell(
+                        onTap:model.logout,
+                        child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.grey[900],
+                              backgroundImage:
+                                  AssetImage('assets/images/avatar.png'),
+                              radius: 18,
+                            )),
+                      )
                     ],
                   )
                 ];

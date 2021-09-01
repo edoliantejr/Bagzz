@@ -10,4 +10,6 @@ abstract class FireBaseAuthService {
   Future? loginWithFacebook();
 
   Future? loginWithTwitter();
+
+  Future<void> logOut();
 }

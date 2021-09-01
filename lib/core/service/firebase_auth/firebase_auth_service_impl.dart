@@ -6,12 +6,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 class FireBaseAuthServiceImpl implements FireBaseAuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   late final String errorMessage;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-      scopes: ['email', 'https://www.googleapis.com/auth/contacts.readonly']);
-  late final GoogleSignInAccount? googleSignInAccount;
-  late final GoogleSignInAuthentication googleSignInAuthentication;
-  late final AuthCredential authCredential;
-  late final UserCredential authResult;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+  GoogleSignInAccount? googleSignInAccount;
+  GoogleSignInAuthentication? googleSignInAuthentication;
+  AuthCredential? authCredential;
+  UserCredential? authResult;
 
   @override
   Future<LoginResponse> loginWithEmail(
@@ -74,23 +73,25 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
   @override
   Future<LoginResponse> loginWithGoogle() async {
     try {
-      googleSignInAccount = await _googleSignIn.signIn().catchError((onError){});
+      googleSignInAccount = await _googleSignIn.signIn().catchError((onError) {
+        print(onError);
+      });
 
-        googleSignInAuthentication = await googleSignInAccount!.authentication;
-        authCredential = GoogleAuthProvider.credential(
-            accessToken: googleSignInAuthentication.accessToken,
-            idToken: googleSignInAuthentication.idToken);
+      googleSignInAuthentication = await googleSignInAccount!.authentication;
+      authCredential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication!.accessToken,
+          idToken: googleSignInAuthentication!.idToken);
 
-      if (authCredential!=null) {
+      if (authCredential != null) {
         authResult = await _firebaseAuth
-            .signInWithCredential(authCredential)
+            .signInWithCredential(authCredential!)
             .catchError((onError) {
           print(onError);
         });
       }
-      return LoginResponse.success(authResult.user!);
+      return LoginResponse.success(authResult!.user!);
     } catch (e) {
-      return LoginResponse.error(e.toString());
+      return LoginResponse.error('Sign in with google was cancelled');
     }
   }
 
@@ -104,5 +105,10 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
   Future? loginWithTwitter() {
     // TODO: implement loginWithTwitter
     throw UnimplementedError();
+  }
+
+  @override
+  Future<void> logOut() async {
+    await _googleSignIn.disconnect();
   }
 }

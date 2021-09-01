@@ -18,9 +18,11 @@ class LoginViewModel extends BaseViewModel {
 
     final response = await firebaseAuthService.loginWithEmail(
         email: email, password: password);
-    if (response.success)
-      navigationService.pushReplacementNamed(Routes.MainScreen);
-    else
+    if (response.success) {
+      navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
+          predicate: (route) => false);
+      snackBarService.showSnackBar('Successful login');
+    } else
       snackBarService.showSnackBar(response.errorMessage!);
 
     setBusy(false);
@@ -40,7 +42,8 @@ class LoginViewModel extends BaseViewModel {
 
   Future loginWithGoogle() async {
     setBusy(true);
-    final response = await firebaseAuthService.loginWithGoogle()!.catchError((onError){
+    final response =
+        await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
       print(onError);
     });
     if (response.success)

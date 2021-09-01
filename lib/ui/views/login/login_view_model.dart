@@ -9,19 +9,21 @@ import 'package:stacked/stacked.dart';
 class LoginViewModel extends BaseViewModel {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool isObscure = true;
   final snackBarService = locator<SnackBarService>();
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
-
 
   Future loginNow({required String email, required String password}) async {
     setBusy(true);
 
     final response = await firebaseAuthService.loginWithEmail(
         email: email, password: password);
-    if (response.success)
-      navigationService.pushReplacementNamed(Routes.MainScreen);
-    else
+    if (response.success) {
+      navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
+          predicate: (route) => false);
+      snackBarService.showSnackBar('Successful login');
+    } else
       snackBarService.showSnackBar(response.errorMessage!);
 
     setBusy(false);
@@ -32,8 +34,7 @@ class LoginViewModel extends BaseViewModel {
 
     final response = await firebaseAuthService.signUpWithEmail(
         email: email, password: password);
-    if (response.success) {
-    } else {
+    if (response.success) {} else {
       snackBarService.showSnackBar(response.errorMessage!);
     }
     setBusy(false);
@@ -41,7 +42,8 @@ class LoginViewModel extends BaseViewModel {
 
   Future loginWithGoogle() async {
     setBusy(true);
-    final response = await firebaseAuthService.loginWithGoogle()!.catchError((onError){
+    final response =
+    await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
       print(onError);
     });
     if (response.success)
@@ -50,5 +52,15 @@ class LoginViewModel extends BaseViewModel {
       snackBarService.showSnackBar(response.errorMessage!);
     setBusy(false);
   }
+
+  void showPassword() {
+    setBusy(true);
+    isObscure = !isObscure;
+    setBusy(false);
+  }
+   validateEmail(){
+
+  }
+
 
 }

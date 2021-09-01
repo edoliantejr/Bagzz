@@ -132,10 +132,15 @@ class Login extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(
-                        'assets/icons/gmail.svg',
-                        height: 32,
-                        width: 32,
+                      GestureDetector(
+                        onTap: (){
+                          if(!model.isBusy)model.loginWithGoogle();
+                        },
+                        child: SvgPicture.asset(
+                          'assets/icons/gmail.svg',
+                          height: 32,
+                          width: 32,
+                        ),
                       ),
                       SizedBox(width: 16),
                       SvgPicture.asset(

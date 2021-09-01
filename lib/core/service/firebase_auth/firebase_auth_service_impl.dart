@@ -1,28 +1,28 @@
-import 'package:bagzz/app/app.locator.dart';
-import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
-import 'package:bagzz/core/service/navigation/navigator_service.dart';
-import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
+import 'package:bagzz/models/login_response.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FireBaseAuthServiceImpl implements FireBaseAuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final snackBarService = locator<SnackBarService>();
-  final navigationService = locator<NavigationService>();
-  late String errorMessage;
+  String errorMessage='';
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+  GoogleSignInAccount? googleSignInAccount;
+  GoogleSignInAuthentication? googleSignInAuthentication;
+  AuthCredential? authCredential;
+  UserCredential? authResult;
 
   @override
-  Future loginWithEmail(
+  Future<LoginResponse> loginWithEmail(
       {required String email, required String password}) async {
     try {
       var user = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      navigationService.pushReplacementNamed(Routes.MainScreen);
-      return user!=null;
+      return LoginResponse.success(user.user!);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "unknown":
-          errorMessage = "Email and Password is empty.";
+          errorMessage = e.toString();
           break;
         case "invalid-email":
           errorMessage = "Invalid Email Account.";
@@ -37,21 +37,21 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
           errorMessage = e.toString();
           break;
       }
-      return snackBarService.showSnackBar(errorMessage);
+      return LoginResponse.error(errorMessage);
     }
   }
 
   @override
-  Future signUpWithEmail(
+  Future<LoginResponse> signUpWithEmail(
       {required String email, required String password}) async {
     try {
       var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      //TODO: return something if sign up is successful
+      return LoginResponse.success(authResult.user!);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "unknown":
-          errorMessage = "Email and Password is empty.";
+          errorMessage = e.toString();
           break;
         case "invalid-email":
           errorMessage = "Not A Valid Email Acct.";
@@ -66,7 +66,49 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
           errorMessage = e.toString();
           break;
       }
-      return snackBarService.showSnackBar(errorMessage);
+      return LoginResponse.error(errorMessage);
     }
+  }
+
+  @override
+  Future<LoginResponse> loginWithGoogle() async {
+    try {
+      googleSignInAccount = await _googleSignIn.signIn().catchError((onError) {
+        print(onError);
+      });
+
+      googleSignInAuthentication = await googleSignInAccount!.authentication;
+      authCredential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication!.accessToken,
+          idToken: googleSignInAuthentication!.idToken);
+
+      if (authCredential != null) {
+        authResult = await _firebaseAuth
+            .signInWithCredential(authCredential!)
+            .catchError((onError) {
+          print(onError);
+        });
+      }
+      return LoginResponse.success(authResult!.user!);
+    } catch (e) {
+      return LoginResponse.error('Sign in with google was cancelled');
+    }
+  }
+
+  @override
+  Future? loginWithFacebook() {
+    // TODO: implement loginWithFacebook
+    throw UnimplementedError();
+  }
+
+  @override
+  Future? loginWithTwitter() {
+    // TODO: implement loginWithTwitter
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> logOut() async {
+    await _googleSignIn.disconnect();
   }
 }

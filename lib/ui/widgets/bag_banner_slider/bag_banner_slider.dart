@@ -38,10 +38,11 @@ class BagBannerSlider extends StatelessWidget {
                               bottom: 70,
                               right: 13,
                               child: Container(
-                                width: 92,
+                                width: 100,
                                 child: Text(
                                   model.bags[i].title,
                                   style: TextStyle(
+                                    height: .99,
                                     fontFamily: 'Playfair',
                                     backgroundColor: Colors.white,
                                     fontSize: 23,

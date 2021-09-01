@@ -7,23 +7,22 @@ import 'package:stacked/stacked.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
-  //double get devicePixelRatio => MediaQuery.of(context).devicePixelRatio;
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
       viewModelBuilder: () => LoginViewModel(),
       builder: (context, model, child) {
         return Scaffold(
-          backgroundColor: Colors.white,
           body: SafeArea(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: SingleChildScrollView(
+            child: SingleChildScrollView(
+              primary: false,
+              child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 36),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(height: 38),
                     Text(
@@ -53,7 +52,7 @@ class Login extends StatelessWidget {
                         hintText: 'Email',
                         prefixIconConstraints: BoxConstraints(minWidth: 0),
                         prefixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 12),
+                          padding: EdgeInsets.only(right: 12),
                           child: Icon(
                             Icons.email_outlined,
                             color: Color(0xff1F59B6),
@@ -76,7 +75,7 @@ class Login extends StatelessWidget {
                         hintText: 'Password',
                         prefixIconConstraints: BoxConstraints(minWidth: 0),
                         prefixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 12),
+                          padding: EdgeInsets.only(right: 12),
                           child: Icon(
                             Icons.lock_outline_rounded,
                             color: Color(0xff1F59B6),
@@ -121,7 +120,10 @@ class Login extends StatelessWidget {
                             ),
                       style: TextButton.styleFrom(
                           primary: Colors.white,
-                          fixedSize: Size(180, 40),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 66,
+                            vertical: 10,
+                          ),
                           backgroundColor: Color(0xff1F59B6),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40))),
@@ -160,14 +162,62 @@ class Login extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 41),
-                    Text(
-                      'Don’t have an account? Register now',
-                      style: TextStyle(fontSize: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Don’t have an account?',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                            bottom: BorderSide(width: 1, color: Colors.blue),
+                          )),
+                          child: InkWell(
+                            highlightColor: Colors.white60,
+                            onTap: () {},
+                            child: Text(
+                              'Register now',
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontFamily: FontNames.workSans,
+                                  fontSize: 12),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                     SizedBox(height: 27),
-                    Text(
-                        'By signing up, you are agree with our Terms & Conditions',
-                        style: TextStyle(fontSize: 12)),
+                    FittedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'By signing up, you are agree with our ',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border(
+                              bottom: BorderSide(width: 1, color: Colors.blue),
+                            )),
+                            child: InkWell(
+                              highlightColor: Colors.white60,
+                              onTap: () {},
+                              child: Text(
+                                'Terms & Condition',
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontFamily: FontNames.workSans,
+                                    fontSize: 12),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16),
                   ],
                 ),
               ),

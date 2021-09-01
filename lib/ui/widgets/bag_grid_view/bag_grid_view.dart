@@ -1,7 +1,9 @@
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/ui/widgets/bag_grid_view/bag_grid_view_view_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
 class BagGridView extends StatelessWidget {
@@ -14,13 +16,16 @@ class BagGridView extends StatelessWidget {
     return Column(
       children: [
         GridView.builder(
+            padding:
+                const EdgeInsets.only(left: 12, right: 12, top: 30, bottom: 11),
             shrinkWrap: true,
             primary: false,
             itemCount: bags.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 16,
-              childAspectRatio: .85,
+              mainAxisSpacing: 24,
+              crossAxisSpacing: 16,
+              childAspectRatio: .76,
             ),
             itemBuilder: (context, index) {
               return BagGridViewItem(bags: bags, index: index);
@@ -61,71 +66,68 @@ class BagGridViewItem extends StatelessWidget {
       builder: (context, model, child) {
         return InkWell(
           onTap: () => model.onBagImagePressed(index),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 11, right: 15, bottom: 11),
-            child: Container(
-              width: 170,
-              color: Color(0XFFF1F1F1),
-              child: Stack(
-                children: [
-                  Center(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Image(
-                            image: AssetImage(model.bags[index].image),
-                            height: 111,
-                            width: 111,
-                          ),
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: Color(0xFFF1F1F1),
+            child: Stack(
+              children: [
+                Center(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Image(
+                          image: AssetImage(model.bags[index].image),
+                          height: 111,
+                          width: 111,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 11),
-                          child: Text(
-                            model.bags[index].name,
-                            style: TextStyle(
-                                fontFamily: FontNames.playFair,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18),
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 11),
+                        child: Text(
+                          model.bags[index].name,
+                          style: TextStyle(
+                              fontFamily: FontNames.playFair,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 11),
-                          child: InkWell(
-                            onTap: () {},
-                            child: Text(
-                              'SHOP NOW',
-                              style: TextStyle(
-                                  fontFamily: FontNames.workSans,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 2,
-                          width: 88,
-                          color: Colors.black,
-                        )
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                      top: 6,
-                      right: 9,
-                      child: InkWell(
-                        onTap: model.addToWishList,
+                      ),
+                      SizedBox(height: 18),
+                      InkWell(
+                        onTap: () {},
                         child: Container(
-                          padding: EdgeInsets.all(6),
-                          child: Icon(
-                            Icons.favorite_border_outlined,
-                            color: Colors.black,
-                            size: 24,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      width: 2, color: Colors.black))),
+                          child: Text(
+                            'SHOP NOW',
+                            style: TextStyle(
+                                fontFamily: FontNames.workSans,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15),
                           ),
                         ),
-                      )),
-                ],
-              ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                    top: 6,
+                    right: 9,
+                    child: InkWell(
+                      onTap: model.addToWishList,
+                      child: Container(
+                        padding: EdgeInsets.all(6),
+                        child: Icon(
+                          Icons.favorite_border_outlined,
+                          color: Colors.black,
+                          size: 24,
+                        ),
+                      ),
+                    )),
+              ],
             ),
           ),
         );

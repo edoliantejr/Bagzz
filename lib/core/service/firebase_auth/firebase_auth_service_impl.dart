@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class FireBaseAuthServiceImpl implements FireBaseAuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  late final String errorMessage;
+  String errorMessage='';
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
   GoogleSignInAccount? googleSignInAccount;
   GoogleSignInAuthentication? googleSignInAuthentication;
@@ -31,7 +31,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
           errorMessage = "No account associated with this email.";
           break;
         case "wrong-password":
-          errorMessage = "Incorrect pa3ssword";
+          errorMessage = "Incorrect password";
           break;
         default:
           errorMessage = e.toString();

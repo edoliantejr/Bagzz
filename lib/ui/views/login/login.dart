@@ -26,7 +26,7 @@ class Login extends StatelessWidget {
                   children: [
                     SizedBox(height: 38),
                     Text(
-                      'Welcome Back',
+                      'Welcome Back!',
                       style: TextStyle(
                         fontFamily: FontNames.workSans,
                         fontSize: 22,
@@ -66,24 +66,29 @@ class Login extends StatelessWidget {
                     SizedBox(height: 20),
                     TextField(
                       controller: model.passwordController,
-                      obscureText: true,
+                      obscureText: model.isObscure,
                       style: TextStyle(
                         fontFamily: FontNames.workSans,
                       ),
                       enableSuggestions: true,
                       decoration: InputDecoration(
                         hintText: 'Password',
-                        prefixIconConstraints: BoxConstraints(minWidth: 0),
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.only(right: 12),
-                          child: Icon(
-                            Icons.lock_outline_rounded,
-                            color: Color(0xff1F59B6),
+                          prefixIconConstraints: BoxConstraints(minWidth: 0),
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(right: 12),
+                            child: Icon(
+                              Icons.lock_outline_rounded,
+                              color: Color(0xff1F59B6),
+                            ),
                           ),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xff1F59B6)),
-                        ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xff1F59B6)),
+                          ),
+                          suffixIcon: IconButton(
+                              icon: Icon(
+                                  model.isObscure ? Icons.visibility : Icons.visibility_off),
+                              onPressed: model.showPassword
+                          ),
                       ),
                     ),
                     SizedBox(height: 19),

@@ -1,5 +1,13 @@
-abstract class FireBaseAuthService {
-  Future? loginWithEmail({required String email, required String password});
+import 'package:bagzz/models/login_response.dart';
 
-  Future? signUpWithEmail({required String email, required String password});
+abstract class FireBaseAuthService {
+  Future<LoginResponse> loginWithEmail({required String email, required String password});
+
+  Future<LoginResponse> signUpWithEmail({required String email, required String password});
+
+  Future? loginWithGoogle();
+
+  Future? loginWithFacebook();
+
+  Future? loginWithTwitter();
 }

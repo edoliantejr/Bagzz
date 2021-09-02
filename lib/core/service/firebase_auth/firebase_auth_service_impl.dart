@@ -1,4 +1,6 @@
+import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
+import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:bagzz/models/login_response.dart';
 import 'package:bagzz/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,6 +15,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
   GoogleSignInAuthentication? googleSignInAuthentication;
   AuthCredential? authCredential;
   UserCredential? authResult;
+  final snackBar = locator<SnackBarService>();
 
   @override
   Future<LoginResponse> loginWithEmail(
@@ -126,11 +129,10 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
 
   @override
   Future<void> createUserIfNotExist(User user) async {
-    final userRef = FirebaseFirestore.instance.collection('users');
-    final userDoc = await userRef.doc(user.id).get();
+    final userRef = await FirebaseFirestore.instance.collection('users').doc(user.id);
+    final userDoc = await userRef.get();
     if (!userDoc.exists) {
-      userRef.add(user.toJson());
+      userRef.set(user.toJson());
     }
-
   }
 }

@@ -87,14 +87,13 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
           accessToken: googleSignInAuthentication!.accessToken,
           idToken: googleSignInAuthentication!.idToken);
 
-      if (authCredential != null) {
-        authResult = await _firebaseAuth
-            .signInWithCredential(authCredential!)
-            .catchError((onError) {
-          print(onError);
-        });
-      }
-      if (authResult != null) {
+      authResult = await _firebaseAuth
+          .signInWithCredential(authCredential!)
+          .catchError((onError) {
+        print(onError);
+      });
+
+      if (authResult!.user!.uid.isEmpty) {
         createUserIfNotExist(
           User(authResult!.user!.uid, authResult!.user!.email,
               authResult!.user!.displayName, []),
@@ -102,7 +101,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
       }
       return LoginResponse.success(authResult!.user!);
     } catch (e) {
-      return LoginResponse.error('Sign in with google was cancelled');
+      return LoginResponse.error('Error Signing in');
     }
   }
 
@@ -129,7 +128,8 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
 
   @override
   Future<void> createUserIfNotExist(User user) async {
-    final userRef = await FirebaseFirestore.instance.collection('users').doc(user.id);
+    final userRef =
+        await FirebaseFirestore.instance.collection('users').doc(user.id);
     final userDoc = await userRef.get();
     if (!userDoc.exists) {
       userRef.set(user.toJson());

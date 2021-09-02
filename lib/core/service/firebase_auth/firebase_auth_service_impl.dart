@@ -93,7 +93,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
         print(onError);
       });
 
-      if (authResult!.user!.uid.isEmpty) {
+      if (authResult!.user!.uid.isNotEmpty) {
         createUserIfNotExist(
           User(authResult!.user!.uid, authResult!.user!.email,
               authResult!.user!.displayName, []),

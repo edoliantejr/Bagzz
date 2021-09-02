@@ -1,11 +1,13 @@
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/models/login_response.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bagzz/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FireBaseAuthServiceImpl implements FireBaseAuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  String errorMessage='';
+  String errorMessage = '';
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
   GoogleSignInAccount? googleSignInAccount;
   GoogleSignInAuthentication? googleSignInAuthentication;
@@ -89,6 +91,12 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
           print(onError);
         });
       }
+      if (authResult != null) {
+        createUserIfNotExist(
+          User(authResult!.user!.uid, authResult!.user!.email,
+              authResult!.user!.displayName, []),
+        );
+      }
       return LoginResponse.success(authResult!.user!);
     } catch (e) {
       return LoginResponse.error('Sign in with google was cancelled');
@@ -111,5 +119,18 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
   Future<void> logOut() async {
     //not sure
     await _firebaseAuth.signOut();
+    if (authCredential != null) {
+      _googleSignIn.disconnect();
+    }
+  }
+
+  @override
+  Future<void> createUserIfNotExist(User user) async {
+    final userRef = FirebaseFirestore.instance.collection('users');
+    final userDoc = await userRef.doc(user.id).get();
+    if (!userDoc.exists) {
+      userRef.add(user.toJson());
+    }
+
   }
 }

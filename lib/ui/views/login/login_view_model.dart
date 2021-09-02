@@ -19,9 +19,9 @@ class LoginViewModel extends BaseViewModel {
   late FocusNode emailFocusNode;
   late FocusNode passFocusNode;
 
-  void init(){
-    emailFocusNode=FocusNode();
-    passFocusNode=FocusNode();
+  void init() {
+    emailFocusNode = FocusNode();
+    passFocusNode = FocusNode();
   }
 
   Future loginNow({required String email, required String password}) async {
@@ -29,11 +29,11 @@ class LoginViewModel extends BaseViewModel {
 
     if (isEmailEmpty) {
       snackBarService.showSnackBar('Email is empty');
-    } else if (isEmailValid ==false) {
+    } else if (isEmailValid == false) {
       emailFocusNode.requestFocus();
 
       snackBarService.showSnackBar('Email is invalid');
-     // emailController.
+      // emailController.
     } else if (isPasswordEmpty) {
       snackBarService.showSnackBar('Password is empty');
     } else if (passwordController.text.length < 8) {
@@ -79,7 +79,7 @@ class LoginViewModel extends BaseViewModel {
 
   void showPassword() {
     setBusy(true);
-    isObscure = !isObscure;
+    if (!isPasswordEmpty) isObscure = !isObscure;
     setBusy(false);
   }
 

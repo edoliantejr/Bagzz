@@ -8,14 +8,11 @@ import 'package:stacked/stacked.dart';
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
-
       viewModelBuilder: () => LoginViewModel(),
-      onModelReady: (model)=>model.init(),
+      onModelReady: (model) => model.init(),
       builder: (context, model, child) {
         return Scaffold(
           backgroundColor: Colors.white,
@@ -49,7 +46,7 @@ class Login extends StatelessWidget {
                     SizedBox(height: 62),
                     TextField(
                       controller: model.emailController,
-                      onChanged:(value) => model.checkEmail(),
+                      onChanged: (value) => model.checkEmail(),
                       focusNode: model.emailFocusNode,
                       style: TextStyle(
                         fontFamily: FontNames.workSans,
@@ -67,18 +64,19 @@ class Login extends StatelessWidget {
                         ),
                         suffixIcon: Icon(
                           Icons.check_circle,
-                          color: model.isEmailValid?Colors.green:Colors.transparent,
+                          color: model.isEmailValid
+                              ? Colors.green
+                              : Colors.transparent,
                         ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Color(0xff1F59B6)),
                         ),
-
                       ),
                     ),
                     SizedBox(height: 20),
                     TextField(
                       controller: model.passwordController,
-                      onChanged:(value) => model.checkPass(),
+                      onChanged: (value) => model.checkPass(),
                       focusNode: model.passFocusNode,
                       obscureText: model.isObscure,
                       style: TextStyle(
@@ -99,9 +97,14 @@ class Login extends StatelessWidget {
                           borderSide: BorderSide(color: Color(0xff1F59B6)),
                         ),
                         suffixIcon: IconButton(
-                            icon: Icon(model.isObscure
-                                ? Icons.visibility
-                                : Icons.visibility_off),
+                            icon: Icon(
+                              model.isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: model.isPasswordEmpty
+                                  ? Colors.transparent
+                                  : Colors.blueAccent,
+                            ),
                             onPressed: model.showPassword),
                       ),
                     ),

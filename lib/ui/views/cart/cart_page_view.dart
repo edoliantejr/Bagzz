@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bag.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -116,8 +117,8 @@ class CartItem extends StatelessWidget {
               //column for image
               Column(
                 children: [
-                  Image(
-                    image: AssetImage(bag.image),
+                  CachedNetworkImage(
+                    imageUrl: bag.image,
                     height: 81,
                     width: 81,
                   ),

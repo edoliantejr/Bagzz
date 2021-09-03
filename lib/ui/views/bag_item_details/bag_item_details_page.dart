@@ -1,6 +1,7 @@
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/ui/views/bag_item_details/bag_item_details_view_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -40,8 +41,8 @@ class BagItemDetailsPage extends StatelessWidget {
                         Container(
                           height: 155,
                           width: 177,
-                          child: Image(
-                            image: AssetImage(model.bag.image),
+                          child: CachedNetworkImage(
+                            imageUrl: model.bag.image,
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -121,7 +122,7 @@ class BagItemDetailsPage extends StatelessWidget {
                         )))
                   ],
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 8),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10),
                   height: 50,

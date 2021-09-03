@@ -2,6 +2,7 @@ import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/api/mock_data.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/models/category.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ApiServiceImpl extends ApiService {
   @override
@@ -19,13 +20,16 @@ class ApiServiceImpl extends ApiService {
 
   @override
   Future<List<Bag>> getAllBags({int max = -1}) async {
-    if (max == 0) {
-      return [];
-    } else if (max < 0) {
-      return MOCK_BAGS;
-    }
-    final maxCount = max > MOCK_BAGS.length ? MOCK_BAGS.length : max;
-    return MOCK_BAGS.sublist(0, maxCount);
+    // final List<Bag> bags;
+    return await FirebaseFirestore.instance
+        .collection('bags')
+        .orderBy("name", descending: false)
+        .get()
+        .then((value) =>
+            value.docs.map((doc) => Bag.bagsFromJson(doc.data())).toList())
+        .catchError((onError) {
+      print(onError);
+    });
   }
 
   @override

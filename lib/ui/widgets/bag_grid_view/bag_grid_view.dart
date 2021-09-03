@@ -1,6 +1,7 @@
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/ui/widgets/bag_grid_view/bag_grid_view_view_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -25,7 +26,7 @@ class BagGridView extends StatelessWidget {
               crossAxisCount: 2,
               mainAxisSpacing: 24,
               crossAxisSpacing: 16,
-              childAspectRatio: .76,
+              childAspectRatio: .7,
             ),
             itemBuilder: (context, index) {
               return BagGridViewItem(bags: bags, index: index);
@@ -75,16 +76,17 @@ class BagGridViewItem extends StatelessWidget {
                 Center(
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Image(
-                          image: AssetImage(model.bags[index].image),
-                          height: 111,
-                          width: 111,
+                      Container(
+                        margin: const EdgeInsets.only(top: 15.0),
+                        child: CachedNetworkImage(
+                          imageUrl: model.bags[index].image,
+                          fit: BoxFit.cover,
                         ),
+                        width: 150,
+                        height: 150,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 11),
+                        padding: const EdgeInsets.all(1.0),
                         child: Text(
                           model.bags[index].name,
                           style: TextStyle(
@@ -93,7 +95,7 @@ class BagGridViewItem extends StatelessWidget {
                               fontSize: 18),
                         ),
                       ),
-                      SizedBox(height: 18),
+                      SizedBox(height: 10),
                       InkWell(
                         onTap: () {},
                         child: Container(

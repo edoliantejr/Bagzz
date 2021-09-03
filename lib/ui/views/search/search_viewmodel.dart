@@ -9,7 +9,7 @@ class SearchBottomSheetViewModel extends BaseViewModel {
   void getListOfBags() {
     searchListOfBags.clear();
     final addidasBag = Bag(
-      id: 1,
+      id: '1',
       image: 'assets/images/bag-header-02.png',
       title: " This season's popular",
       name: "Artsy black sling bag",
@@ -30,7 +30,7 @@ class SearchBottomSheetViewModel extends BaseViewModel {
           ' Vitae congue mauris rhoncus aenean vel elit. ',
     );
     final nikeBag = Bag(
-      id: 2,
+      id: '2',
       image: 'assets/images/bag-header-02.png',
       title: " This season's popular",
       name: "Berkeley sling bag",
@@ -51,7 +51,7 @@ class SearchBottomSheetViewModel extends BaseViewModel {
           ' Vitae congue mauris rhoncus aenean vel elit. ',
     );
     final pumaBag = Bag(
-      id: 3,
+      id: '3',
       image: 'assets/images/bag-header-02.png',
       title: " This season's popular",
       name: "Sling bag blue color",

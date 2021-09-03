@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 
 class Bag extends Equatable {
-  int id;
-  String image;
-  String title;
-  String name;
-  int price;
-  String category;
-  String style;
-  String desc;
-  String shipInfo;
-  String payInfo;
+  final String id;
+  final String name;
+  final double price;
+  final String image;
+  final String title;
+  final String category;
+  final String style;
+  final String desc;
+  final String shipInfo;
+  final String payInfo;
 
   Bag(
       {required this.id,
@@ -27,4 +27,19 @@ class Bag extends Equatable {
   @override
   List<Object?> get props =>
       [id, image, title, name, price, category, style, desc, shipInfo, payInfo];
+
+  factory Bag.bagsFromJson(Map<String, dynamic> json) {
+    return Bag(
+      id: json['id'],
+      image: json['image'],
+      title: json['title'],
+      name: json['name'],
+      price: json['price'].toDouble(),
+      category: json['category'],
+      style: json['style'],
+      desc: json['desc'],
+      shipInfo: json['shipInfo'],
+      payInfo: json['payInfo'],
+    );
+  }
 }

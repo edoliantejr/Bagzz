@@ -2,7 +2,6 @@ import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/api/api_service_impl.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service_impl.dart';
-import 'package:bagzz/core/service/firestore/firestore_service_impl.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service_impl.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';

@@ -4,7 +4,7 @@ import 'package:rxdart/rxdart.dart';
 
 final List<Bag> MOCK_BAGS = [
   Bag(
-    id: 1,
+    id: '1',
     image: 'assets/images/bag02.png',
     title: " This season's best buy",
     name: "Artsy",
@@ -25,7 +25,7 @@ final List<Bag> MOCK_BAGS = [
         ' Vitae congue mauris rhoncus aenean vel elit. ',
   ),
   Bag(
-    id: 2,
+    id: '2',
     image: 'assets/images/bag03.png',
     title: " This season's popular",
     name: "Berkely",
@@ -46,7 +46,7 @@ final List<Bag> MOCK_BAGS = [
         ' Vitae congue mauris rhoncus aenean vel elit. ',
   ),
   Bag(
-    id: 3,
+    id: '3',
     image: 'assets/images/bag04.png',
     title: " This season's latest",
     name: "Capucinos",
@@ -67,7 +67,7 @@ final List<Bag> MOCK_BAGS = [
         ' Vitae congue mauris rhoncus aenean vel elit. ',
   ),
   Bag(
-    id: 4,
+    id: '4',
     image: 'assets/images/bag05.png',
     title: " This season's latest",
     name: "Monogram",
@@ -88,7 +88,7 @@ final List<Bag> MOCK_BAGS = [
         ' Vitae congue mauris rhoncus aenean vel elit. ',
   ),
   Bag(
-    id: 5,
+    id: '5',
     image: 'assets/images/bag05.png',
     title: " This season's latest",
     name: "Monogram",

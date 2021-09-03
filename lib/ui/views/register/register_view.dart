@@ -1,17 +1,16 @@
 import 'package:bagzz/constant/font_names.dart';
-import 'package:bagzz/ui/views/login/login_view_model.dart';
+import 'package:bagzz/ui/views/register/register_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:stacked/stacked.dart';
 
-class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+class Register extends StatelessWidget {
+  const Register({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<LoginViewModel>.reactive(
-      viewModelBuilder: () => LoginViewModel(),
+    return ViewModelBuilder<RegisterViewModel>.reactive(
+      viewModelBuilder: () => RegisterViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) {
         return Scaffold(
@@ -28,7 +27,7 @@ class Login extends StatelessWidget {
                   children: [
                     SizedBox(height: 38),
                     Text(
-                      'Welcome Back!',
+                      'Register Now!',
                       style: TextStyle(
                         fontFamily: FontNames.workSans,
                         fontSize: 22,
@@ -108,15 +107,39 @@ class Login extends StatelessWidget {
                             onPressed: model.showPassword),
                       ),
                     ),
-                    SizedBox(height: 19),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        'Forgot Password?',
-                        style: TextStyle(
+                    SizedBox(height: 20),
+                    TextField(
+                      controller: model.passwordController,
+                      onChanged: (value) => model.checkPass(),
+                      focusNode: model.passFocusNode,
+                      obscureText: model.isObscure,
+                      style: TextStyle(
+                        fontFamily: FontNames.workSans,
+                      ),
+                      enableSuggestions: true,
+                      decoration: InputDecoration(
+                        hintText: 'Retry Password',
+                        prefixIconConstraints: BoxConstraints(minWidth: 0),
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(right: 12),
+                          child: Icon(
+                            Icons.lock_outline_rounded,
                             color: Color(0xff1F59B6),
-                            fontSize: 14,
-                            fontFamily: FontNames.workSans),
+                          ),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xff1F59B6)),
+                        ),
+                        suffixIcon: IconButton(
+                            icon: Icon(
+                              model.isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: model.isPasswordEmpty
+                                  ? Colors.transparent
+                                  : Colors.blueAccent,
+                            ),
+                            onPressed: model.showPassword),
                       ),
                     ),
                     SizedBox(height: 19),
@@ -130,16 +153,16 @@ class Login extends StatelessWidget {
                       },
                       child: model.isBusy
                           ? Container(
-                              height: 21,
-                              width: 21,
-                              child: CircularProgressIndicator(
-                                  color: Colors.white, strokeWidth: 2),
-                            )
+                        height: 21,
+                        width: 21,
+                        child: CircularProgressIndicator(
+                            color: Colors.white, strokeWidth: 2),
+                      )
                           : Text(
-                              'LOGIN',
-                              style: TextStyle(
-                                  fontSize: 16, fontFamily: FontNames.workSans),
-                            ),
+                        'REGISTER',
+                        style: TextStyle(
+                            fontSize: 16, fontFamily: FontNames.workSans),
+                      ),
                       style: TextButton.styleFrom(
                           primary: Colors.white,
                           padding: EdgeInsets.symmetric(
@@ -150,57 +173,24 @@ class Login extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40))),
                     ),
-                    SizedBox(height: 36),
-                    Text(
-                      'Or via Social Media',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    SizedBox(height: 21),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            if (!model.isBusy) model.loginWithGoogle();
-                          },
-                          child: SvgPicture.asset(
-                            'assets/icons/gmail.svg',
-                            height: 32,
-                            width: 32,
-                          ),
-                        ),
-                        SizedBox(width: 16),
-                        SvgPicture.asset(
-                          'assets/icons/facebook.svg',
-                          height: 32,
-                          width: 32,
-                        ),
-                        SizedBox(width: 16),
-                        SvgPicture.asset(
-                          'assets/icons/twitter.svg',
-                          height: 32,
-                          width: 32,
-                        ),
-                      ],
-                    ),
                     SizedBox(height: 41),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Don’t have an account?',
+                          'Already have an account?',
                           style: TextStyle(fontSize: 12),
                         ),
                         Container(
                           decoration: BoxDecoration(
                               border: Border(
-                            bottom: BorderSide(width: 1, color: Colors.blue),
-                          )),
+                                bottom: BorderSide(width: 1, color: Colors.blue),
+                              )),
                           child: InkWell(
                             highlightColor: Colors.white60,
-                            onTap: model.onRegisterTap,
+                            onTap: model.logout,
                             child: Text(
-                              'Register now',
+                              'Login',
                               style: TextStyle(
                                   color: Colors.blue,
                                   fontFamily: FontNames.workSans,
@@ -209,35 +199,6 @@ class Login extends StatelessWidget {
                           ),
                         )
                       ],
-                    ),
-                    SizedBox(height: 27),
-                    FittedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'By signing up, you are agree with our ',
-                            style: TextStyle(fontSize: 12),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                border: Border(
-                              bottom: BorderSide(width: 1, color: Colors.blue),
-                            )),
-                            child: InkWell(
-                              highlightColor: Colors.white60,
-                              onTap: () {},
-                              child: Text(
-                                'Terms & Condition',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontFamily: FontNames.workSans,
-                                    fontSize: 12),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
                     ),
                     SizedBox(height: 16),
                   ],

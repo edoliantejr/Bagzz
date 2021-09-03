@@ -16,6 +16,7 @@ import '../ui/views/cart/cart_page_view.dart';
 import '../ui/views/home/home_screen.dart';
 import '../ui/views/login/login.dart';
 import '../ui/views/main/main_screen_view.dart';
+import '../ui/views/register/register_view.dart';
 
 class Routes {
   static const String LogIn = '/';
@@ -23,12 +24,14 @@ class Routes {
   static const String HomeScreen = '/home-screen';
   static const String BagItemDetailsPage = '/bag-item-details-page';
   static const String CartPage = '/cart-page';
+  static const String Register = '/Register';
   static const all = <String>{
     LogIn,
     MainScreen,
     HomeScreen,
     BagItemDetailsPage,
     CartPage,
+    Register,
   };
 }
 
@@ -41,6 +44,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.HomeScreen, page: HomeScreen),
     RouteDef(Routes.BagItemDetailsPage, page: BagItemDetailsPage),
     RouteDef(Routes.CartPage, page: CartPage),
+    RouteDef(Routes.Register, page: Register),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -88,6 +92,15 @@ class StackedRouter extends RouterBase {
             const CartPage(),
         settings: data,
         transitionsBuilder: TransitionsBuilders.slideTop,
+        transitionDuration: const Duration(milliseconds: 300),
+      );
+    },
+    Register: (data) {
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const Register(),
+        settings: data,
+        transitionsBuilder: TransitionsBuilders.fadeIn,
         transitionDuration: const Duration(milliseconds: 300),
       );
     },

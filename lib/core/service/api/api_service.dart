@@ -2,7 +2,7 @@ import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/models/category.dart';
 
 abstract class ApiService {
-  Future<List<Bag>> getAllBags({int max = -1});
+  Future<List<Bag>> getAllBags();
 
   Future<List<Category>> getBagCategories({int max = -1});
 

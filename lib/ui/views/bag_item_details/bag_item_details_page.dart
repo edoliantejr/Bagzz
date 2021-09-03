@@ -39,11 +39,12 @@ class BagItemDetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: 155,
+                          height: 192,
                           width: 177,
+                          padding: EdgeInsets.all(2),
                           child: CachedNetworkImage(
                             imageUrl: model.bag.image,
-                            fit: BoxFit.contain,
+                           fit: BoxFit.cover,
                           ),
                         ),
                         Column(

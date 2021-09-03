@@ -53,13 +53,30 @@ class MainScreen extends StatelessWidget {
                             )),
                       )
                     ],
-                  )
+
+                  ),
+
+
                 ];
               },
               body: HomeScreen(),
             ),
             bottomNavigationBar: MyBottomNavigation(
                 onTabChange: (index) => model.onTabChange(index, context)),
+            drawer: Drawer(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:  [
+                    const Text('This is the Drawer'),
+                    ElevatedButton(
+                      onPressed: (){},
+                      child: const Text('Close Drawer'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           );
         });
   }

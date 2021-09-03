@@ -19,7 +19,7 @@ class ApiServiceImpl extends ApiService {
   }
 
   @override
-  Future<List<Bag>> getAllBags({int max = -1}) async {
+  Future<List<Bag>> getAllBags() async {
     // final List<Bag> bags;
     return await FirebaseFirestore.instance
         .collection('bags')

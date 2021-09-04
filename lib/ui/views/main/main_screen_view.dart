@@ -17,6 +17,7 @@ class MainScreen extends StatelessWidget {
         onModelReady: (model) => model.init(),
         builder: (context, model, widget) {
           return Scaffold(
+
             backgroundColor: Colors.white,
             body: NestedScrollView(
               headerSliverBuilder:
@@ -42,40 +43,25 @@ class MainScreen extends StatelessWidget {
                     ),
                     actions: [
                       InkWell(
-                        onTap:model.logout,
+                        onTap: model.logout,
                         child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.grey[900],
-                              backgroundImage:
-                                  AssetImage('assets/images/avatar.png'),
-                              radius: 18,
-                            )),
+                          padding: const EdgeInsets.all(10),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey[900],
+                            backgroundImage:
+                                AssetImage('assets/images/avatar.png'),
+                            radius: 18,
+                          ),
+                        ),
                       )
                     ],
-
-                  ),
-
-
+                  )
                 ];
               },
               body: HomeScreen(),
             ),
             bottomNavigationBar: MyBottomNavigation(
-                onTabChange: (index) => model.onTabChange(index, context)),
-            drawer: Drawer(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:  [
-                    const Text('This is the Drawer'),
-                    ElevatedButton(
-                      onPressed: (){},
-                      child: const Text('Close Drawer'),
-                    ),
-                  ],
-                ),
-              ),
+              onTabChange: (index) => model.onTabChange(index, context),
             ),
           );
         });

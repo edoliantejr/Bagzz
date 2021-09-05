@@ -68,4 +68,7 @@ class ApiServiceImpl extends ApiService {
   Future<List<Bag>> searchBag(String query) async {
     return MOCK_BAGS.where((bag) => bag.name.contains(query)).toList();
   }
+
+  @override
+  Future publishBag(Bag bag) async {}
 }

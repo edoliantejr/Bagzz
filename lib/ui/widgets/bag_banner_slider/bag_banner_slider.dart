@@ -22,6 +22,7 @@ class BagBannerSlider extends StatelessWidget {
                   CarouselSlider.builder(
                     options: CarouselOptions(
                       autoPlay: true,
+                      autoPlayInterval: Duration(seconds: 7),
                       viewportFraction: 1,
                       aspectRatio: 16 / 9,
                       initialPage: 0,
@@ -47,7 +48,7 @@ class BagBannerSlider extends StatelessWidget {
                             child: Container(
                               width: 100,
                               child: Text(
-                                model.bags[index].title,
+                                model.bags[index].title!,
                                 style: TextStyle(
                                   height: .99,
                                   fontFamily: 'Playfair',

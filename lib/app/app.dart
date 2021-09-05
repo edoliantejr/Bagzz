@@ -2,6 +2,8 @@ import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/api/api_service_impl.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service_impl.dart';
+import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service.dart';
+import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service_impl.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service_impl.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
@@ -37,10 +39,12 @@ import 'package:stacked/stacked_annotations.dart';
       durationInMilliseconds: 300,
       transitionsBuilder: TransitionsBuilders.slideTop),
 ], dependencies: [
+  Singleton(classType: NavigationServiceImpl, asType: NavigationService),
   LazySingleton(classType: ApiServiceImpl, asType: ApiService),
   LazySingleton(classType: SnackBarServiceImpl, asType: SnackBarService),
-  LazySingleton(classType: FireBaseAuthServiceImpl, asType: FireBaseAuthService),
- /// LazySingleton(classType: FireStoreServiceImp, asType: FireBaseAuthService),
-  Singleton(classType: NavigationServiceImpl, asType: NavigationService),
+  LazySingleton(
+      classType: FireBaseAuthServiceImpl, asType: FireBaseAuthService),
+  LazySingleton(
+      classType: CloudStorageServiceImpl, asType: CloudStorageService),
 ])
 class App {}

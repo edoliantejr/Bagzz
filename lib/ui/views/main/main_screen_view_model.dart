@@ -15,6 +15,7 @@ class MainScreenViewModel extends BaseViewModel {
   ScrollController scrollController = new ScrollController();
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
+
   init() {
     // TODO: testing only. Demo to add bag to cart.
     // Stream.periodic(Duration(seconds: 5)).listen((event) {
@@ -49,8 +50,8 @@ class MainScreenViewModel extends BaseViewModel {
     }
   }
 
-  void logout() async{
-  await  firebaseAuthService.logOut();
-  navigationService.pushNamed(Routes.LogIn);
+  void logout() async {
+    await firebaseAuthService.logOut();
+    navigationService.pushNamed(Routes.LogIn);
   }
 }

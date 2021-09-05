@@ -17,4 +17,6 @@ abstract class ApiService {
   void removeFromFavorite(Bag bag);
 
   Future<List<Bag>> searchBag(String query);
+
+  Future publishBag(Bag bag);
 }

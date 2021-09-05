@@ -17,14 +17,12 @@ class MainScreen extends StatelessWidget {
         onModelReady: (model) => model.init(),
         builder: (context, model, widget) {
           return Scaffold(
-
-            backgroundColor: Colors.white,
             body: NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return [
                   SliverAppBar(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.grey[50],
                     elevation: 0,
                     leading: Container(
                         padding: EdgeInsets.all(13),

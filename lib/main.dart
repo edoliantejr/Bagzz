@@ -1,5 +1,6 @@
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
+import 'package:bagzz/ui/views/bag/bag_upload.dart';
 import 'package:bagzz/ui/views/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +20,7 @@ void main() async{
 
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
-    home: Login(),
+    home: BagUpload(),
     navigatorKey: navigationService.navigatorKey,
     onGenerateRoute: StackedRouter().onGenerateRoute,
   ));

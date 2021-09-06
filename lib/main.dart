@@ -1,6 +1,5 @@
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
-import 'package:bagzz/ui/views/bag/bag_upload.dart';
 import 'package:bagzz/ui/views/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,16 +10,17 @@ import 'package:get/get.dart';
 
 import 'core/service/navigation/navigator_service.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   await Firebase.initializeApp();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
- final navigationService = locator<NavigationService>();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  final navigationService = locator<NavigationService>();
 
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
-    home: BagUpload(),
+    home: Login(),
     navigatorKey: navigationService.navigatorKey,
     onGenerateRoute: StackedRouter().onGenerateRoute,
   ));

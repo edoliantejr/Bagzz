@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:bagzz/constant/font_names.dart';
-import 'package:bagzz/ui/views/bag/bag_upload_view_model.dart';
+import 'package:bagzz/ui/views/publish_bag/bag_upload_view_model.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,22 +46,68 @@ class BagUpload extends StatelessWidget {
                   children: [
                     SizedBox(height: 5),
                     Container(
-                      height: 120,
                       color: Colors.white,
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
                         children: [
+                          Stack(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: model.selectedImage != null
+                                        ? Colors.grey
+                                        : Colors.transparent,
+                                  ),
+                                ),
+                                child: model.selectedImage != null
+                                    ? Image.file(
+                                        File(model.selectedImage!.path),
+                                        fit: BoxFit.cover,
+                                        height: 150,
+                                        width: 150,
+                                      )
+                                    : Container(),
+                              ),
+                              model.selectedImage != null
+                                  ? Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: InkWell(
+                                        onTap: model.clearImageSelection,
+                                        child: Container(
+                                          color: Colors.grey,
+                                          height: 18,
+                                          width: 18,
+                                          child: Icon(
+                                            Icons.close_outlined,
+                                            size: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container()
+                            ],
+                          ),
+                          SizedBox(width: model.selectedImage != null ? 10 : 0),
                           DottedBorder(
                             strokeWidth: 1,
                             color: Colors.orange,
                             dashPattern: [3],
                             child: Container(
-                              width: 90,
+                              width: 95,
                               height: 90,
-                              child: Center(
-                                child: Text(
-                                  '+ Add photo',
-                                  style: TextStyle(color: Colors.deepOrange),
+                              child: TextButton(
+                                onPressed: model.selectImage,
+                                child: FittedBox(
+                                  child: Text(
+                                    model.selectedImage == null
+                                        ? '+ Add photo'
+                                        : 'Change Photo',
+                                  ),
+                                ),
+                                style: TextButton.styleFrom(
+                                  primary: Colors.deepOrange,
                                 ),
                               ),
                             ),
@@ -478,7 +526,7 @@ class BagUpload extends StatelessWidget {
                   Container(
                     width: MediaQuery.of(context).size.width / 2.3,
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: model.publishBag,
                       child: Text('Publish'),
                       style: OutlinedButton.styleFrom(
                           backgroundColor: Colors.deepOrangeAccent,

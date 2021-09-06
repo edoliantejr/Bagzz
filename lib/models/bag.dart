@@ -15,7 +15,7 @@ class Bag extends Equatable {
   Bag(
       {required this.id,
       required this.image,
-       this.title,
+      this.title,
       required this.name,
       required this.price,
       required this.category,
@@ -43,18 +43,18 @@ class Bag extends Equatable {
     );
   }
 
-  Map<String, dynamic> bagsToJson(){
-    return{
+  Map<String, dynamic> bagsToJson() {
+    return {
       'id': id,
       'image': image,
       'title': title,
       'name': name,
       'price': price,
-      'category': category ,
-      'style': style ,
-      'desc': desc ,
-      'shipInfo': shipInfo ,
-      'payInfo': payInfo ,
+      'category': category,
+      'style': style,
+      'desc': desc,
+      'shipInfo': shipInfo,
+      'payInfo': payInfo,
     };
   }
 }

@@ -33,97 +33,96 @@ class BagItemDetailsPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 //view for bag, title, price
-                FittedBox(
-                  child: Stack(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 192,
-                            width: 177,
-                            padding: EdgeInsets.all(2),
-                            child: CachedNetworkImage(
-                              imageUrl: model.bag.image,
-                             fit: BoxFit.cover,
-                            ),
+                Stack(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 192,
+                          width: 177,
+                          padding: EdgeInsets.all(2),
+                          child: CachedNetworkImage(
+                            imageUrl: model.bag.image,
+                            fit: BoxFit.cover,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 12),
-                              Text(
-                                model.bag.name,
+                        ),
+                        SizedBox(width: 3),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 12),
+                            Text(
+                              model.bag.name,
+                              style: TextStyle(
+                                  fontFamily: FontNames.playFair,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(model.bag.category,
                                 style: TextStyle(
-                                    fontFamily: FontNames.playFair,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(model.bag.category,
+                                    fontSize: 14,
+                                    fontFamily: FontNames.workSans)),
+                            Text(model.bag.style,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: FontNames.workSans,
+                                    color: Colors.grey[700])),
+                            SizedBox(height: 8),
+                            Text('\$${model.bag.price}',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: FontNames.workSans)),
+                            SizedBox(height: 8),
+                            TextButton(
+                                onPressed: () {},
+                                style: TextButton.styleFrom(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 18),
+                                    backgroundColor: Colors.black,
+                                    primary: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.zero)),
+                                child: Text(
+                                  'BUY NOW',
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: FontNames.workSans)),
-                              Text(model.bag.style,
-                                  style: TextStyle(
-                                      fontSize: 12,
                                       fontFamily: FontNames.workSans,
-                                      color: Colors.grey[700])),
-                              SizedBox(height: 8),
-                              Text('\$${model.bag.price}',
+                                      fontSize: 14),
+                                )),
+                            InkWell(
+                              onTap: model.addBagToCart,
+                              child: Container(
+                                margin: EdgeInsets.symmetric(vertical: 8),
+                                padding: EdgeInsets.symmetric(vertical: 2),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.black, width: 2))),
+                                child: Text(
+                                  'ADD TO CART',
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: FontNames.workSans)),
-                              SizedBox(height: 8),
-                              TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 18),
-                                      backgroundColor: Colors.black,
-                                      primary: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.zero)),
-                                  child: Text(
-                                    'BUY NOW',
-                                    style: TextStyle(
-                                        fontFamily: FontNames.workSans,
-                                        fontSize: 14),
-                                  )),
-                              InkWell(
-                                onTap: model.addBagToCart,
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(vertical: 8),
-                                  padding: EdgeInsets.symmetric(vertical: 2),
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Colors.black, width: 2))),
-                                  child: Text(
-                                    'ADD TO CART',
-                                    style: TextStyle(
-                                        fontFamily: FontNames.workSans,
-                                        fontSize: 14,
-                                        letterSpacing: 1,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                                      fontFamily: FontNames.workSans,
+                                      fontSize: 14,
+                                      letterSpacing: 1,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
-                            ],
-                          )
-                        ],
-                      ),
-                      Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Container(
-                              child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.favorite_border_outlined, size: 28),
-                          )))
-                    ],
-                  ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Container(
+                            child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.favorite_border_outlined, size: 28),
+                        )))
+                  ],
                 ),
                 SizedBox(height: 8),
                 Container(
@@ -149,7 +148,7 @@ class BagItemDetailsPage extends StatelessWidget {
                                             : Colors.transparent))),
                             child: TextButton(
                               onPressed: () {
-                               model.pageController.jumpToPage(index);
+                                model.pageController.jumpToPage(index);
                               },
                               style: TextButton.styleFrom(
                                   primary: Colors.black,

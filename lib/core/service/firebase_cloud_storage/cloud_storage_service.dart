@@ -1,6 +1,8 @@
-import 'package:bagzz/models/cloud_storage.dart';
+import 'dart:io';
+
+import 'package:bagzz/models/bag_image_upload.dart';
 
 abstract class CloudStorageService {
-  Future<CloudStorageResult> uploadImage(
-      {required String imageToUpload, required String title});
+  Future<BagImageUpload> uploadImage(
+      {required File imageToUpload, required String title});
 }

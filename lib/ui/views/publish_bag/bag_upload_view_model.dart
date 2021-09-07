@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
+import 'package:bagzz/core/service/dialog_service/dialog_service.dart';
 import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:bagzz/core/utility/image_selector.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:stacked/stacked.dart';
@@ -26,6 +28,7 @@ class BagUploadViewModel extends BaseViewModel {
   final imageSelector = locator<ImageSelector>();
   final cloudStorageService = locator<CloudStorageService>();
   final apiService = locator<ApiService>();
+  final dialogService = locator<DialogService>();
   final snackBarService = locator<SnackBarService>();
 
   Future selectImage() async {
@@ -45,12 +48,11 @@ class BagUploadViewModel extends BaseViewModel {
   Future publishBag() async {
     var cloudStorageResult;
     setBusy(true);
+    dialogService.showLoadingDialog('Please wait...');
     if (selectedImage != null) {
       cloudStorageResult = await cloudStorageService.uploadImage(
           imageToUpload: File(selectedImage!.path),
           title: basename(File(selectedImage!.path).path));
-      snackBarService.showSnackBar('Image Uploaded');
-
       if (cloudStorageResult.isUploaded == true) {
         await apiService.publishBag(
           Bag(
@@ -66,10 +68,13 @@ class BagUploadViewModel extends BaseViewModel {
             payInfo: payInfo.text,
           ),
         );
+        Get.back(canPop: false);
+        snackBarService.showSnackBar('Bag was published.');
       }
-      snackBarService.showSnackBar('Bag Published');
+
       clearTextController();
       setBusy(false);
+      notifyListeners();
     }
   }
 

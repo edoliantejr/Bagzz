@@ -1,5 +1,7 @@
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/api/api_service_impl.dart';
+import 'package:bagzz/core/service/dialog_service/dialog_service.dart';
+import 'package:bagzz/core/service/dialog_service/dialog_service_impl.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service_impl.dart';
 import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service.dart';
@@ -53,6 +55,7 @@ import 'package:stacked/stacked_annotations.dart';
       classType: FireBaseAuthServiceImpl, asType: FireBaseAuthService),
   LazySingleton(
       classType: CloudStorageServiceImpl, asType: CloudStorageService),
-  LazySingleton(classType: ImageSelector)
+  LazySingleton(classType: ImageSelector),
+  LazySingleton(classType: DialogServiceImpl, asType: DialogService)
 ])
 class App {}

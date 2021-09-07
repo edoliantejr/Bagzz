@@ -13,19 +13,19 @@ class DialogServiceImpl extends DialogService {
   @override
   Future showLoadingDialog(String message) {
     return Get.defaultDialog(
+        title: message,
         content: Center(
-      child: Container(
-        height: 100,
-        width: 100,
-        child: Column(
-          children: [
-            CircularProgressIndicator(
-              color: Colors.white,
+          child: Container(
+            height: 50,
+            width: 50,
+            child: Column(
+              children: [
+                CircularProgressIndicator(
+                  color: Colors.black,
+                ),
+              ],
             ),
-            Text(message)
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 }

@@ -11,6 +11,7 @@ class CloudStorageServiceImpl extends CloudStorageService {
       {required File imageToUpload, required String title}) async {
     var downloadUrl;
     bool isUploaded;
+    String progress;
 
     var imageFileName = title;
 
@@ -21,8 +22,8 @@ class CloudStorageServiceImpl extends CloudStorageService {
 
     final StreamSubscription<TaskSnapshot> taskSnapshot =
         await uploadTask.snapshotEvents.listen((event) {
-      //show progress
-      print('Progress: ${(event.bytesTransferred / event.totalBytes) * 100}%');
+      var uploadPercent = event.bytesTransferred / event.totalBytes * 100;
+      progress = '$uploadPercent %';
     }, onError: (error) {
       print(error);
     });

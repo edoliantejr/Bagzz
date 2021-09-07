@@ -52,6 +52,6 @@ class MainScreenViewModel extends BaseViewModel {
 
   void logout() async {
     //await firebaseAuthService.logOut();
-    navigationService.pushNamed(Routes.BagUpload);
+    navigationService.pushNamed(Routes.BagUpload, arguments: []);
   }
 }

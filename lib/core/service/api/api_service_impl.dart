@@ -71,11 +71,7 @@ class ApiServiceImpl extends ApiService {
 
   @override
   Future publishBag(Bag bag) async {
-    final bagRef = await FirebaseFirestore.instance.collection('bags').doc();
-
-    return await bagRef.set(bag.bagsToJson()).catchError((onError) {
-      print(onError);
-    });
-
+    final bagRef = await FirebaseFirestore.instance.collection('bags');
+    return await bagRef.add(bag.bagsToJson());
   }
 }

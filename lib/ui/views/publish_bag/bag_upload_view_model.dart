@@ -27,6 +27,7 @@ class BagUploadViewModel extends BaseViewModel {
   final cloudStorageService = locator<CloudStorageService>();
   final apiService = locator<ApiService>();
   final snackBarService = locator<SnackBarService>();
+
   Future selectImage() async {
     setBusy(true);
     final tempImage = await imageSelector.selectImage();
@@ -53,7 +54,8 @@ class BagUploadViewModel extends BaseViewModel {
       if (cloudStorageResult.isUploaded == true) {
         await apiService.publishBag(
           Bag(
-            id: '',
+            id: prodName.text +
+                DateTime.now().millisecondsSinceEpoch.toString(),
             image: cloudStorageResult.imageUrl,
             name: prodName.text,
             price: double.tryParse(price.text)!,
@@ -66,8 +68,21 @@ class BagUploadViewModel extends BaseViewModel {
         );
       }
       snackBarService.showSnackBar('Bag Published');
+      clearTextController();
       setBusy(false);
-      notifyListeners();
     }
+  }
+
+  void clearTextController() {
+    prodName.clear();
+    brand.clear();
+    category.clear();
+    style.clear();
+    price.clear();
+    stock.clear();
+    desc.clear();
+    shipInfo.clear();
+    payInfo.clear();
+    selectedImage = null;
   }
 }

@@ -396,7 +396,6 @@ class BagUpload extends StatelessWidget {
                           Container(
                             color: Colors.white,
                             padding: EdgeInsets.all(8),
-                            height: 150,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -432,7 +431,6 @@ class BagUpload extends StatelessWidget {
                           Container(
                             color: Colors.white,
                             padding: EdgeInsets.all(8),
-                            height: 150,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -468,7 +466,6 @@ class BagUpload extends StatelessWidget {
                           Container(
                             color: Colors.white,
                             padding: EdgeInsets.all(8),
-                            height: 150,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

@@ -11,6 +11,8 @@ import 'package:stacked/stacked_annotations.dart';
 
 import '../core/service/api/api_service.dart';
 import '../core/service/api/api_service_impl.dart';
+import '../core/service/dialog_service/dialog_service.dart';
+import '../core/service/dialog_service/dialog_service_impl.dart';
 import '../core/service/firebase_auth/firebase_auth_service.dart';
 import '../core/service/firebase_auth/firebase_auth_service_impl.dart';
 import '../core/service/firebase_cloud_storage/cloud_storage_service.dart';
@@ -37,4 +39,5 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
   locator.registerLazySingleton<CloudStorageService>(
       () => CloudStorageServiceImpl());
   locator.registerLazySingleton(() => ImageSelector());
+  locator.registerLazySingleton<DialogService>(() => DialogServiceImpl());
 }

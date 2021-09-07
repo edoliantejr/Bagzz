@@ -22,8 +22,9 @@ class CloudStorageServiceImpl extends CloudStorageService {
 
     final StreamSubscription<TaskSnapshot> taskSnapshot =
         await uploadTask.snapshotEvents.listen((event) {
-      var uploadPercent = event.bytesTransferred / event.totalBytes * 100;
-      progress = '$uploadPercent %';
+      //get upload status
+      // var uploadPercent = event.bytesTransferred / event.totalBytes * 100;
+      //progress = '$uploadPercent %';
     }, onError: (error) {
       print(error);
     });
@@ -32,8 +33,9 @@ class CloudStorageServiceImpl extends CloudStorageService {
     downloadUrl = await uploadTask.snapshot.ref.getDownloadURL();
     isUploaded = true;
     return BagImageUpload(
-        imageUrl: downloadUrl,
-        imageFileName: imageFileName,
-        isUploaded: isUploaded);
+      imageUrl: downloadUrl,
+      imageFileName: imageFileName,
+      isUploaded: isUploaded,
+    );
   }
 }

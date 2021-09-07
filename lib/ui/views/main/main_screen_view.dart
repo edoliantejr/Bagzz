@@ -2,12 +2,12 @@ import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/ui/views/home/home_screen.dart';
 import 'package:bagzz/ui/widgets/my_bottom_navigation/my_bottom_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
 
 import 'main_screen_view_model.dart';
 
 class MainScreen extends StatelessWidget {
+
   const MainScreen({Key? key}) : super(key: key);
 
   @override
@@ -17,21 +17,26 @@ class MainScreen extends StatelessWidget {
         onModelReady: (model) => model.init(),
         builder: (context, model, widget) {
           return Scaffold(
-            backgroundColor: Colors.white,
+            drawer: Drawer(),
             body: NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return [
                   SliverAppBar(
+                    iconTheme: IconThemeData(color: Colors.black, size: 100),
                     backgroundColor: Colors.white,
                     elevation: 0,
-                    leading: Container(
-                        padding: EdgeInsets.all(13),
-                        child: SvgPicture.asset(
-                          'assets/icons/drawer.svg',
-                          height: 14,
-                          width: 24,
-                        )),
+                    // leading: Container(
+                    //     padding: EdgeInsets.all(13),
+                    //     child: InkWell(
+                    //       onTap: model.Drawer,
+                    //       child: SvgPicture.asset(
+                    //         'assets/icons/drawer.svg',
+                    //         height: 14,
+                    //         width: 24,
+                    //       ),
+                    //     ),
+                    // ),
                     title: const Text(
                       'bagzz',
                       style: TextStyle(
@@ -62,21 +67,9 @@ class MainScreen extends StatelessWidget {
               body: HomeScreen(),
             ),
             bottomNavigationBar: MyBottomNavigation(
-                onTabChange: (index) => model.onTabChange(index, context)),
-            drawer: Drawer(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:  [
-                    const Text('This is the Drawer'),
-                    ElevatedButton(
-                      onPressed: (){},
-                      child: const Text('Close Drawer'),
-                    ),
-                  ],
-                ),
-              ),
+                onTabChange: (index) => model.onTabChange(index, context)
             ),
+
           );
         });
   }

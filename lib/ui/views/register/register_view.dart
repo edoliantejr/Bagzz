@@ -118,7 +118,7 @@ class Register extends StatelessWidget {
                       ),
                       enableSuggestions: true,
                       decoration: InputDecoration(
-                        hintText: 'Retry Password',
+                        hintText: 'Confirm Password',
                         prefixIconConstraints: BoxConstraints(minWidth: 0),
                         prefixIcon: Padding(
                           padding: EdgeInsets.only(right: 12),

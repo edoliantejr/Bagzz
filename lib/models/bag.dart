@@ -5,7 +5,7 @@ class Bag extends Equatable {
   final String name;
   final double price;
   final String image;
-  final String title;
+  final String? title;
   final String category;
   final String style;
   final String desc;
@@ -15,7 +15,7 @@ class Bag extends Equatable {
   Bag(
       {required this.id,
       required this.image,
-      required this.title,
+      this.title,
       required this.name,
       required this.price,
       required this.category,
@@ -41,5 +41,20 @@ class Bag extends Equatable {
       shipInfo: json['shipInfo'],
       payInfo: json['payInfo'],
     );
+  }
+
+  Map<String, dynamic> bagsToJson() {
+    return {
+      'id': id,
+      'image': image,
+      'title': title,
+      'name': name,
+      'price': price,
+      'category': category,
+      'style': style,
+      'desc': desc,
+      'shipInfo': shipInfo,
+      'payInfo': payInfo,
+    };
   }
 }

@@ -85,6 +85,7 @@ class LoginViewModel extends BaseViewModel {
 
   checkEmail() {
     emailController.text != '' ? isEmailEmpty = false : isEmailEmpty = true;
+    //regex to verify if email is valid
     final regExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
     if (regExp.hasMatch(emailController.text)) {
@@ -93,7 +94,6 @@ class LoginViewModel extends BaseViewModel {
       isEmailValid = false;
     }
 
-    // isEmailValid=true;
     notifyListeners();
   }
 
@@ -104,10 +104,4 @@ class LoginViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  validateEmail() {}
-
-  void onRegisterTap() {
-    navigationService.pushNamed(Routes.Register,
-        );
-  }
 }

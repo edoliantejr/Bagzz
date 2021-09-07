@@ -124,7 +124,7 @@ class BagGridViewItem extends StatelessWidget {
                         padding: EdgeInsets.all(6),
                         child: Icon(
                           Icons.favorite_border_outlined,
-                          color: Colors.black,
+                          color: Color(0xFF474747),
                           size: 24,
                         ),
                       ),

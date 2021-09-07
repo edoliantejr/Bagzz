@@ -10,12 +10,13 @@ import 'package:get/get.dart';
 
 import 'core/service/navigation/navigator_service.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   await Firebase.initializeApp();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
- final navigationService = locator<NavigationService>();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  final navigationService = locator<NavigationService>();
 
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,

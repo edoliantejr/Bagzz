@@ -87,7 +87,7 @@ class CartPage extends StatelessWidget {
                                     fontFamily: FontNames.workSans),
                               ),
                             ),
-                      )),
+                          )),
                 )
               ],
             ),

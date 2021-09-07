@@ -1,4 +1,3 @@
-
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/mock_data.dart';
@@ -7,7 +6,6 @@ import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
 import 'package:bagzz/ui/views/search/search_view.dart';
 import 'package:bagzz/ui/views/wishlist/wishlist_view.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
@@ -17,8 +15,6 @@ class MainScreenViewModel extends BaseViewModel {
   ScrollController scrollController = new ScrollController();
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
 
   init() {
     // TODO: testing only. Demo to add bag to cart.
@@ -54,13 +50,8 @@ class MainScreenViewModel extends BaseViewModel {
     }
   }
 
-  void logout() async{
-  await  firebaseAuthService.logOut();
-  navigationService.pushNamed(Routes.LogIn);
+  void logout() async {
+    //await firebaseAuthService.logOut();
+    navigationService.pushNamed(Routes.BagUpload, arguments: []);
   }
-
-  Drawer() {
- scaffoldKey.currentState!;
-  }
-
 }

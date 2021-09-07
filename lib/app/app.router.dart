@@ -16,7 +16,7 @@ import '../ui/views/cart/cart_page_view.dart';
 import '../ui/views/home/home_screen.dart';
 import '../ui/views/login/login.dart';
 import '../ui/views/main/main_screen_view.dart';
-import '../ui/views/register/register_view.dart';
+import '../ui/views/publish_bag/bag_upload.dart';
 
 class Routes {
   static const String LogIn = '/';
@@ -24,14 +24,14 @@ class Routes {
   static const String HomeScreen = '/home-screen';
   static const String BagItemDetailsPage = '/bag-item-details-page';
   static const String CartPage = '/cart-page';
-  static const String Register = '/Register';
+  static const String BagUpload = '/bag-upload';
   static const all = <String>{
     LogIn,
     MainScreen,
     HomeScreen,
     BagItemDetailsPage,
     CartPage,
-    Register,
+    BagUpload,
   };
 }
 
@@ -44,7 +44,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.HomeScreen, page: HomeScreen),
     RouteDef(Routes.BagItemDetailsPage, page: BagItemDetailsPage),
     RouteDef(Routes.CartPage, page: CartPage),
-    RouteDef(Routes.Register, page: Register),
+    RouteDef(Routes.BagUpload, page: BagUpload),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -95,12 +95,12 @@ class StackedRouter extends RouterBase {
         transitionDuration: const Duration(milliseconds: 300),
       );
     },
-    Register: (data) {
+    BagUpload: (data) {
       return PageRouteBuilder<dynamic>(
         pageBuilder: (context, animation, secondaryAnimation) =>
-            const Register(),
+            const BagUpload(),
         settings: data,
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionsBuilder: TransitionsBuilders.slideTop,
         transitionDuration: const Duration(milliseconds: 300),
       );
     },

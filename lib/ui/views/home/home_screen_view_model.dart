@@ -22,7 +22,7 @@ class HomeScreenViewModel extends BaseViewModel {
   void loadBagBannerData() {
     final List<Bag> bagBanner = [
       Bag(
-        id:' 1',
+        id: ' 1',
         image: 'assets/images/bag-header-01.png',
         title: " This season's best buy",
         name: "Artsy",

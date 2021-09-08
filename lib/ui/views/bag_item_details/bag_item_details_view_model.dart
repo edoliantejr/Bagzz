@@ -34,7 +34,7 @@ class BagItemDetailsViewModel extends BaseViewModel {
   }
 
   void addBagToCart() {
-    apiService.addToCart(bag);
-    snackBarService.showSnackBar('Bag added to cart');
+    // apiService.addToCart(bag);
+    // snackBarService.showSnackBar('Bag added to cart');
   }
 }

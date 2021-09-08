@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       BagBannerSlider(bags: model.bagBannerList),
-                      BagGridView(bags: model.bagsList),
+                      BagGridView(),
                       CategoryGridView(
                         categories: model.categoryList,
                       )

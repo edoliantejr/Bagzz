@@ -13,10 +13,10 @@ class MyBottomNavigationViewModel extends BaseViewModel {
 
   init() {
     // listen for every cart changes and update the navigation cart icon count
-    streamSubscription = apiService.getCart().listen((latestCart) {
-      shoppingCart = latestCart;
-      notifyListeners();
-    });
+    // streamSubscription = apiService.getCart().listen((latestCart) {
+    //   shoppingCart = latestCart;
+    //   notifyListeners();
+    // });
   }
 
   @override

@@ -14,15 +14,15 @@ class CartPageViewModel extends BaseViewModel {
 
   init() {
     // listen for every cart changes and update the navigation cart icon count
-    streamSubscription = apiService.getCart().listen((latestCart) {
-      shoppingCart = latestCart;
-      notifyListeners();
-    });
+    // streamSubscription = apiService.getCart().listen((latestCart) {
+    //   shoppingCart = latestCart;
+    //   notifyListeners();
+    // });
   }
 
   @override
   void dispose() {
-    streamSubscription.cancel();
-    super.dispose();
+    // streamSubscription.cancel();
+    // super.dispose();
   }
 }

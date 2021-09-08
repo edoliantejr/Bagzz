@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 class Bag extends Equatable {
   final String id;
   final String name;
-  final double price;
   final String image;
   final String? title;
   final String category;
@@ -11,6 +10,8 @@ class Bag extends Equatable {
   final String desc;
   final String shipInfo;
   final String payInfo;
+  final double price;
+  final bool? isLatest;
 
   Bag(
       {required this.id,
@@ -22,7 +23,8 @@ class Bag extends Equatable {
       required this.style,
       required this.desc,
       required this.shipInfo,
-      required this.payInfo});
+      required this.payInfo,
+      this.isLatest});
 
   @override
   List<Object?> get props =>
@@ -30,17 +32,17 @@ class Bag extends Equatable {
 
   factory Bag.bagsFromJson(Map<String, dynamic> json) {
     return Bag(
-      id: json['id'],
-      image: json['image'],
-      title: json['title'],
-      name: json['name'],
-      price: json['price'].toDouble(),
-      category: json['category'],
-      style: json['style'],
-      desc: json['desc'],
-      shipInfo: json['shipInfo'],
-      payInfo: json['payInfo'],
-    );
+        id: json['id'],
+        image: json['image'],
+        title: json['title'],
+        name: json['name'],
+        price: json['price'].toDouble(),
+        category: json['category'],
+        style: json['style'],
+        desc: json['desc'],
+        shipInfo: json['shipInfo'],
+        payInfo: json['payInfo'],
+        isLatest: json['isLatest']);
   }
 
   Map<String, dynamic> bagsToJson() {
@@ -55,6 +57,7 @@ class Bag extends Equatable {
       'desc': desc,
       'shipInfo': shipInfo,
       'payInfo': payInfo,
+      'isLatest': isLatest
     };
   }
 }

@@ -100,8 +100,8 @@ class StackedRouter extends RouterBase {
         pageBuilder: (context, animation, secondaryAnimation) =>
             const BagUpload(),
         settings: data,
-        transitionsBuilder: TransitionsBuilders.slideTop,
-        transitionDuration: const Duration(milliseconds: 300),
+        transitionsBuilder: TransitionsBuilders.slideLeft,
+        transitionDuration: const Duration(milliseconds: 400),
       );
     },
   };

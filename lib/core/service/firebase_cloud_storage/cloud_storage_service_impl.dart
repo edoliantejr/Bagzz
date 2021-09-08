@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service.dart';
-import 'package:bagzz/models/bag_image_upload.dart';
+import 'package:bagzz/models/bag_image_upload_result.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class CloudStorageServiceImpl extends CloudStorageService {
   @override
-  Future<BagImageUpload> uploadImage(
+  Future<BagImageUploadResult> uploadImage(
       {required File imageToUpload, required String title}) async {
     var downloadUrl;
     bool isUploaded;
@@ -32,7 +32,7 @@ class CloudStorageServiceImpl extends CloudStorageService {
     await uploadTask;
     downloadUrl = await uploadTask.snapshot.ref.getDownloadURL();
     isUploaded = true;
-    return BagImageUpload(
+    return BagImageUploadResult(
       imageUrl: downloadUrl,
       imageFileName: imageFileName,
       isUploaded: isUploaded,

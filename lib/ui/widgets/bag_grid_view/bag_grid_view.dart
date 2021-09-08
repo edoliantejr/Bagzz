@@ -57,7 +57,7 @@ class BagGridView extends StatelessWidget {
                               border: Border.all(
                             color: Colors.black,
                           )),
-                          child: Text("CHECK ALL LATEST",
+                          child: Text("CHECK ALL BAGS",
                               style: TextStyle(
                                 fontFamily: 'WorkSans',
                                 fontSize: 16.0,

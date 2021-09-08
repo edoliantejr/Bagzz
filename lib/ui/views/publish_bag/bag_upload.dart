@@ -26,7 +26,10 @@ class BagUpload extends StatelessWidget {
             appBar: AppBar(
               leading: IconButton(
                 onPressed: model.cancelPublish,
-                icon: Icon(Icons.arrow_back),
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
               ),
               title: Text(
                 'Upload A Product',
@@ -188,7 +191,8 @@ class BagUpload extends StatelessWidget {
                                 ),
                                 Container(
                                   alignment: Alignment.centerRight,
-                                  width: MediaQuery.of(context).size.width / 2,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.5,
                                   child: TextField(
                                     controller: model.category,
                                     maxLines: 1,
@@ -236,7 +240,8 @@ class BagUpload extends StatelessWidget {
                                 ),
                                 Container(
                                   alignment: Alignment.centerRight,
-                                  width: MediaQuery.of(context).size.width / 2,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.5,
                                   child: TextField(
                                     controller: model.brand,
                                     textInputAction: TextInputAction.next,
@@ -283,7 +288,8 @@ class BagUpload extends StatelessWidget {
                                 ),
                                 Container(
                                   alignment: Alignment.centerRight,
-                                  width: MediaQuery.of(context).size.width / 2,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.5,
                                   child: TextField(
                                     controller: model.style,
                                     textInputAction: TextInputAction.next,
@@ -330,7 +336,8 @@ class BagUpload extends StatelessWidget {
                                 ),
                                 Container(
                                   alignment: Alignment.centerRight,
-                                  width: MediaQuery.of(context).size.width / 2,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.5,
                                   child: TextField(
                                     controller: model.price,
                                     maxLines: 1,
@@ -377,7 +384,8 @@ class BagUpload extends StatelessWidget {
                                 ),
                                 Container(
                                   alignment: Alignment.centerRight,
-                                  width: MediaQuery.of(context).size.width / 2,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.5,
                                   child: TextField(
                                     controller: model.stock,
                                     textInputAction: TextInputAction.next,

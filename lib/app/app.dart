@@ -45,8 +45,8 @@ import 'package:stacked/stacked_annotations.dart';
   CustomRoute(
       page: BagUpload,
       name: 'BagUpload',
-      durationInMilliseconds: 300,
-      transitionsBuilder: TransitionsBuilders.slideTop),
+      durationInMilliseconds: 400,
+      transitionsBuilder: TransitionsBuilders.slideLeft),
 ], dependencies: [
   Singleton(classType: NavigationServiceImpl, asType: NavigationService),
   LazySingleton(classType: ApiServiceImpl, asType: ApiService),

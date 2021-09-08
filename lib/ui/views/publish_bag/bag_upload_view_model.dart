@@ -68,29 +68,16 @@ class BagUploadViewModel extends BaseViewModel {
             desc: desc.text,
             shipInfo: shipInfo.text,
             payInfo: payInfo.text,
+            isLatest: true,
           ),
         );
         Get.back(canPop: false);
         navigationService.pop();
         snackBarService.showSnackBar('Bag was published.');
       }
-      clearTextController();
       setBusy(false);
       notifyListeners();
     }
-  }
-
-  void clearTextController() {
-    prodName.clear();
-    brand.clear();
-    category.clear();
-    style.clear();
-    price.clear();
-    stock.clear();
-    desc.clear();
-    shipInfo.clear();
-    payInfo.clear();
-    selectedImage = null;
   }
 
   void cancelPublish() {

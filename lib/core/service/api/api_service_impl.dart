@@ -15,7 +15,8 @@ class ApiServiceImpl extends ApiService {
   Stream<List<Bag>> getRealTimeBags() {
     return FirebaseFirestore.instance
         .collection('bags')
-        .orderBy('name', descending: false)
+        .orderBy('price', descending: false)
+        .limit(4)
         .snapshots()
         .map((data) =>
             data.docs.map((doc) => Bag.bagsFromJson(doc.data())).toList());

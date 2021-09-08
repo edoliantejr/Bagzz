@@ -92,4 +92,8 @@ class BagUploadViewModel extends BaseViewModel {
     payInfo.clear();
     selectedImage = null;
   }
+
+  void cancelPublish() {
+    navigationService.pop();
+  }
 }

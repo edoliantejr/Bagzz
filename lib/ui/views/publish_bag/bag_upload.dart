@@ -24,6 +24,10 @@ class BagUpload extends StatelessWidget {
           home: Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
+              leading: IconButton(
+                onPressed: model.cancelPublish,
+                icon: Icon(Icons.arrow_back),
+              ),
               title: Text(
                 'Upload A Product',
                 style: TextStyle(
@@ -512,7 +516,7 @@ class BagUpload extends StatelessWidget {
                   Container(
                     width: MediaQuery.of(context).size.width / 2.3,
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: model.cancelPublish,
                       child: Text('Cancel'),
                       style: OutlinedButton.styleFrom(
                         primary: Colors.grey,

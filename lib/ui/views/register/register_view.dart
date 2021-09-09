@@ -109,10 +109,9 @@ class Register extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     TextField(
-                      controller: model.passwordController,
-                      onChanged: (value) => model.checkPass(),
-                      focusNode: model.passFocusNode,
-                      obscureText: model.isObscure,
+                      controller: model.passwordControllers,
+                      onChanged: (value) => model.checkPass2(),
+                      obscureText: model.isObscures,
                       style: TextStyle(
                         fontFamily: FontNames.workSans,
                       ),
@@ -132,14 +131,14 @@ class Register extends StatelessWidget {
                         ),
                         suffixIcon: IconButton(
                             icon: Icon(
-                              model.isObscure
+                              model.isObscures
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              color: model.isPasswordEmpty
+                              color: model.isPasswordsEmpty
                                   ? Colors.transparent
                                   : Colors.blueAccent,
                             ),
-                            onPressed: model.showPassword),
+                            onPressed: model.showPasswords),
                       ),
                     ),
                     SizedBox(height: 19),
@@ -148,7 +147,7 @@ class Register extends StatelessWidget {
                         if (!model.isBusy)
                           model.loginNow(
                             email: model.emailController.text,
-                            password: model.passwordController.text,
+                            password: model.passwordControllers.text,
                           );
                       },
                       child: model.isBusy

@@ -9,19 +9,24 @@ import 'package:stacked/stacked.dart';
 class RegisterViewModel extends BaseViewModel {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordControllers = TextEditingController();
   final snackBarService = locator<SnackBarService>();
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
   bool isObscure = true;
+  bool isObscures = true;
   bool isEmailValid = false;
   bool isEmailEmpty = true;
   bool isPasswordEmpty = true;
+  bool isPasswordsEmpty = true;
   late FocusNode emailFocusNode;
   late FocusNode passFocusNode;
+  late FocusNode passFocusNodes;
 
   void init() {
     emailFocusNode = FocusNode();
     passFocusNode = FocusNode();
+    passFocusNodes = FocusNode();
   }
 
   Future loginNow({required String email, required String password}) async {
@@ -83,6 +88,13 @@ class RegisterViewModel extends BaseViewModel {
     setBusy(false);
   }
 
+  void showPasswords() {
+    setBusy(true);
+    if (!isPasswordsEmpty) isObscures = !isObscures;
+    setBusy(false);
+  }
+
+
   checkEmail() {
     emailController.text != '' ? isEmailEmpty = false : isEmailEmpty = true;
     final regExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
@@ -103,6 +115,13 @@ class RegisterViewModel extends BaseViewModel {
         : isPasswordEmpty = true;
     notifyListeners();
   }
+  checkPass2() {
+    passwordController.text != ''
+        ? isPasswordEmpty = false
+        : isPasswordEmpty = true;
+    notifyListeners();
+  }
+
 
   validateEmail() {}
 

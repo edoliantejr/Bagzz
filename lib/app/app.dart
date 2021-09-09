@@ -17,6 +17,7 @@ import 'package:bagzz/ui/views/home/home_screen.dart';
 import 'package:bagzz/ui/views/login/login.dart';
 import 'package:bagzz/ui/views/main/main_screen_view.dart';
 import 'package:bagzz/ui/views/publish_bag/bag_upload.dart';
+import 'package:bagzz/ui/views/register/register_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -47,6 +48,11 @@ import 'package:stacked/stacked_annotations.dart';
       name: 'BagUpload',
       durationInMilliseconds: 300,
       transitionsBuilder: TransitionsBuilders.slideTop),
+  CustomRoute(
+      page: Register,
+      name: 'Register',
+      durationInMilliseconds: 300,
+      transitionsBuilder: TransitionsBuilders.fadeIn),
 ], dependencies: [
   Singleton(classType: NavigationServiceImpl, asType: NavigationService),
   LazySingleton(classType: ApiServiceImpl, asType: ApiService),

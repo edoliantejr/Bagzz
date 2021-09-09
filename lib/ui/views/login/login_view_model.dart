@@ -104,4 +104,8 @@ class LoginViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  void onRegisterTap(){
+    navigationService.pushNamed(Routes.Register);
+  }
+
 }

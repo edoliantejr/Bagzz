@@ -27,6 +27,7 @@ class CloudStorageServiceImpl extends CloudStorageService {
       //progress = '$uploadPercent %';
     }, onError: (error) {
       print(error);
+      uploadTask.cancel();
     });
 
     await uploadTask;

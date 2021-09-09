@@ -58,8 +58,6 @@ class BagUploadViewModel extends BaseViewModel {
       if (cloudStorageResult.isUploaded == true) {
         await apiService.publishBag(
           Bag(
-            id: prodName.text +
-                DateTime.now().millisecondsSinceEpoch.toString(),
             image: cloudStorageResult.imageUrl,
             name: prodName.text,
             price: double.tryParse(price.text)!,

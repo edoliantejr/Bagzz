@@ -151,6 +151,8 @@ class BagUpload extends StatelessWidget {
                                   controller: model.prodName,
                                   textInputAction: TextInputAction.next,
                                   style: TextStyle(height: 1.5),
+                                  maxLines: 1,
+                                  maxLength: 50,
                                   decoration: InputDecoration(
                                     hintText: 'Not Set',
                                     border: UnderlineInputBorder(
@@ -164,9 +166,9 @@ class BagUpload extends StatelessWidget {
 
                           //category
                           Container(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 1),
                             color: Colors.white,
-                            height: 55,
                             width: double.infinity,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -192,7 +194,7 @@ class BagUpload extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   width:
-                                      MediaQuery.of(context).size.width / 1.5,
+                                      MediaQuery.of(context).size.width / 1.6,
                                   child: TextField(
                                     controller: model.category,
                                     maxLines: 1,
@@ -214,9 +216,9 @@ class BagUpload extends StatelessWidget {
 
                           //brand
                           Container(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 1),
                             color: Colors.white,
-                            height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -241,7 +243,7 @@ class BagUpload extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   width:
-                                      MediaQuery.of(context).size.width / 1.5,
+                                      MediaQuery.of(context).size.width / 1.6,
                                   child: TextField(
                                     controller: model.brand,
                                     textInputAction: TextInputAction.next,
@@ -262,9 +264,9 @@ class BagUpload extends StatelessWidget {
 
                           //style
                           Container(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 1),
                             color: Colors.white,
-                            height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -289,7 +291,7 @@ class BagUpload extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   width:
-                                      MediaQuery.of(context).size.width / 1.5,
+                                      MediaQuery.of(context).size.width / 1.6,
                                   child: TextField(
                                     controller: model.style,
                                     textInputAction: TextInputAction.next,
@@ -310,9 +312,9 @@ class BagUpload extends StatelessWidget {
 
                           //price
                           Container(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 1),
                             color: Colors.white,
-                            height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -337,7 +339,7 @@ class BagUpload extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   width:
-                                      MediaQuery.of(context).size.width / 1.5,
+                                      MediaQuery.of(context).size.width / 1.6,
                                   child: TextField(
                                     controller: model.price,
                                     maxLines: 1,
@@ -358,9 +360,9 @@ class BagUpload extends StatelessWidget {
 
                           //Stocks
                           Container(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 1),
                             color: Colors.white,
-                            height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -385,7 +387,7 @@ class BagUpload extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   width:
-                                      MediaQuery.of(context).size.width / 1.5,
+                                      MediaQuery.of(context).size.width / 1.6,
                                   child: TextField(
                                     controller: model.stock,
                                     textInputAction: TextInputAction.next,
@@ -426,8 +428,9 @@ class BagUpload extends StatelessWidget {
                                 ),
                                 TextField(
                                   controller: model.desc,
-                                  textInputAction: TextInputAction.next,
+                                  textInputAction: TextInputAction.newline,
                                   maxLines: 5,
+                                  maxLength: 250,
                                   decoration: InputDecoration(
                                     hintText: 'Not Set',
                                     border: UnderlineInputBorder(
@@ -461,8 +464,9 @@ class BagUpload extends StatelessWidget {
                                 ),
                                 TextField(
                                   controller: model.shipInfo,
-                                  textInputAction: TextInputAction.next,
+                                  textInputAction: TextInputAction.newline,
                                   maxLines: 5,
+                                  maxLength: 250,
                                   decoration: InputDecoration(
                                     hintText: 'Not Set',
                                     border: UnderlineInputBorder(
@@ -496,8 +500,9 @@ class BagUpload extends StatelessWidget {
                                 ),
                                 TextField(
                                   controller: model.payInfo,
-                                  textInputAction: TextInputAction.done,
+                                  textInputAction: TextInputAction.newline,
                                   maxLines: 5,
+                                  maxLength: 250,
                                   decoration: InputDecoration(
                                     hintText: 'Not Set',
                                     border: UnderlineInputBorder(
@@ -538,8 +543,9 @@ class BagUpload extends StatelessWidget {
                       onPressed: model.publishBag,
                       child: Text('Publish'),
                       style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.deepOrangeAccent,
-                          primary: Colors.white),
+                        backgroundColor: Colors.deepOrangeAccent,
+                        primary: Colors.white,
+                      ),
                     ),
                   ),
                 ],

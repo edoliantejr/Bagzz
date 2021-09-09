@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Bag extends Equatable {
-  final String id;
+  final String? id;
   final String name;
   final String image;
   final String? title;
@@ -14,7 +14,7 @@ class Bag extends Equatable {
   final bool? isLatest;
 
   Bag(
-      {required this.id,
+      {this.id,
       required this.image,
       this.title,
       required this.name,
@@ -45,7 +45,7 @@ class Bag extends Equatable {
         isLatest: json['isLatest']);
   }
 
-  Map<String, dynamic> bagsToJson() {
+  Map<String, dynamic> bagsToJson(String id) {
     return {
       'id': id,
       'image': image,

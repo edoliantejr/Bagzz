@@ -24,6 +24,17 @@ class BagUploadViewModel extends BaseViewModel {
   final desc = TextEditingController();
   final shipInfo = TextEditingController();
   final payInfo = TextEditingController();
+
+  final prodNameFocus = FocusNode();
+  final brandFocus = FocusNode();
+  final categoryFocus = FocusNode();
+  final styleFocus = FocusNode();
+  final priceFocus = FocusNode();
+  final stockFocus = FocusNode();
+  final descFocus = FocusNode();
+  final shipInfoFocus = FocusNode();
+  final payInfoFocus = FocusNode();
+
   XFile? selectedImage;
 
   final imageSelector = locator<ImageSelector>();
@@ -50,32 +61,82 @@ class BagUploadViewModel extends BaseViewModel {
   Future publishBag() async {
     var cloudStorageResult;
     setBusy(true);
-    dialogService.showLoadingDialog('Please wait...');
-    if (selectedImage != null) {
-      cloudStorageResult = await cloudStorageService.uploadImage(
-          imageToUpload: File(selectedImage!.path),
-          title: basename(File(selectedImage!.path).path));
-      if (cloudStorageResult.isUploaded == true) {
-        await apiService.publishBag(
-          Bag(
-            image: cloudStorageResult.imageUrl,
-            name: prodName.text,
-            price: double.tryParse(price.text)!,
-            category: category.text,
-            style: style.text,
-            desc: desc.text,
-            shipInfo: shipInfo.text,
-            payInfo: payInfo.text,
-            isLatest: true,
-          ),
-        );
-        Get.back(canPop: false);
-        navigationService.pop();
-        snackBarService.showSnackBar('Bag was published.');
+    if (isAllRequiredValid()) {
+      dialogService.showLoadingDialog('Please wait...');
+      if (selectedImage != null) {
+        cloudStorageResult = await cloudStorageService.uploadImage(
+            imageToUpload: File(selectedImage!.path),
+            title: basename(File(selectedImage!.path).path));
+        if (cloudStorageResult.isUploaded == true) {
+          await apiService.publishBag(
+            Bag(
+              image: cloudStorageResult.imageUrl,
+              name: prodName.text,
+              price: double.tryParse(price.text)!,
+              category: category.text,
+              style: style.text,
+              desc: desc.text,
+              shipInfo: shipInfo.text,
+              payInfo: payInfo.text,
+              isLatest: true,
+            ),
+          );
+          Get.back(canPop: false);
+          navigationService.pop();
+          snackBarService.showSnackBar('Bag was published.');
+        }
+
+        notifyListeners();
       }
-      setBusy(false);
-      notifyListeners();
     }
+
+    setBusy(false);
+  }
+
+  bool isAllRequiredValid() {
+    bool isValid = false;
+    if (selectedImage == null) {
+      snackBarService.showSnackBar('Should have a product image',
+          isError: true);
+    } else if (prodName.text.isEmpty) {
+      snackBarService.showSnackBar('Should have a product name', isError: true);
+      prodNameFocus.requestFocus();
+    } else if (brand.text.isEmpty) {
+      snackBarService.showSnackBar('Should have a product brand',
+          isError: true);
+      brandFocus.requestFocus();
+    } else if (category.text.isEmpty) {
+      snackBarService.showSnackBar('Should have a product category',
+          isError: true);
+      categoryFocus.requestFocus();
+    } else if (style.text.isEmpty) {
+      snackBarService.showSnackBar('Should have a product style',
+          isError: true);
+      styleFocus.requestFocus();
+    } else if (price.text.isEmpty && !price.text.isNum) {
+      snackBarService.showSnackBar('Should have a product price',
+          isError: true);
+      priceFocus.requestFocus();
+    } else if (stock.text.isEmpty && !stock.text.isNum) {
+      snackBarService.showSnackBar('Product stocks should be indicated ',
+          isError: true);
+      stockFocus.requestFocus();
+    } else if (desc.text.isEmpty) {
+      snackBarService.showSnackBar('Should have a product description ',
+          isError: true);
+      descFocus.requestFocus();
+    } else if (shipInfo.text.isEmpty) {
+      snackBarService.showSnackBar('Should have a Product Shipping info ',
+          isError: true);
+      shipInfoFocus.requestFocus();
+    } else if (payInfo.text.isEmpty) {
+      snackBarService.showSnackBar('Should have a product payment info ',
+          isError: true);
+      payInfoFocus.requestFocus();
+    } else {
+      isValid = true;
+    }
+    return isValid;
   }
 
   void cancelPublish() {

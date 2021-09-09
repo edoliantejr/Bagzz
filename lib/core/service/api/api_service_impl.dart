@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart' hide User;
 
 final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 final currentUser = _firebaseAuth.currentUser;
+final userCollection = FirebaseFirestore.instance.collection('users');
 
 class ApiServiceImpl extends ApiService {
   @override
@@ -29,14 +30,25 @@ class ApiServiceImpl extends ApiService {
             data.docs.map((doc) => Bag.bagsFromJson(doc.data())).toList());
   }
 
+  // @override
+  // void addToFavorite(User user) async {
+  //   await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(user.id)
+  //       .update(user.toJson());
+  // }
+
   @override
-  void addToFavorite(List<Bag> bags, User user) async {
-    final userRef = await FirebaseFirestore.instance
-        .collection('user')
-        .doc(currentUser!.uid);
-    var userDoc = await userRef.get();
-    if (userDoc.exists) {
-      userRef.update(user.wishListToJson(bags));
-    }
+  Future<User> getCurrentUser() {
+    final currentUser = _firebaseAuth.currentUser;
+    return userCollection
+        .doc(currentUser!.uid)
+        .get()
+        .then((user) => User.fromJson(user.data()!));
+  }
+
+  @override
+  Future<void> updateUser(User user) async {
+    await userCollection.doc(user.id).update(user.toJson());
   }
 }

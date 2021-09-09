@@ -6,7 +6,11 @@ abstract class ApiService {
 
   Stream<List<Bag>> getRealTimeBags();
 
-  void addToFavorite(List<Bag> bags, User user);
+  //void addToFavorite(User user);
+
+  Future<User> getCurrentUser();
+
+  Future<void> updateUser(User user);
 // Future<List<Category>> getBagCategories({int max = -1});
 //
 // Stream<Map<Bag, int>> getCart();

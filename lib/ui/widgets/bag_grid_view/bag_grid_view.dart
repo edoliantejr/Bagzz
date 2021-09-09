@@ -44,6 +44,7 @@ class BagGridView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return BagGridViewItem(
                           key: ObjectKey(model.bagsList[index]),
+                          isFavorite: model.isFavorite(model.bagsList[index]),
                           bag: model.bagsList[index],
                         );
                       }),
@@ -74,7 +75,10 @@ class BagGridView extends StatelessWidget {
 
 class BagGridViewItem extends StatelessWidget {
   final Bag bag;
-  BagGridViewItem({Key? key, required this.bag}) : super(key: key);
+  final isFavorite;
+
+  BagGridViewItem({Key? key, required this.bag, required this.isFavorite})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -135,12 +139,15 @@ class BagGridViewItem extends StatelessWidget {
                     top: 6,
                     right: 9,
                     child: InkWell(
-                      onTap: model.addToWishList,
+                      onTap: () => model.addToWishList(bag.id!),
                       child: Container(
                         padding: EdgeInsets.all(6),
                         child: Icon(
-                          Icons.favorite_border_outlined,
-                          color: Color(0xFF474747),
+                          isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border_outlined,
+                          color:
+                              isFavorite ? Colors.red[700] : Color(0xFF474747),
                           size: 24,
                         ),
                       ),

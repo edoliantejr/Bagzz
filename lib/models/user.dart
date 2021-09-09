@@ -1,3 +1,5 @@
+import 'package:bagzz/models/bag.dart';
+
 class User {
   String id;
   String? email;
@@ -8,8 +10,7 @@ class User {
     this.id,
     this.email,
     this.name,
-    this.favoriteBags,
-  );
+      this.favoriteBags,);
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -27,5 +28,9 @@ class User {
       'email': email,
       'favoriteBags': favoriteBags,
     };
+  }
+
+  Map<String, dynamic> wishListToJson(List<Bag> bags) {
+    return {'favoriteBags': bags};
   }
 }

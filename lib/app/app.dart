@@ -25,7 +25,7 @@ import 'package:stacked/stacked_annotations.dart';
   CustomRoute(
       page: MainScreen,
       name: 'MainScreen',
-      durationInMilliseconds: 400,
+      durationInMilliseconds: 300,
       transitionsBuilder: TransitionsBuilders.slideLeft),
   CustomRoute(
       page: HomeScreen,
@@ -45,7 +45,7 @@ import 'package:stacked/stacked_annotations.dart';
   CustomRoute(
       page: BagUpload,
       name: 'BagUpload',
-      durationInMilliseconds: 400,
+      durationInMilliseconds: 300,
       transitionsBuilder: TransitionsBuilders.slideLeft),
 ], dependencies: [
   Singleton(classType: NavigationServiceImpl, asType: NavigationService),

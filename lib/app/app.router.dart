@@ -61,7 +61,7 @@ class StackedRouter extends RouterBase {
             const MainScreen(),
         settings: data,
         transitionsBuilder: TransitionsBuilders.slideLeft,
-        transitionDuration: const Duration(milliseconds: 400),
+        transitionDuration: const Duration(milliseconds: 300),
       );
     },
     HomeScreen: (data) {
@@ -101,7 +101,7 @@ class StackedRouter extends RouterBase {
             const BagUpload(),
         settings: data,
         transitionsBuilder: TransitionsBuilders.slideLeft,
-        transitionDuration: const Duration(milliseconds: 400),
+        transitionDuration: const Duration(milliseconds: 300),
       );
     },
   };

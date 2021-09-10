@@ -6,7 +6,7 @@ abstract class ApiService {
 
   Stream<List<Bag>> getRealTimeBags();
 
-  //void addToFavorite(User user);
+  Future<List<Bag>> getLikeBags(List<String> ids);
 
   Future<User> getCurrentUser();
 

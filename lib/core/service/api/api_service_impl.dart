@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart' hide User;
 final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 final currentUser = _firebaseAuth.currentUser;
 final userCollection = FirebaseFirestore.instance.collection('users');
+final bagCollection = FirebaseFirestore.instance.collection('bags');
 
 class ApiServiceImpl extends ApiService {
   @override
@@ -21,8 +22,7 @@ class ApiServiceImpl extends ApiService {
 
   @override
   Stream<List<Bag>> getRealTimeBags() {
-    return FirebaseFirestore.instance
-        .collection('bags')
+    return bagCollection
         .orderBy('price', descending: false)
         .limit(6)
         .snapshots()
@@ -30,13 +30,14 @@ class ApiServiceImpl extends ApiService {
             data.docs.map((doc) => Bag.bagsFromJson(doc.data())).toList());
   }
 
-  // @override
-  // void addToFavorite(User user) async {
-  //   await FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(user.id)
-  //       .update(user.toJson());
-  // }
+  @override
+  Future<List<Bag>> getLikeBags(List<String> ids) async {
+    var bag;
+    bag = await bagCollection.where('id', whereIn: ids).get().then(
+        (value) => value.docs.map((e) => Bag.bagsFromJson(e.data())).toList(),
+        onError: (onError) => print(onError));
+    return bag;
+  }
 
   @override
   Future<User> getCurrentUser() {

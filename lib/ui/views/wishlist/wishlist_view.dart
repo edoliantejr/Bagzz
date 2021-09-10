@@ -2,12 +2,13 @@ import 'dart:ui';
 
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bag.dart';
+import 'package:bagzz/ui/views/wishlist/wishlist_viewmodel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
 
 class WishListPage extends StatelessWidget {
-  final List<Bag> bags;
-
-  const WishListPage({Key? key, required this.bags}) : super(key: key);
+  const WishListPage({Key? key}) : super(key: key);
 
   static open(BuildContext context, List<Bag> bags) {
     return showModalBottomSheet(
@@ -19,76 +20,98 @@ class WishListPage extends StatelessWidget {
             topLeft: Radius.circular(40), topRight: Radius.circular(40)),
       ),
       builder: (context) {
-        return WishListPage(
-          bags: bags,
-        );
+        return WishListPage();
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-          minHeight: MediaQuery.of(context).size.height / 2.5,
-          maxHeight: MediaQuery.of(context).size.height * .91),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Center(
-              child: Container(
-                  margin: EdgeInsets.all(12),
-                  height: 2,
-                  width: 125,
-                  color: Colors.black)),
-          SizedBox(height: 45),
-          Flexible(
-            child: bags.isEmpty
-                ? Container(
+    return ViewModelBuilder<WishlistViewModel>.reactive(
+      onModelReady: (model) => model.init(),
+      viewModelBuilder: () => WishlistViewModel(),
+      builder: (context, model, child) {
+        return !model.isBusy
+            ? ConstrainedBox(
+                constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height / 2.5,
+                    maxHeight: MediaQuery.of(context).size.height * .91),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Center(
+                        child: Container(
+                            margin: EdgeInsets.all(12),
+                            height: 2,
+                            width: 125,
+                            color: Colors.black)),
+                    SizedBox(height: 45),
+                    Flexible(
+                      child: model.bagsList.isEmpty
+                          ? Container(
+                              height: 100,
+                              child:
+                                  Center(child: Text('No items on wishlist.')),
+                            )
+                          : ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              primary: false,
+                              itemCount: model.bagsList.length,
+                              itemBuilder: (context, i) {
+                                return WishListItem(model.bagsList[i]);
+                              }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15, top: 25),
+                      child: model.bagsList.isEmpty
+                          ? Container()
+                          : Container(
+                              height: 43,
+                              width: 193,
+                              color: Colors.black,
+                              child: TextButton(
+                                onPressed: () {},
+                                child: Center(
+                                  child: Text(
+                                    'ADD ALL TO CART',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontFamily: FontNames.workSans),
+                                  ),
+                                ),
+                              )),
+                    )
+                  ],
+                ),
+              )
+            : Container(
+                height: MediaQuery.of(context).size.height / 2,
+                child: Center(
+                  child: Container(
                     height: 100,
-                    child: Center(child: Text('No items on wishlist.')),
-                  )
-                : ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    primary: false,
-                    itemCount: bags.length,
-                    itemBuilder: (context, i) {
-                      return WishListItem(bags[i]);
-                    }),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15, top: 25),
-            child: bags.isEmpty
-                ? Container()
-                : Container(
-                    height: 43,
-                    width: 193,
-                    color: Colors.black,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Center(
-                        child: Text(
-                          'ADD ALL TO CART',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                          fontFamily: FontNames.workSans),
+                    width: 100,
+                    child: Column(
+                      children: [
+                        Text('Please wait..'),
+                        SizedBox(height: 10),
+                        CircularProgressIndicator()
+                      ],
                     ),
                   ),
-                )),
-          )
-        ],
-      ),
+                ),
+              );
+      },
     );
   }
 }
 
 class WishListItem extends StatelessWidget {
-  final Bag bags;
+  final Bag bag;
 
   const WishListItem(
-    this.bags, {
+    this.bag, {
     Key? key,
   }) : super(key: key);
 
@@ -103,8 +126,8 @@ class WishListItem extends StatelessWidget {
               //column for image
               Column(
                 children: [
-                  Image(
-                    image: AssetImage(bags.image),
+                  CachedNetworkImage(
+                    imageUrl: bag.image,
                     height: 81,
                     width: 81,
                   ),
@@ -124,20 +147,20 @@ class WishListItem extends StatelessWidget {
                   SizedBox(
                     height: 18,
                   ),
-                  Text(bags.name,
+                  Text(bag.name,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           fontFamily: FontNames.playFair)),
                   SizedBox(height: 8),
-                  Text(bags.category,
+                  Text(bag.category,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 12,
                           fontFamily: FontNames.workSans,
                           fontWeight: FontWeight.w400)),
-                  Text(bags.style,
+                  Text(bag.style,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 10,

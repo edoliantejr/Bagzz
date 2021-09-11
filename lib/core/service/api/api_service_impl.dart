@@ -4,10 +4,9 @@ import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' hide User;
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 
 final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-final currentUser = _firebaseAuth.currentUser;
 final userCollection = FirebaseFirestore.instance.collection('users');
 final bagCollection = FirebaseFirestore.instance.collection('bags');
 
@@ -32,18 +31,22 @@ class ApiServiceImpl extends ApiService {
 
   @override
   Future<List<Bag>> getLikeBags(List<String> ids) async {
-    var bag;
-    bag = await bagCollection.where('id', whereIn: ids).get().then(
-        (value) => value.docs.map((e) => Bag.bagsFromJson(e.data())).toList(),
-        onError: (onError) => print(onError));
+    List<Bag> bag;
+    if (ids.length > 0) {
+      bag = await bagCollection.where('id', whereIn: ids).get().then(
+          (value) => value.docs.map((e) => Bag.bagsFromJson(e.data())).toList(),
+          onError: (onError) => print(onError));
+    } else {
+      bag = [];
+    }
     return bag;
   }
 
   @override
-  Future<User> getCurrentUser() {
-    final currentUser = _firebaseAuth.currentUser;
-    return userCollection
-        .doc(currentUser!.uid)
+  Future<User> getCurrentUser() async {
+    final user = await _firebaseAuth.currentUser;
+    return await userCollection
+        .doc(user!.uid)
         .get()
         .then((user) => User.fromJson(user.data()!));
   }

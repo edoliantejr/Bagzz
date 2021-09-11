@@ -72,76 +72,77 @@ class BagGridViewItem extends StatelessWidget {
     return ViewModelBuilder<BagGridViewModel>.reactive(
       viewModelBuilder: () => BagGridViewModel(),
       builder: (context, model, child) {
-        return InkWell(
-          onTap: () => model.onBagImagePressed(bag),
-          child: Container(
-            height: double.infinity,
-            width: double.infinity,
-            color: Color(0xFFF1F1F1),
-            child: Stack(
-              children: [
-                Center(
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 15.0),
-                        child: CachedNetworkImage(
-                          imageUrl: bag.image,
-                          fit: BoxFit.cover,
-                        ),
-                        width: 150,
-                        height: 150,
+        return Stack(
+          children: [
+            InkWell(
+              onTap: () => model.onBagImagePressed(bag),
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Color(0xFFF1F1F1),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 15.0),
+                      child: CachedNetworkImage(
+                        imageUrl: bag.image,
+                        fit: BoxFit.cover,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(1.0),
+                      width: 150,
+                      height: 150,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Text(
+                        bag.name,
+                        style: TextStyle(
+                            fontFamily: FontNames.playFair,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom:
+                                    BorderSide(width: 2, color: Colors.black))),
                         child: Text(
-                          bag.name,
+                          'SHOP NOW',
                           style: TextStyle(
-                              fontFamily: FontNames.playFair,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
+                              fontFamily: FontNames.workSans,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15),
                         ),
                       ),
-                      SizedBox(height: 10),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      width: 2, color: Colors.black))),
-                          child: Text(
-                            'SHOP NOW',
-                            style: TextStyle(
-                                fontFamily: FontNames.workSans,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: InkWell(
+                onTap: () => model.addToWishList(bag.id!),
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: Icon(
+                    isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border_outlined,
+                    color: isFavorite ? Colors.redAccent : Colors.grey,
+                    size: 30,
                   ),
                 ),
-                Positioned(
-                    top: 6,
-                    right: 9,
-                    child: InkWell(
-                      onTap: () => model.addToWishList(bag.id!),
-                      child: Container(
-                        padding: EdgeInsets.all(6),
-                        child: Icon(
-                          isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border_outlined,
-                          color:
-                              isFavorite ? Colors.red[700] : Color(0xFF474747),
-                          size: 24,
-                        ),
-                      ),
-                    )),
-              ],
+              ),
             ),
-          ),
+          ],
         );
       },
     );

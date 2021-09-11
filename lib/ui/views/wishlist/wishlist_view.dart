@@ -10,7 +10,7 @@ import 'package:stacked/stacked.dart';
 class WishListPage extends StatelessWidget {
   const WishListPage({Key? key}) : super(key: key);
 
-  static open(BuildContext context, List<Bag> bags) {
+  static open(BuildContext context) {
     return showModalBottomSheet(
       backgroundColor: Colors.white.withOpacity(0.8),
       context: context,
@@ -40,11 +40,12 @@ class WishListPage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Center(
-                        child: Container(
-                            margin: EdgeInsets.all(12),
-                            height: 2,
-                            width: 125,
-                            color: Colors.black)),
+                      child: Container(
+                          margin: EdgeInsets.all(12),
+                          height: 2,
+                          width: 125,
+                          color: Colors.black),
+                    ),
                     SizedBox(height: 45),
                     Flexible(
                       child: model.bagsList.isEmpty
@@ -53,14 +54,23 @@ class WishListPage extends StatelessWidget {
                               child:
                                   Center(child: Text('No items on wishlist.')),
                             )
-                          : ListView.builder(
-                              physics: BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              primary: false,
-                              itemCount: model.bagsList.length,
-                              itemBuilder: (context, i) {
-                                return WishListItem(model.bagsList[i]);
-                              }),
+                          : RefreshIndicator(
+                              onRefresh: () => model.getLikedBags(),
+                              child: ListView.builder(
+                                  key: ObjectKey(model.bagsList),
+                                  physics: BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  primary: true,
+                                  itemCount: model.bagsList.length,
+                                  itemBuilder: (context, i) {
+                                    return WishListItem(
+                                      key: ObjectKey(context),
+                                      bag: model.bagsList[i],
+                                      delete: () => model.deleteLikedBag(
+                                          model.bagsList[i].id!),
+                                    );
+                                  }),
+                            ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15, top: 25),
@@ -87,19 +97,31 @@ class WishListPage extends StatelessWidget {
                 ),
               )
             : Container(
-                height: MediaQuery.of(context).size.height / 2,
-                child: Center(
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    child: Column(
-                      children: [
-                        Text('Please wait..'),
-                        SizedBox(height: 10),
-                        CircularProgressIndicator()
-                      ],
+                height: MediaQuery.of(context).size.height / 2.5,
+                child: Column(
+                  children: [
+                    Center(
+                      child: Container(
+                          margin: EdgeInsets.all(12),
+                          height: 2,
+                          width: 125,
+                          color: Colors.black),
                     ),
-                  ),
+                    SizedBox(height: 100),
+                    Center(
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        child: Column(
+                          children: [
+                            Text('Please wait..'),
+                            SizedBox(height: 10),
+                            CircularProgressIndicator()
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               );
       },
@@ -109,9 +131,11 @@ class WishListPage extends StatelessWidget {
 
 class WishListItem extends StatelessWidget {
   final Bag bag;
+  final Function delete;
 
-  const WishListItem(
-    this.bag, {
+  const WishListItem({
+    required this.bag,
+    required this.delete,
     Key? key,
   }) : super(key: key);
 
@@ -166,19 +190,25 @@ class WishListItem extends StatelessWidget {
                           fontSize: 10,
                           fontFamily: FontNames.workSans)),
                   SizedBox(height: 20),
-                  Text(
-                    'REMOVE',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontFamily: FontNames.workSans,
-                        fontWeight: FontWeight.bold),
+                  InkWell(
+                    onTap: () => delete(),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(color: Colors.black, width: 2),
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                      child: Text(
+                        'REMOVE',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontFamily: FontNames.workSans,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
-                  Container(
-                    height: 2,
-                    color: Colors.black,
-                    width: 59,
-                  )
                 ],
               )
             ],

@@ -62,7 +62,7 @@ class BagUploadViewModel extends BaseViewModel {
     var cloudStorageResult;
     setBusy(true);
     if (isAllRequiredValid()) {
-      dialogService.showLoadingDialog('Please wait...');
+      dialogService.showLoadingDialog(message: 'Please wait...', willPop: true);
       if (selectedImage != null) {
         cloudStorageResult = await cloudStorageService.uploadImage(
             imageToUpload: File(selectedImage!.path),
@@ -81,6 +81,7 @@ class BagUploadViewModel extends BaseViewModel {
               isLatest: true,
             ),
           );
+          clearTextController();
           Get.back(canPop: false);
           navigationService.pop();
           snackBarService.showSnackBar('Bag was published.');
@@ -136,10 +137,24 @@ class BagUploadViewModel extends BaseViewModel {
     } else {
       isValid = true;
     }
+
     return isValid;
   }
 
   void cancelPublish() {
     navigationService.pop();
+  }
+
+  void clearTextController() {
+    prodName.clear();
+    brand.clear();
+    category.clear();
+    style.clear();
+    price.clear();
+    stock.clear();
+    desc.clear();
+    shipInfo.clear();
+    payInfo.clear();
+    selectedImage = null;
   }
 }

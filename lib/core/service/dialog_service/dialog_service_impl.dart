@@ -11,11 +11,11 @@ class DialogServiceImpl extends DialogService {
   }
 
   @override
-  Future showLoadingDialog(String message) {
+  Future showLoadingDialog({required String message, required bool willPop}) {
     return Get.defaultDialog(
         barrierDismissible: false,
         onWillPop: () async {
-          return await false;
+          return await willPop;
         },
         title: message,
         content: Center(

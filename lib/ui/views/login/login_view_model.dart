@@ -1,5 +1,6 @@
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
+import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
@@ -12,6 +13,7 @@ class LoginViewModel extends BaseViewModel {
   final snackBarService = locator<SnackBarService>();
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
+  final apiService = locator<ApiService>();
   bool isObscure = true;
   bool isEmailValid = false;
   bool isEmailEmpty = true;
@@ -42,6 +44,7 @@ class LoginViewModel extends BaseViewModel {
       final response = await firebaseAuthService.loginWithEmail(
           email: email, password: password);
       if (response.success) {
+        await apiService.getRealTimeBags();
         navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
             predicate: (route) => false);
         snackBarService.showSnackBar('Successful login');
@@ -66,6 +69,7 @@ class LoginViewModel extends BaseViewModel {
 
   Future loginWithGoogle() async {
     setBusy(true);
+    await apiService.getRealTimeBags();
     final response =
         await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
       print(onError);
@@ -103,5 +107,4 @@ class LoginViewModel extends BaseViewModel {
         : isPasswordEmpty = true;
     notifyListeners();
   }
-
 }

@@ -1,5 +1,6 @@
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
+import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
@@ -14,14 +15,9 @@ class MainScreenViewModel extends BaseViewModel {
   ScrollController scrollController = new ScrollController();
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
+  final apiService = locator<ApiService>();
 
-  init() {
-    // TODO: testing only. Demo to add bag to cart.
-    // Stream.periodic(Duration(seconds: 5)).listen((event) {
-    //   locator<ApiService>()
-    //       .addToCart(MOCK_BAGS[Random.secure().nextInt(MOCK_BAGS.length - 1)]);
-    // });
-  }
+  init() {}
 
   @override
   void dispose() {
@@ -41,7 +37,7 @@ class MainScreenViewModel extends BaseViewModel {
     }
     //show wishlist
     if (index == 2) {
-      WishListPage.open(context, []);
+      WishListPage.open(context);
     }
     //show cart bottom sheet
     if (index == 3) {
@@ -52,5 +48,9 @@ class MainScreenViewModel extends BaseViewModel {
   void logout() async {
     //await firebaseAuthService.logOut();
     navigationService.pushNamed(Routes.BagUpload, arguments: []);
+  }
+
+  Future<void> refreshContent() {
+    return apiService.getCurrentUser();
   }
 }

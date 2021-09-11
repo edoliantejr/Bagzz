@@ -56,7 +56,11 @@ class MainScreen extends StatelessWidget {
                   )
                 ];
               },
-              body: HomeScreen(),
+              body: RefreshIndicator(
+                onRefresh: () => model.refreshContent(),
+                displacement: 40,
+                child: HomeScreen(),
+              ),
             ),
             bottomNavigationBar: MyBottomNavigation(
               onTabChange: (index) => model.onTabChange(index, context),

@@ -72,7 +72,7 @@ class LoginViewModel extends BaseViewModel {
     await apiService.getRealTimeBags();
     final response =
         await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
-      print(onError);
+      return onError;
     });
     if (response.success)
       navigationService.pushReplacementNamed(Routes.MainScreen);

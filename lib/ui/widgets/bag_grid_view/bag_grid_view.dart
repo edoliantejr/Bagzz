@@ -14,47 +14,55 @@ class BagGridView extends StatelessWidget {
       onModelReady: (model) => model.init(),
       viewModelBuilder: () => BagGridViewModel(),
       builder: (context, model, child) {
-        return Column(
-          children: [
-            GridView.builder(
-                padding: const EdgeInsets.only(
-                    left: 12, right: 12, top: 30, bottom: 11),
-                shrinkWrap: true,
-                primary: false,
-                itemCount: model.bagsList.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 24,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: .7,
-                ),
-                itemBuilder: (context, index) {
-                  return BagGridViewItem(
-                    key: ObjectKey(model.bagsList[index]),
-                    isFavorite: model.isFavorite(model.bagsList[index]),
-                    bag: model.bagsList[index],
-                  );
-                }),
-            Center(
-              child: Container(
-                margin: EdgeInsets.only(top: 20.0),
+        return model.isBusy
+            ? Center(
                 child: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                      color: Colors.black,
-                    )),
-                    child: Text("CHECK ALL LATEST",
-                        style: TextStyle(
-                          fontFamily: 'WorkSans',
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ))),
-              ),
-            ),
-          ],
-        );
+                  width: 50,
+                  height: 50,
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : Column(
+                children: [
+                  GridView.builder(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 30, bottom: 11),
+                      shrinkWrap: true,
+                      primary: false,
+                      itemCount: model.bagsList.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 24,
+                        crossAxisSpacing: 16,
+                        childAspectRatio: .7,
+                      ),
+                      itemBuilder: (context, index) {
+                        return BagGridViewItem(
+                            key: ObjectKey(model.bagsList[index]),
+                            bag: model.bagsList[index],
+                            isFavorite:
+                                model.isFavorite(model.bagsList[index].id!));
+                      }),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 20.0),
+                      child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16.0),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            color: Colors.black,
+                          )),
+                          child: Text("CHECK ALL LATEST",
+                              style: TextStyle(
+                                fontFamily: 'WorkSans',
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ))),
+                    ),
+                  ),
+                ],
+              );
       },
     );
   }
@@ -62,7 +70,7 @@ class BagGridView extends StatelessWidget {
 
 class BagGridViewItem extends StatelessWidget {
   final Bag bag;
-  final isFavorite;
+  final bool isFavorite;
 
   BagGridViewItem({Key? key, required this.bag, required this.isFavorite})
       : super(key: key);

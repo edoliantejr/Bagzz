@@ -2,11 +2,13 @@ import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:bagzz/models/bag.dart';
+import 'package:bagzz/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class BagItemDetailsViewModel extends BaseViewModel {
   final Bag bag;
+  User? currentUser;
   final apiService = locator<ApiService>();
   final snackBarService = locator<SnackBarService>();
 
@@ -33,8 +35,23 @@ class BagItemDetailsViewModel extends BaseViewModel {
     super.dispose();
   }
 
+  Future<void> init() async {
+    setBusy(true);
+    await getCurrentUser();
+    await isFavorite();
+    setBusy(false);
+  }
+
   void addBagToCart() {
     // apiService.addToCart(bag);
     // snackBarService.showSnackBar('Bag added to cart');
+  }
+
+  Future getCurrentUser() async {
+    currentUser = await apiService.getCurrentUser();
+  }
+
+  bool isFavorite() {
+    return currentUser!.favoriteBags.contains(bag.id);
   }
 }

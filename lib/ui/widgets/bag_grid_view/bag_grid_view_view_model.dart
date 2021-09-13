@@ -61,8 +61,8 @@ class BagGridViewModel extends BaseViewModel {
     });
   }
 
-  bool isFavorite(Bag bag) {
+  bool isFavorite(String id) {
     getCurrentUser();
-    return currentUser!.favoriteBags.contains(bag.id);
+    return currentUser!.favoriteBags.contains(id);
   }
 }

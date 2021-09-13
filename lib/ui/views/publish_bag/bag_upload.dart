@@ -192,21 +192,23 @@ class BagUpload extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                Container(
-                                  alignment: Alignment.centerRight,
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.6,
-                                  child: TextField(
-                                    controller: model.category,
-                                    focusNode: model.categoryFocus,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(height: 1.5),
-                                    textInputAction: TextInputAction.next,
-                                    decoration: InputDecoration(
-                                      hintText: 'Not Set',
-                                      border: UnderlineInputBorder(
-                                        borderSide: BorderSide.none,
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.centerRight,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.6,
+                                    child: TextField(
+                                      controller: model.category,
+                                      focusNode: model.categoryFocus,
+                                      maxLines: 1,
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(height: 1.5),
+                                      textInputAction: TextInputAction.next,
+                                      decoration: InputDecoration(
+                                        hintText: 'Not Set',
+                                        border: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        ),
                                       ),
                                     ),
                                   ),

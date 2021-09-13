@@ -11,6 +11,8 @@ abstract class ApiService {
   Future<User> getCurrentUser();
 
   Future<void> updateUser(User user);
+
+  Future <List<Bag>> searchListOfBags(String query);
 // Future<List<Category>> getBagCategories({int max = -1});
 //
 // Stream<Map<Bag, int>> getCart();

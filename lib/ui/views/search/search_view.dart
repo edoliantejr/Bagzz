@@ -12,8 +12,6 @@ class SearchBottomSheet extends StatefulWidget {
   _SearchBottomSheetState createState() => _SearchBottomSheetState();
 
   static Future<dynamic> open(BuildContext context, List bagz) {
-    TextEditingController editingController = TextEditingController();
-
     return showModalBottomSheet(
         backgroundColor: Colors.white,
         context: context,
@@ -48,9 +46,9 @@ class SearchBottomSheet extends StatefulWidget {
                               Container(
                                 padding: EdgeInsets.all(16),
                                 child: TextField(
-                                  controller: editingController,
+                                  controller: model.editingController,
                                   onChanged: (value) {
-                                    model.getListOfBags();
+                                    model.searchBag(model.editingController.text);
                                   },
                                   style: TextStyle(
                                     fontFamily: FontNames.workSans,
@@ -59,19 +57,18 @@ class SearchBottomSheet extends StatefulWidget {
                                   decoration: InputDecoration(
                                       hintText: "Type here to search",
                                       suffixIcon:
-                                          editingController.text.length == 0
+                                          model.editingController.text.length ==
+                                                  0
                                               ? null
                                               : IconButton(
                                                   icon: Icon(
                                                     Icons.clear,
                                                     color: Colors.grey,
                                                   ),
-                                                  onPressed: () {
-                                                    /* setState(() {
-                                                editingController.clear();
-                                                inputText = "";
-                                              }); */
-                                                  }),
+                                                  onPressed: () => model
+                                                      .editingController
+                                                      .clear(),
+                                                ),
                                       focusedBorder: UnderlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.black))),
@@ -85,12 +82,16 @@ class SearchBottomSheet extends StatefulWidget {
                         Expanded(
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: model.searchListOfBags.length,
-                            itemBuilder: (context, index) {
+                            itemCount: model.bagsList.length,
+                            itemBuilder: (context, i) {
                               return ListTile(
-                                title: Text(
-                                    '${model.searchListOfBags[index].name}'),
-                              );
+                                      title: Text(
+                                        model.bagsList[i].name,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: FontNames.workSans),
+                                      ),
+                                    );
                             },
                           ),
                         ),

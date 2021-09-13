@@ -46,8 +46,8 @@ import 'package:stacked/stacked_annotations.dart';
   CustomRoute(
       page: BagUpload,
       name: 'BagUpload',
-      durationInMilliseconds: 300,
-      transitionsBuilder: TransitionsBuilders.slideTop),
+      durationInMilliseconds: 100,
+      transitionsBuilder: TransitionsBuilders.slideLeft),
   CustomRoute(
       page: Register,
       name: 'Register',

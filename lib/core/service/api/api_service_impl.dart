@@ -26,7 +26,7 @@ class ApiServiceImpl extends ApiService {
         .limit(6)
         .snapshots()
         .map((data) =>
-            data.docs.map((doc) => Bag.bagsFromJson(doc.data())).toList());
+        data.docs.map((doc) => Bag.bagsFromJson(doc.data())).toList());
   }
 
   @override
@@ -34,7 +34,8 @@ class ApiServiceImpl extends ApiService {
     List<Bag> bag;
     if (ids.length > 0) {
       bag = await bagCollection.where('id', whereIn: ids).get().then(
-          (value) => value.docs.map((e) => Bag.bagsFromJson(e.data())).toList(),
+              (value) =>
+              value.docs.map((e) => Bag.bagsFromJson(e.data())).toList(),
           onError: (onError) => print(onError));
     } else {
       bag = [];
@@ -55,4 +56,12 @@ class ApiServiceImpl extends ApiService {
   Future<void> updateUser(User user) async {
     await userCollection.doc(user.id).update(user.toJson());
   }
+
+  @override
+  Future<List<Bag>> searchListOfBags(String query) {
+    return bagCollection.where('name', isGreaterThanOrEqualTo: query,).where(
+        'name', isLessThanOrEqualTo: query+'\uf8ff').get().then((value) =>
+        value.docs.map((bag) => Bag.bagsFromJson(bag.data())).toList());
+  }
+
 }

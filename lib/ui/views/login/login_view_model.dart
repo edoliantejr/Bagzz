@@ -1,6 +1,5 @@
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
-import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
@@ -105,8 +104,7 @@ class LoginViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void onRegisterTap(){
+  void onRegisterTap() {
     navigationService.pushNamed(Routes.Register);
   }
-
 }

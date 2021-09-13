@@ -7,6 +7,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
 import '../models/bag.dart';
@@ -64,7 +65,7 @@ class StackedRouter extends RouterBase {
             const MainScreen(),
         settings: data,
         transitionsBuilder: TransitionsBuilders.slideLeft,
-        transitionDuration: const Duration(milliseconds: 300),
+        transitionDuration: const Duration(milliseconds: 400),
       );
     },
     HomeScreen: (data) {
@@ -104,7 +105,7 @@ class StackedRouter extends RouterBase {
             const BagUpload(),
         settings: data,
         transitionsBuilder: TransitionsBuilders.slideLeft,
-        transitionDuration: const Duration(milliseconds: 300),
+        transitionDuration: const Duration(milliseconds: 100),
       );
     },
     Register: (data) {

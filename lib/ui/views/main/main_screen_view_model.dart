@@ -1,6 +1,7 @@
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
+import 'package:bagzz/core/service/api/mock_data.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
@@ -16,6 +17,9 @@ class MainScreenViewModel extends BaseViewModel {
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
   final apiService = locator<ApiService>();
+  final name = 'Test101';
+  final email = 'blendit.com';
+  final urlImage = 'assets/icons/drawer.svg';
 
   init() {}
 
@@ -53,4 +57,5 @@ class MainScreenViewModel extends BaseViewModel {
   Future<void> refreshContent() {
     return apiService.getCurrentUser();
   }
+
 }

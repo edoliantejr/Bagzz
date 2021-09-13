@@ -1,6 +1,8 @@
 import 'package:bagzz/constant/font_names.dart';
+import 'package:bagzz/ui/views/drawer/drawer_view.dart';
 import 'package:bagzz/ui/views/home/home_screen.dart';
 import 'package:bagzz/ui/widgets/my_bottom_navigation/my_bottom_navigation.dart';
+import 'package:flutter/material.dart' hide Drawer;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
@@ -17,19 +19,24 @@ class MainScreen extends StatelessWidget {
         onModelReady: (model) => model.init(),
         builder: (context, model, widget) {
           return Scaffold(
+            drawer: DrawerView(),
             body: NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return [
                   SliverAppBar(
+                    iconTheme: IconThemeData(color: Colors.black),
                     backgroundColor: Colors.grey[50],
                     elevation: 0,
                     leading: Container(
                         padding: EdgeInsets.all(13),
-                        child: SvgPicture.asset(
-                          'assets/icons/drawer.svg',
-                          height: 14,
-                          width: 24,
+                        child: InkWell(
+                          onTap: Scaffold.of(context).openDrawer,
+                          child: SvgPicture.asset(
+                            'assets/icons/drawer.svg',
+                            height: 14,
+                            width: 24,
+                          ),
                         )),
                     title: const Text(
                       'bagzz',

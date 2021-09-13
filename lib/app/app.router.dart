@@ -7,7 +7,6 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
 import '../models/bag.dart';
@@ -17,6 +16,7 @@ import '../ui/views/home/home_screen.dart';
 import '../ui/views/login/login.dart';
 import '../ui/views/main/main_screen_view.dart';
 import '../ui/views/publish_bag/bag_upload.dart';
+import '../ui/views/register/register_view.dart';
 
 class Routes {
   static const String LogIn = '/';
@@ -25,6 +25,7 @@ class Routes {
   static const String BagItemDetailsPage = '/bag-item-details-page';
   static const String CartPage = '/cart-page';
   static const String BagUpload = '/bag-upload';
+  static const String Register = '/Register';
   static const all = <String>{
     LogIn,
     MainScreen,
@@ -32,6 +33,7 @@ class Routes {
     BagItemDetailsPage,
     CartPage,
     BagUpload,
+    Register,
   };
 }
 
@@ -45,6 +47,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.BagItemDetailsPage, page: BagItemDetailsPage),
     RouteDef(Routes.CartPage, page: CartPage),
     RouteDef(Routes.BagUpload, page: BagUpload),
+    RouteDef(Routes.Register, page: Register),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -101,6 +104,15 @@ class StackedRouter extends RouterBase {
             const BagUpload(),
         settings: data,
         transitionsBuilder: TransitionsBuilders.slideLeft,
+        transitionDuration: const Duration(milliseconds: 300),
+      );
+    },
+    Register: (data) {
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const Register(),
+        settings: data,
+        transitionsBuilder: TransitionsBuilders.fadeIn,
         transitionDuration: const Duration(milliseconds: 300),
       );
     },

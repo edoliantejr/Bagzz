@@ -1,28 +1,32 @@
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
-import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-class LoginViewModel extends BaseViewModel {
+class RegisterViewModel extends BaseViewModel {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordControllers = TextEditingController();
   final snackBarService = locator<SnackBarService>();
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
   bool isObscure = true;
+  bool isObscures = true;
   bool isEmailValid = false;
   bool isEmailEmpty = true;
   bool isPasswordEmpty = true;
+  bool isPasswordsEmpty = true;
   late FocusNode emailFocusNode;
   late FocusNode passFocusNode;
+  late FocusNode passFocusNodes;
 
   void init() {
     emailFocusNode = FocusNode();
     passFocusNode = FocusNode();
+    passFocusNodes = FocusNode();
   }
 
   Future loginNow({required String email, required String password}) async {
@@ -68,7 +72,7 @@ class LoginViewModel extends BaseViewModel {
   Future loginWithGoogle() async {
     setBusy(true);
     final response =
-        await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
+    await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
       print(onError);
     });
     if (response.success)
@@ -84,9 +88,15 @@ class LoginViewModel extends BaseViewModel {
     setBusy(false);
   }
 
+  void showPasswords() {
+    setBusy(true);
+    if (!isPasswordsEmpty) isObscures = !isObscures;
+    setBusy(false);
+  }
+
+
   checkEmail() {
     emailController.text != '' ? isEmailEmpty = false : isEmailEmpty = true;
-    //regex to verify if email is valid
     final regExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
     if (regExp.hasMatch(emailController.text)) {
@@ -95,6 +105,7 @@ class LoginViewModel extends BaseViewModel {
       isEmailValid = false;
     }
 
+    // isEmailValid=true;
     notifyListeners();
   }
 
@@ -104,9 +115,18 @@ class LoginViewModel extends BaseViewModel {
         : isPasswordEmpty = true;
     notifyListeners();
   }
-
-  void onRegisterTap(){
-    navigationService.pushNamed(Routes.Register);
+  checkPass2() {
+    passwordController.text != ''
+        ? isPasswordEmpty = false
+        : isPasswordEmpty = true;
+    notifyListeners();
   }
 
+
+  validateEmail() {}
+
+  void logout() async{
+    await  firebaseAuthService.logOut();
+    navigationService.pushNamed(Routes.LogIn);
+  }
 }

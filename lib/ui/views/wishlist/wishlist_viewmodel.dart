@@ -13,43 +13,61 @@ import 'package:stacked/stacked.dart';
 class WishlistViewModel extends BaseViewModel {
   List<Bag> bagsList = [];
   User? currentUser;
+  StreamSubscription? getLikeBagSubscription;
+  StreamSubscription? userSubscription;
+
   final bagRef = FirebaseFirestore.instance.collection('bags');
   final apiService = locator<ApiService>();
   final dialogService = locator<DialogService>();
   final navigatorService = locator<NavigationService>();
 
-  Future<void> init() async {
+  init() async {
     setBusy(true);
-    await getCurrentUser();
-    await getLikedBags();
-    notifyListeners();
+    getCurrentUser();
     setBusy(false);
   }
 
-  Future<void> getCurrentUser() async {
-    currentUser = await apiService.getCurrentUser();
+  getCurrentUser() {
+    apiService.getCurrentUser().listen((event) {
+      userSubscription?.cancel();
+      userSubscription = apiService.getCurrentUser().listen((user) {
+        currentUser = user;
+        getLikedBags();
+        notifyListeners();
+      });
+    });
+
+    // currentUser = await apiService.getCurrentUser();
   }
 
-  Future getLikedBags() async {
-    await getCurrentUser();
-    List<String> userLikedIds = [''];
+  getLikedBags() {
     if (currentUser!.favoriteBags.isNotEmpty) {
-      userLikedIds = await currentUser!.favoriteBags;
+      apiService.getLikeBags(currentUser!.favoriteBags).listen((event) {
+        getLikeBagSubscription?.cancel();
+        getLikeBagSubscription = apiService
+            .getLikeBags(currentUser!.favoriteBags)
+            .listen((listOfBags) {
+          bagsList = listOfBags;
+          notifyListeners();
+        });
+      });
+    } else {
+      bagsList = [];
+      notifyListeners();
     }
-    bagsList = await apiService.getLikeBags(userLikedIds);
+
+    // bagsList = await apiService.getLikeBags(userLikedIds);
+  }
+
+  updateLikedBags() async {
+    await apiService.updateUser(currentUser!);
     notifyListeners();
   }
 
-  Future updateLikedBags() async {
-    await apiService.updateUser(currentUser!);
-    await getCurrentUser();
-    bagsList = await apiService.getLikeBags(currentUser!.favoriteBags);
-  }
-
-  Future deleteLikedBag(String id) async {
+  deleteLikedBag(String id) async {
     dialogService.showLoadingDialog(message: 'Removing..', willPop: true);
     if (currentUser!.favoriteBags.contains(id)) {
-      await currentUser!.favoriteBags.remove(id);
+      currentUser!.favoriteBags.remove(id);
     }
     await updateLikedBags();
     Get.back(canPop: false);

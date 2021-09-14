@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
@@ -11,6 +13,7 @@ class BagItemDetailsViewModel extends BaseViewModel {
   User? currentUser;
   final apiService = locator<ApiService>();
   final snackBarService = locator<SnackBarService>();
+  StreamSubscription? userSubscription;
 
   BagItemDetailsViewModel({required this.bag});
 
@@ -35,10 +38,9 @@ class BagItemDetailsViewModel extends BaseViewModel {
     super.dispose();
   }
 
-  Future<void> init() async {
+  init() {
     setBusy(true);
-    await getCurrentUser();
-    await isFavorite();
+    getCurrentUser();
     setBusy(false);
   }
 
@@ -47,8 +49,17 @@ class BagItemDetailsViewModel extends BaseViewModel {
     // snackBarService.showSnackBar('Bag added to cart');
   }
 
-  Future getCurrentUser() async {
-    currentUser = await apiService.getCurrentUser();
+  getCurrentUser() {
+    apiService.getCurrentUser().listen((event) {
+      userSubscription?.cancel();
+      userSubscription = apiService.getCurrentUser().listen((user) {
+        currentUser = user;
+        notifyListeners();
+        isFavorite();
+      });
+    });
+
+    // currentUser = await apiService.getCurrentUser();
   }
 
   bool isFavorite() {

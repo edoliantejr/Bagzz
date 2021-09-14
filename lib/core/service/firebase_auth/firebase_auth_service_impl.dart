@@ -95,8 +95,11 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
 
       if (authResult!.user!.uid.isNotEmpty) {
         createUserIfNotExist(
-          User(authResult!.user!.uid, authResult!.user!.email,
-              authResult!.user!.displayName, []),
+          User(
+              id: authResult!.user!.uid,
+              email: authResult!.user!.email!,
+              name: authResult!.user!.displayName!,
+              favoriteBags: []),
         );
       }
       return LoginResponse.success(authResult!.user!);

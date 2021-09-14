@@ -89,7 +89,7 @@ class CategoryItem extends StatelessWidget {
         Container(
             width: double.infinity,
             child: Image(
-              image: AssetImage(category.image),
+              image: AssetImage(category.coverImage),
               fit: BoxFit.cover,
             )),
         Positioned(

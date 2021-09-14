@@ -13,6 +13,7 @@ import 'package:bagzz/core/service/snack_bar_service/snack_bar_service_impl.dart
 import 'package:bagzz/core/utility/image_selector.dart';
 import 'package:bagzz/ui/views/bag_item_details/bag_item_details_page.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
+import 'package:bagzz/ui/views/choose_category/choose_category.dart';
 import 'package:bagzz/ui/views/home/home_screen.dart';
 import 'package:bagzz/ui/views/login/login.dart';
 import 'package:bagzz/ui/views/main/main_screen_view.dart';
@@ -46,7 +47,12 @@ import 'package:stacked/stacked_annotations.dart';
   CustomRoute(
       page: BagUpload,
       name: 'BagUpload',
-      durationInMilliseconds: 100,
+      durationInMilliseconds: 200,
+      transitionsBuilder: TransitionsBuilders.fadeIn),
+  CustomRoute(
+      page: ChooseCategory,
+      name: 'ChooseCategory',
+      durationInMilliseconds: 200,
       transitionsBuilder: TransitionsBuilders.slideLeft),
   CustomRoute(
       page: Register,

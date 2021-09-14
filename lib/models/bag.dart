@@ -30,7 +30,7 @@ class Bag extends Equatable {
   List<Object?> get props =>
       [id, image, title, name, price, category, style, desc, shipInfo, payInfo];
 
-  factory Bag.bagsFromJson(Map<String, dynamic> json) {
+  factory Bag.FromJson(Map<String, dynamic> json) {
     return Bag(
         id: json['id'],
         image: json['image'],

@@ -36,8 +36,6 @@ class WishlistViewModel extends BaseViewModel {
         notifyListeners();
       });
     });
-
-    // currentUser = await apiService.getCurrentUser();
   }
 
   getLikedBags() {

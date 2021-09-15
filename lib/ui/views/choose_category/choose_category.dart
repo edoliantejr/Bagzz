@@ -82,7 +82,7 @@ class ChooseCategory extends StatelessWidget {
                                 return CategoryListItem(
                                   categoryTitle:
                                       model.categories[index].categoryTitle,
-                                  setProductCategory: () => null,
+                                  setProductCategory: model.setCategory,
                                 );
                               },
                             ),
@@ -146,7 +146,7 @@ class PleasChooseHeader extends StatelessWidget {
 ///Category list item
 class CategoryListItem extends StatelessWidget {
   final categoryTitle;
-  final VoidCallback setProductCategory;
+  final Function(String value) setProductCategory;
 
   const CategoryListItem(
       {required this.categoryTitle, required this.setProductCategory, Key? key})
@@ -155,7 +155,7 @@ class CategoryListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => setProductCategory(),
+      onTap: () => setProductCategory(categoryTitle),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 13, horizontal: 8),
         decoration: BoxDecoration(

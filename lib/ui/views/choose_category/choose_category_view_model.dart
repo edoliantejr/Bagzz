@@ -33,4 +33,8 @@ class ChooseCategoryViewModel extends BaseViewModel {
   pop() {
     navigatorService.pop();
   }
+
+  setCategory(String category) {
+    navigatorService.pop(returnValue: category);
+  }
 }

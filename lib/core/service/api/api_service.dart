@@ -13,21 +13,7 @@ abstract class ApiService {
 
   Future<void> updateUser(User user);
 
-  Future <List<Bag>> searchListOfBags(String query);
-// Future<List<Category>> getBagCategories({int max = -1});
-//
-// Stream<Map<Bag, int>> getCart();
-//
-// void addToCart(Bag bag);
-//
-// void removeFromCart(Bag bag);
-//
-// void addToFavorite(Bag bag);
-//
-// void removeFromFavorite(Bag bag);
-//
-// Future<List<Bag>> searchBag(String query);
-//
+  Stream<List<Category>> getRealTimeCategories();
 
-
+  Future<List<Bag>> searchListOfBags(String query);
 }

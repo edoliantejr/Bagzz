@@ -159,7 +159,11 @@ class BagUploadViewModel extends BaseViewModel {
     selectedImage = null;
   }
 
-  void goToChooseCategory() {
-    navigationService.pushNamed(Routes.ChooseCategory);
+  void goToChooseCategory() async {
+    final selectedCategory =
+        await navigationService.pushNamed(Routes.ChooseCategory);
+    if (selectedCategory != null) {
+      category.text = selectedCategory;
+    }
   }
 }

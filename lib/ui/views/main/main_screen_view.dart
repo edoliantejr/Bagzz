@@ -28,14 +28,13 @@ class MainScreen extends StatelessWidget {
                     iconTheme: IconThemeData(color: Colors.black),
                     backgroundColor: Colors.grey[50],
                     elevation: 0,
+                    leadingWidth: 65,
                     leading: InkWell(
                       onTap: Scaffold.of(context).openDrawer,
                       child: Container(
-                          padding: EdgeInsets.all(13),
+                          padding: EdgeInsets.all(15),
                           child: SvgPicture.asset(
                             'assets/icons/drawer.svg',
-                            height: 14,
-                            width: 24,
                           )),
                     ),
                     title: const Text(
@@ -48,7 +47,7 @@ class MainScreen extends StatelessWidget {
                     ),
                     actions: [
                       InkWell(
-                        onTap: model.logout,
+                        onTap: (){},
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: CircleAvatar(
@@ -61,7 +60,7 @@ class MainScreen extends StatelessWidget {
                       )
                     ],
                   )
-                ];
+                    )];
               },
               body: RefreshIndicator(
                 onRefresh: () => model.refreshContent(),

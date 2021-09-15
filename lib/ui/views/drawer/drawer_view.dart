@@ -4,8 +4,6 @@ import 'package:stacked/stacked.dart';
 
 class DrawerView extends StatelessWidget {
   const DrawerView({Key? key}) : super(key: key);
-  get padding => EdgeInsets.symmetric(horizontal: 20);
-  get hoverColor => null;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +18,8 @@ class DrawerView extends StatelessWidget {
                   physics: NeverScrollableScrollPhysics(),
                   children: [
                     buildHeader(
-                      name: model.currentUser?.name ?? '',
-                      email: model.currentUser?.email ?? '',
+                      name: model.name,
+                      email: model.email,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -71,7 +69,7 @@ class DrawerView extends StatelessWidget {
                           buildMenuItem(
                               text: 'Updates',
                               icon: Icons.update,
-                              onTap: () => null),
+                              onTap: () {}),
                         ],
                       ),
                     ),
@@ -88,7 +86,7 @@ class DrawerView extends StatelessWidget {
                           buildMenuItem(
                               text: 'Plugins',
                               icon: Icons.account_tree_outlined,
-                              onTap: () => null),
+                              onTap: () {}),
                         ],
                       ),
                     ),
@@ -110,12 +108,13 @@ class DrawerView extends StatelessWidget {
 
         });
   }
+
   Widget buildHeader({
     required String name,
     required String email,
   }) =>
       Container(
-        padding: padding.add(EdgeInsets.symmetric(vertical: 40)),
+        padding: EdgeInsets.only(top: 40, bottom: 8, left: 20),
         child: Row(
           children: [
             CircleAvatar(
@@ -131,15 +130,12 @@ class DrawerView extends StatelessWidget {
                   style: TextStyle(fontSize: 20, color: Colors.black),
                 ),
                 const SizedBox(height: 4),
-                Text(email, style: TextStyle(fontSize: 14, color: Colors.black))
+                Text(
+                  email,
+                  style: TextStyle(fontSize: 14, color: Colors.black),
+                ),
               ],
             ),
-            Spacer(),
-            CircleAvatar(
-              radius: 24,
-              backgroundColor: Colors.black,
-              child: Icon(Icons.add_comment_outlined, color: Colors.white),
-            )
           ],
         ),
       );

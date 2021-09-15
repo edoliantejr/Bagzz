@@ -17,11 +17,9 @@ class DrawerViewModel extends BaseViewModel {
   final navigationService = locator<NavigationService>();
   final apiService = locator<ApiService>();
   User? currentUser;
+  String name = '';
+  String email = '';
   StreamSubscription? userSubscription;
-  final name = 'Test101';
-  final email = 'blendit.com';
-  final urlImage = 'assets/icons/drawer.svg';
-  User? user;
 
   @override
   void dispose() {
@@ -39,8 +37,12 @@ class DrawerViewModel extends BaseViewModel {
     apiService.getCurrentUser().listen((event) {
       userSubscription?.cancel();
       userSubscription = apiService.getCurrentUser().listen((user) {
-        currentUser = user;
-        notifyListeners();
+        if (user.id.isNotEmpty) {
+          currentUser = user;
+          name = currentUser!.name;
+          email = currentUser!.email;
+          notifyListeners();
+        }
       });
     });
     // user = await apiService.getCurrentUser();
@@ -56,4 +58,3 @@ class DrawerViewModel extends BaseViewModel {
     navigationService.pushNamed(Routes.LogIn);
   }
 }
-

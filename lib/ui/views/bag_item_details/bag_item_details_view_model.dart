@@ -58,8 +58,6 @@ class BagItemDetailsViewModel extends BaseViewModel {
         isFavorite();
       });
     });
-
-    // currentUser = await apiService.getCurrentUser();
   }
 
   bool isFavorite() {

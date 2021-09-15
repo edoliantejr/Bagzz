@@ -46,12 +46,6 @@ class ApiServiceImpl extends ApiService {
         .doc(user!.uid)
         .snapshots()
         .map((event) => User.fromJson(event.data()!));
-
-    // final user = await _firebaseAuth.currentUser;
-    // return await userCollection
-    //     .doc(user!.uid)
-    //     .get()
-    //     .then((user) => User.fromJson(user.data()!));
   }
 
   @override

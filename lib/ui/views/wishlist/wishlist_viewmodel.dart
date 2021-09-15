@@ -55,8 +55,6 @@ class WishlistViewModel extends BaseViewModel {
       bagsList = [];
       notifyListeners();
     }
-
-    // bagsList = await apiService.getLikeBags(userLikedIds);
   }
 
   updateLikedBags() async {

@@ -19,7 +19,7 @@ class BagUpload extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             fontFamily: FontNames.workSans,
-            accentColor: Colors.white,
+            accentColor: Colors.deepOrange,
           ),
           home: Scaffold(
             backgroundColor: Colors.white,
@@ -166,40 +166,44 @@ class BagUpload extends StatelessWidget {
                           SizedBox(height: 8),
 
                           ///category
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 1),
-                            color: Colors.white,
-                            width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.menu_rounded,
-                                      size: 25,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'Category',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
-                                    ),
-                                    Text(
-                                      '*',
-                                      style: TextStyle(color: Colors.red),
-                                    )
-                                  ],
-                                ),
-                                Expanded(
-                                  child: Container(
+                          InkWell(
+                            onTap: model.goToChooseCategory,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 1),
+                              color: Colors.white,
+                              width: double.infinity,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.menu_rounded,
+                                        size: 25,
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'Category',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2,
+                                      ),
+                                      Text(
+                                        '*',
+                                        style: TextStyle(color: Colors.red),
+                                      )
+                                    ],
+                                  ),
+                                  Container(
                                     alignment: Alignment.centerRight,
                                     width:
                                         MediaQuery.of(context).size.width / 1.6,
                                     child: TextField(
                                       controller: model.category,
                                       focusNode: model.categoryFocus,
+                                      enabled: false,
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(height: 1.5),
@@ -211,9 +215,9 @@ class BagUpload extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(height: 1),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
@@ -14,6 +16,8 @@ class DrawerViewModel extends BaseViewModel {
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
   final apiService = locator<ApiService>();
+  User? currentUser;
+  StreamSubscription? userSubscription;
   final name = 'Test101';
   final email = 'blendit.com';
   final urlImage = 'assets/icons/drawer.svg';
@@ -25,23 +29,31 @@ class DrawerViewModel extends BaseViewModel {
     super.dispose();
   }
 
-  init() async {
+  init() {
     setBusy(true);
-    await getUserDetails();
+    getUserDetails();
     setBusy(false);
   }
 
-  Future<void> getUserDetails() async {
-    user = await apiService.getCurrentUser();
+  getUserDetails() {
+    apiService.getCurrentUser().listen((event) {
+      userSubscription?.cancel();
+      userSubscription = apiService.getCurrentUser().listen((user) {
+        currentUser = user;
+        notifyListeners();
+      });
+    });
+    // user = await apiService.getCurrentUser();
   }
 
-  void goToPublishBag() {
-    navigationService.pop();
-    navigationService.pushNamed(Routes.BagUpload, arguments: []);
+  void goToPublishBag() async {
+    // await navigationService.pop();
+    navigationService.pushNamedAndRemoveUntil(Routes.BagUpload,
+        predicate: (dynamic) => true);
   }
-
   void logout() async{
     await  firebaseAuthService.logOut();
     navigationService.pushNamed(Routes.LogIn);
   }
 }
+

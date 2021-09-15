@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bagzz/app/app.locator.dart';
+import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/dialog_service/dialog_service.dart';
 import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service.dart';
@@ -156,5 +157,9 @@ class BagUploadViewModel extends BaseViewModel {
     shipInfo.clear();
     payInfo.clear();
     selectedImage = null;
+  }
+
+  void goToChooseCategory() {
+    navigationService.pushNamed(Routes.ChooseCategory);
   }
 }

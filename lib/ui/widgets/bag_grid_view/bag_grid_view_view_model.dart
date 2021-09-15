@@ -16,11 +16,12 @@ class BagGridViewModel extends BaseViewModel {
   List<Bag> bagsList = [];
   StreamSubscription? listOfBagStreamSubscription;
   User? currentUser;
+  StreamSubscription? userSubscription;
 
-  Future<void> init() async {
+  init() {
     setBusy(true);
-    await getCurrentUser();
     getBagsRealtime();
+    getCurrentUser();
     setBusy(false);
   }
 
@@ -29,40 +30,40 @@ class BagGridViewModel extends BaseViewModel {
         arguments: BagItemDetailsPageArguments(bag: bag));
   }
 
-  Future<void> addToWishList(String id) async {
-    await getCurrentUser();
-
+  addToWishList(String id) async {
+    getCurrentUser();
     if (currentUser!.favoriteBags.contains(id)) {
       ///remove, already added
       currentUser!.favoriteBags.remove(id);
     } else {
       currentUser!.favoriteBags.add(id);
     }
-
     await apiService.updateUser(currentUser!);
   }
 
-  Future<void> getCurrentUser() async {
-    currentUser = await apiService.getCurrentUser();
-    notifyListeners();
+  getCurrentUser() {
+    // currentUser = await apiService.getCurrentUser();
+    apiService.getCurrentUser().listen((event) {
+      userSubscription?.cancel();
+      userSubscription = apiService.getCurrentUser().listen((user) {
+        currentUser = user;
+        notifyListeners();
+      });
+    });
   }
 
   void getBagsRealtime() {
     apiService.getRealTimeBags().listen((event) {
-      setBusy(true);
       listOfBagStreamSubscription?.cancel();
       listOfBagStreamSubscription = apiService.getRealTimeBags().listen((bags) {
         bagsList.clear();
         bagsList = bags;
         notifyListeners();
       });
-
-      setBusy(false);
     });
   }
 
   bool isFavorite(String id) {
-    getCurrentUser();
     return currentUser!.favoriteBags.contains(id);
   }
 }

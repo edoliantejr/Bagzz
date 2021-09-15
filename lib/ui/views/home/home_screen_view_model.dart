@@ -81,19 +81,21 @@ class HomeScreenViewModel extends BaseViewModel {
   void loadCategoryData() async {
     final List<Category> category = [
       Category(
-          id: 1,
-          image: 'assets/images/model1.png',
+          id: '1',
+          coverImage: 'assets/images/model1.png',
           categoryTitle: 'Handle Bags'),
       Category(
-          id: 2,
-          image: 'assets/images/model2.png',
+          id: '2',
+          coverImage: 'assets/images/model2.png',
           categoryTitle: 'Crossbody Bags'),
       Category(
-          id: 3,
-          image: 'assets/images/model3.png',
+          id: '3',
+          coverImage: 'assets/images/model3.png',
           categoryTitle: 'Shoulder Bags'),
       Category(
-          id: 4, image: 'assets/images/model4.png', categoryTitle: 'Tote Bags'),
+          id: '4',
+          coverImage: 'assets/images/model4.png',
+          categoryTitle: 'Tote Bags'),
     ];
     categoryList.addAll(category);
   }

@@ -66,8 +66,9 @@ class WishListPage extends StatelessWidget {
                                     return WishListItem(
                                       key: ObjectKey(context),
                                       bag: model.bagsList[i],
-                                      delete: () => model.deleteLikedBag(
-                                          model.bagsList[i].id!),
+                                      deleteLikedBag: () =>
+                                          model.deleteLikedBag(
+                                              model.bagsList[i].id!),
                                     );
                                   }),
                             ),
@@ -131,11 +132,11 @@ class WishListPage extends StatelessWidget {
 
 class WishListItem extends StatelessWidget {
   final Bag bag;
-  final Function delete;
+  final VoidCallback deleteLikedBag;
 
   const WishListItem({
     required this.bag,
-    required this.delete,
+    required this.deleteLikedBag,
     Key? key,
   }) : super(key: key);
 
@@ -191,7 +192,7 @@ class WishListItem extends StatelessWidget {
                           fontFamily: FontNames.workSans)),
                   SizedBox(height: 20),
                   InkWell(
-                    onTap: () => delete(),
+                    onTap: () => deleteLikedBag(),
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border(

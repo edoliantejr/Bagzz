@@ -49,11 +49,11 @@ class MainScreenViewModel extends BaseViewModel {
   }
 
   void logout() async {
-    //await firebaseAuthService.logOut();
-    navigationService.pushNamed(Routes.BagUpload, arguments: []);
+    await firebaseAuthService.logOut();
+    navigationService.pushReplacementNamed(Routes.LogIn);
   }
 
   Future<void> refreshContent() {
-    return apiService.getCurrentUser();
+    return init();
   }
 }

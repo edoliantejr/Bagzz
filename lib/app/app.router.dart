@@ -13,6 +13,7 @@ import 'package:stacked/stacked.dart';
 import '../models/bag.dart';
 import '../ui/views/bag_item_details/bag_item_details_page.dart';
 import '../ui/views/cart/cart_page_view.dart';
+import '../ui/views/choose_category/choose_category.dart';
 import '../ui/views/home/home_screen.dart';
 import '../ui/views/login/login.dart';
 import '../ui/views/main/main_screen_view.dart';
@@ -26,6 +27,7 @@ class Routes {
   static const String BagItemDetailsPage = '/bag-item-details-page';
   static const String CartPage = '/cart-page';
   static const String BagUpload = '/bag-upload';
+  static const String ChooseCategory = '/choose-category';
   static const String Register = '/Register';
   static const all = <String>{
     LogIn,
@@ -34,6 +36,7 @@ class Routes {
     BagItemDetailsPage,
     CartPage,
     BagUpload,
+    ChooseCategory,
     Register,
   };
 }
@@ -48,6 +51,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.BagItemDetailsPage, page: BagItemDetailsPage),
     RouteDef(Routes.CartPage, page: CartPage),
     RouteDef(Routes.BagUpload, page: BagUpload),
+    RouteDef(Routes.ChooseCategory, page: ChooseCategory),
     RouteDef(Routes.Register, page: Register),
   ];
   @override
@@ -104,8 +108,17 @@ class StackedRouter extends RouterBase {
         pageBuilder: (context, animation, secondaryAnimation) =>
             const BagUpload(),
         settings: data,
+        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionDuration: const Duration(milliseconds: 200),
+      );
+    },
+    ChooseCategory: (data) {
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const ChooseCategory(),
+        settings: data,
         transitionsBuilder: TransitionsBuilders.slideLeft,
-        transitionDuration: const Duration(milliseconds: 100),
+        transitionDuration: const Duration(milliseconds: 200),
       );
     },
     Register: (data) {

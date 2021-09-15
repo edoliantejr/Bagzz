@@ -40,6 +40,10 @@ class BagGridView extends StatelessWidget {
                         return BagGridViewItem(
                             key: ObjectKey(model.bagsList[index]),
                             bag: model.bagsList[index],
+                            onBagClick: () =>
+                                model.onBagImagePressed(model.bagsList[index]),
+                            addToWishList: () =>
+                                model.addToWishList(model.bagsList[index].id!),
                             isFavorite:
                                 model.isFavorite(model.bagsList[index].id!));
                       }),
@@ -71,88 +75,87 @@ class BagGridView extends StatelessWidget {
 class BagGridViewItem extends StatelessWidget {
   final Bag bag;
   final bool isFavorite;
+  final VoidCallback onBagClick;
+  final VoidCallback addToWishList;
 
-  BagGridViewItem({Key? key, required this.bag, required this.isFavorite})
-      : super(key: key);
+  BagGridViewItem({
+    Key? key,
+    required this.bag,
+    required this.isFavorite,
+    required this.onBagClick,
+    required this.addToWishList,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<BagGridViewModel>.reactive(
-      viewModelBuilder: () => BagGridViewModel(),
-      builder: (context, model, child) {
-        return Stack(
-          children: [
-            InkWell(
-              onTap: () => model.onBagImagePressed(bag),
-              child: Container(
-                width: double.infinity,
-                height: double.infinity,
-                color: Color(0xFFF1F1F1),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 15.0),
-                      child: CachedNetworkImage(
-                        imageUrl: bag.image,
-                        fit: BoxFit.cover,
-                      ),
-                      width: 150,
-                      height: 150,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(1.0),
-                      child: Text(
-                        bag.name,
-                        style: TextStyle(
-                            fontFamily: FontNames.playFair,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom:
-                                    BorderSide(width: 2, color: Colors.black))),
-                        child: Text(
-                          'SHOP NOW',
-                          style: TextStyle(
-                              fontFamily: FontNames.workSans,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15),
-                        ),
-                      ),
-                    ),
-                  ],
+    return Stack(
+      children: [
+        InkWell(
+          onTap: () => onBagClick(),
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Color(0xFFF1F1F1),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 15.0),
+                  child: CachedNetworkImage(
+                    imageUrl: bag.image,
+                    fit: BoxFit.cover,
+                  ),
+                  width: 150,
+                  height: 150,
                 ),
-              ),
-            ),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: InkWell(
-                onTap: () => model.addToWishList(bag.id!),
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  child: Icon(
-                    isFavorite
-                        ? Icons.favorite
-                        : Icons.favorite_border_outlined,
-                    color: isFavorite ? Colors.redAccent : Colors.grey,
-                    size: 30,
+                Padding(
+                  padding: const EdgeInsets.all(1.0),
+                  child: Text(
+                    bag.name,
+                    style: TextStyle(
+                        fontFamily: FontNames.playFair,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
                   ),
                 ),
+                SizedBox(height: 10),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(width: 2, color: Colors.black))),
+                    child: Text(
+                      'SHOP NOW',
+                      style: TextStyle(
+                          fontFamily: FontNames.workSans,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: InkWell(
+            onTap: () => addToWishList(),
+            child: Container(
+              height: 50,
+              width: 50,
+              child: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border_outlined,
+                color: isFavorite ? Colors.redAccent : Colors.grey,
+                size: 30,
               ),
             ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 }

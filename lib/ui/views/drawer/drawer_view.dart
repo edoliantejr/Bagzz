@@ -20,8 +20,8 @@ class DrawerView extends StatelessWidget {
                   physics: NeverScrollableScrollPhysics(),
                   children: [
                     buildHeader(
-                      name: model.isBusy ? 'Loading..' : model.user!.name,
-                      email: model.isBusy ? 'Loading..' : model.user!.email,
+                      name: model.currentUser?.name ?? '',
+                      email: model.currentUser?.email ?? '',
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -30,31 +30,29 @@ class DrawerView extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: padding,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
                           const SizedBox(height: 20),
                           buildMenuItem(
-                              text: 'People',
-                              icon: Icons.people,
-                              onTap: () => null),
+                              text: 'People', icon: Icons.people, onTap: () {}),
                         ],
                       ),
                     ),
                     Container(
-                      padding: padding,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
                           const SizedBox(height: 20),
                           buildMenuItem(
                               text: 'Favourites',
                               icon: Icons.favorite_border,
-                              onTap: () => null),
+                              onTap: () {}),
                         ],
                       ),
                     ),
                     Container(
-                      padding: padding,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
                           const SizedBox(height: 20),
@@ -66,7 +64,7 @@ class DrawerView extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: padding,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
                           const SizedBox(height: 20),
@@ -84,40 +82,40 @@ class DrawerView extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     Container(
-                      padding: padding,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
                           buildMenuItem(
-                              text: 'Notifications',
-                              icon: Icons.notifications_outlined,
+                              text: 'Plugins',
+                              icon: Icons.account_tree_outlined,
                               onTap: () => null),
                         ],
                       ),
                     ),
                     const SizedBox(height: 20),
                     Container(
-                      padding: padding,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
                           buildMenuItem(
-                              text: 'Logout',
-                              icon: Icons.logout,
-                            onTap: model.logout,
-                          )],
+                              text: 'Notifications',
+                              icon: Icons.notifications_outlined,
+                              onTap: () {}),
+                        ],
                       ),
                     ),
                   ],
                 )),
           );
+
         });
   }
-
   Widget buildHeader({
-    required String? name,
-    required String? email,
+    required String name,
+    required String email,
   }) =>
       Container(
-        padding: padding.add(EdgeInsets.only(top: 40, bottom: 8)),
+        padding: padding.add(EdgeInsets.symmetric(vertical: 40)),
         child: Row(
           children: [
             CircleAvatar(
@@ -128,19 +126,20 @@ class DrawerView extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FittedBox(
-                  child: Text(
-                    name!,
-                    style: TextStyle(fontSize: 20, color: Colors.black),
-                  ),
+                Text(
+                  name,
+                  style: TextStyle(fontSize: 20, color: Colors.black),
                 ),
                 const SizedBox(height: 4),
-                FittedBox(
-                  child: Text(email!,
-                      style: TextStyle(fontSize: 14, color: Colors.black)),
-                )
+                Text(email, style: TextStyle(fontSize: 14, color: Colors.black))
               ],
             ),
+            Spacer(),
+            CircleAvatar(
+              radius: 24,
+              backgroundColor: Colors.black,
+              child: Icon(Icons.add_comment_outlined, color: Colors.white),
+            )
           ],
         ),
       );
@@ -154,7 +153,7 @@ class DrawerView extends StatelessWidget {
     return ListTile(
       leading: Icon(icon, color: color),
       title: Text(text, style: TextStyle(color: Colors.black)),
-      hoverColor: hoverColor,
+      hoverColor: null,
       onTap: () => onTap(),
     );
   }

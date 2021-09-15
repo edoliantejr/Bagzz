@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/models/bag.dart';
+import 'package:bagzz/models/category.dart';
 import 'package:bagzz/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
@@ -9,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 final userCollection = FirebaseFirestore.instance.collection('users');
 final bagCollection = FirebaseFirestore.instance.collection('bags');
+final categoryCollection = FirebaseFirestore.instance.collection('categories');
 
 class ApiServiceImpl extends ApiService {
   @override
@@ -26,30 +28,24 @@ class ApiServiceImpl extends ApiService {
         .limit(6)
         .snapshots()
         .map((data) =>
-        data.docs.map((doc) => Bag.bagsFromJson(doc.data())).toList());
+            data.docs.map((doc) => Bag.FromJson(doc.data())).toList());
   }
 
   @override
-  Future<List<Bag>> getLikeBags(List<String> ids) async {
-    List<Bag> bag;
-    if (ids.length > 0) {
-      bag = await bagCollection.where('id', whereIn: ids).get().then(
-              (value) =>
-              value.docs.map((e) => Bag.bagsFromJson(e.data())).toList(),
-          onError: (onError) => print(onError));
-    } else {
-      bag = [];
-    }
-    return bag;
+  Stream<List<Bag>> getLikeBags(List<String> ids) {
+    return bagCollection
+        .where('id', whereIn: ids)
+        .snapshots()
+        .map((event) => event.docs.map((e) => Bag.FromJson(e.data())).toList());
   }
 
   @override
-  Future<User> getCurrentUser() async {
-    final user = await _firebaseAuth.currentUser;
-    return await userCollection
+  Stream<User> getCurrentUser() {
+    final user = _firebaseAuth.currentUser;
+    return userCollection
         .doc(user!.uid)
-        .get()
-        .then((user) => User.fromJson(user.data()!));
+        .snapshots()
+        .map((event) => User.fromJson(event.data()!));
   }
 
   @override
@@ -58,10 +54,17 @@ class ApiServiceImpl extends ApiService {
   }
 
   @override
-  Future<List<Bag>> searchListOfBags(String query) {
-    return bagCollection.where('name', isGreaterThanOrEqualTo: query,).where(
-        'name', isLessThanOrEqualTo: query+'\uf8ff').get().then((value) =>
-        value.docs.map((bag) => Bag.bagsFromJson(bag.data())).toList());
+  Stream<List<Category>> getRealTimeCategories() {
+    return categoryCollection
+        .orderBy('name', descending: false)
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => Category.fromJson(e.data())).toList());
   }
 
+  @override
+  Future<List<Bag>> searchListOfBags(String query) {
+    // TODO: implement searchListOfBags
+    throw UnimplementedError();
+  }
 }

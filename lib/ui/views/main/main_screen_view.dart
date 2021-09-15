@@ -48,7 +48,7 @@ class MainScreen extends StatelessWidget {
                     ),
                     actions: [
                       InkWell(
-                        onTap: (){},
+                        onTap: model.logout,
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: CircleAvatar(

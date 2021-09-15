@@ -69,4 +69,5 @@ class WishlistViewModel extends BaseViewModel {
     Get.back(canPop: false);
     notifyListeners();
   }
+
 }

@@ -60,4 +60,6 @@ class Bag extends Equatable {
       'isLatest': isLatest
     };
   }
+
+
 }

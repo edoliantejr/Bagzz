@@ -28,7 +28,7 @@ class ApiServiceImpl extends ApiService {
         .limit(6)
         .snapshots()
         .map((data) =>
-            data.docs.map((doc) => Bag.FromJson(doc.data())).toList());
+        data.docs.map((doc) => Bag.FromJson(doc.data())).toList());
   }
 
   @override
@@ -60,5 +60,12 @@ class ApiServiceImpl extends ApiService {
         .snapshots()
         .map((event) =>
             event.docs.map((e) => Category.fromJson(e.data())).toList());
+  }
+
+  @override
+  Future<List<Bag>> searchListOfBags(String query) {
+    return bagCollection.where('name', isGreaterThanOrEqualTo: query,).where(
+        'name', isLessThanOrEqualTo: query+'\uf8ff').get().then((value) =>
+        value.docs.map((bag) => Bag.bagsFromJson(bag.data())).toList());
   }
 }

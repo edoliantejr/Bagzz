@@ -1,6 +1,5 @@
 import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/models/category.dart';
-import 'package:bagzz/models/category.dart';
 import 'package:bagzz/models/user.dart';
 
 abstract class ApiService {
@@ -16,5 +15,5 @@ abstract class ApiService {
 
   Stream<List<Category>> getRealTimeCategories();
 
-  Future <List<Bag>> searchListOfBags(String query);
+  Future<List<Bag>> searchListOfBags(String query);
 }

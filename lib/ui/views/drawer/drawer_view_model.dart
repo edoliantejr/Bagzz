@@ -17,6 +17,8 @@ class DrawerViewModel extends BaseViewModel {
   final navigationService = locator<NavigationService>();
   final apiService = locator<ApiService>();
   User? currentUser;
+  String name = '';
+  String email = '';
   StreamSubscription? userSubscription;
 
   @override
@@ -35,8 +37,12 @@ class DrawerViewModel extends BaseViewModel {
     apiService.getCurrentUser().listen((event) {
       userSubscription?.cancel();
       userSubscription = apiService.getCurrentUser().listen((user) {
-        currentUser = user;
-        notifyListeners();
+        if (user.id.isNotEmpty) {
+          currentUser = user;
+          name = currentUser!.name;
+          email = currentUser!.email;
+          notifyListeners();
+        }
       });
     });
     // user = await apiService.getCurrentUser();

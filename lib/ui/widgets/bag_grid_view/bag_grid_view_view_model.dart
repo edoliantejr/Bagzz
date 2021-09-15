@@ -14,6 +14,7 @@ class BagGridViewModel extends BaseViewModel {
   final snackBarService = locator<SnackBarService>();
   final apiService = locator<ApiService>();
   List<Bag> bagsList = [];
+  List<String> likedBags = [];
   StreamSubscription? listOfBagStreamSubscription;
   User? currentUser;
   StreamSubscription? userSubscription;
@@ -31,7 +32,6 @@ class BagGridViewModel extends BaseViewModel {
   }
 
   addToWishList(String id) async {
-    getCurrentUser();
     if (currentUser!.favoriteBags.contains(id)) {
       ///remove, already added
       currentUser!.favoriteBags.remove(id);
@@ -47,6 +47,7 @@ class BagGridViewModel extends BaseViewModel {
       userSubscription?.cancel();
       userSubscription = apiService.getCurrentUser().listen((user) {
         currentUser = user;
+        likedBags = currentUser!.favoriteBags;
         notifyListeners();
       });
     });
@@ -64,6 +65,12 @@ class BagGridViewModel extends BaseViewModel {
   }
 
   bool isFavorite(String id) {
-    return currentUser!.favoriteBags.contains(id);
+    bool isFav;
+    if (likedBags.length > 0) {
+      isFav = currentUser!.favoriteBags.contains(id);
+    } else {
+      isFav = false;
+    }
+    return isFav;
   }
 }

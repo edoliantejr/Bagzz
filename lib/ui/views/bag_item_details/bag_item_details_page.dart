@@ -112,8 +112,7 @@ class BagItemDetailsPage extends StatelessWidget {
                                             )),
                                         InkWell(
                                           onTap: () => model.addToCart(
-                                              model.bag!,
-                                              model.currentUser!.id),
+                                              model.bag, model.currentUser!.id),
                                           child: Container(
                                             margin: EdgeInsets.symmetric(
                                                 vertical: 8),
@@ -148,11 +147,11 @@ class BagItemDetailsPage extends StatelessWidget {
                             child: Container(
                               child: IconButton(
                                 onPressed: () {},
-                                icon: model.isFavorite(model.bag!.id!)
+                                icon: model.isFavorite(model.bag.id!)
                                     ? Icon(Icons.favorite)
                                     : Icon(Icons.favorite_border_outlined,
                                         size: 28),
-                                color: model.isFavorite(model.bag!.id!)
+                                color: model.isFavorite(model.bag.id!)
                                     ? Colors.redAccent
                                     : Colors.grey,
                               ),
@@ -215,20 +214,20 @@ class BagItemDetailsPage extends StatelessWidget {
                             model.setCurrentIndex(index);
                           },
                           children: [
-                            Text(model.bag!.desc,
+                            Text(model.bag.desc,
                                 textAlign: TextAlign.start,
                                 softWrap: true,
                                 style: TextStyle(
                                     fontFamily: FontNames.workSans,
                                     letterSpacing: 0.85,
                                     height: 1.8)),
-                            Text(model.bag!.shipInfo,
+                            Text(model.bag.shipInfo,
                                 softWrap: true,
                                 style: TextStyle(
                                     fontFamily: FontNames.workSans,
                                     letterSpacing: 0.85,
                                     height: 1.8)),
-                            Text(model.bag!.payInfo,
+                            Text(model.bag.payInfo,
                                 softWrap: true,
                                 style: TextStyle(
                                     fontFamily: FontNames.workSans,

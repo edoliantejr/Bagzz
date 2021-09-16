@@ -78,4 +78,28 @@ class ApiServiceImpl extends ApiService {
         .then((value) =>
             value.docs.map((bag) => Bag.FromJson(bag.data())).toList());
   }
+
+  @override
+  Future addToCart({required Bag bag, required String uid}) async {
+    final userBagExist = await userCollection
+        .doc(uid)
+        .collection('bag')
+        .doc(bag.id!)
+        .get()
+        .then((value) => value.exists);
+
+    if (!userBagExist) {
+      final userBag = await userCollection
+          .doc(uid)
+          .collection('bag')
+          .doc(bag.id!)
+          .set(bag.bagsToJson(bag.id!));
+    } else {
+      await userCollection
+          .doc(uid)
+          .collection('bag')
+          .doc(bag.id!)
+          .update({'bagInCartQuantity': FieldValue.increment(1)});
+    }
+  }
 }

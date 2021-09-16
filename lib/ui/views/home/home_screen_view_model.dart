@@ -28,6 +28,7 @@ class HomeScreenViewModel extends BaseViewModel {
   void loadBagBannerData() {
     final List<Bag> bagBanner = [
       Bag(
+        stock: 1,
         id: ' 1',
         image: 'assets/images/bag-header-01.png',
         title: " This season's best buy",
@@ -54,6 +55,7 @@ class HomeScreenViewModel extends BaseViewModel {
             ' Vitae congue mauris rhoncus aenean vel elit. ',
       ),
       Bag(
+        stock: 1,
         id: '2',
         image: 'assets/images/bag-header-02.png',
         title: " This season's popular",

@@ -111,7 +111,8 @@ class BagItemDetailsPage extends StatelessWidget {
                                                   fontSize: 14),
                                             )),
                                         InkWell(
-                                          onTap: model.addBagToCart,
+                                          onTap: () => model.addToCart(
+                                              bag, model.currentUser!.id),
                                           child: Container(
                                             margin: EdgeInsets.symmetric(
                                                 vertical: 8),
@@ -146,11 +147,11 @@ class BagItemDetailsPage extends StatelessWidget {
                             child: Container(
                               child: IconButton(
                                 onPressed: () {},
-                                icon: model.isFavorite()
+                                icon: model.isFavorite(model.bag.id!)
                                     ? Icon(Icons.favorite)
                                     : Icon(Icons.favorite_border_outlined,
                                         size: 28),
-                                color: model.isFavorite()
+                                color: model.isFavorite(model.bag.id!)
                                     ? Colors.redAccent
                                     : Colors.grey,
                               ),

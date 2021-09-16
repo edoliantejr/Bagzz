@@ -12,6 +12,8 @@ class Bag extends Equatable {
   final String payInfo;
   final double price;
   final bool? isLatest;
+  final int stock;
+  final int? bagInCartQuantity;
 
   Bag(
       {this.id,
@@ -24,6 +26,8 @@ class Bag extends Equatable {
       required this.desc,
       required this.shipInfo,
       required this.payInfo,
+      required this.stock,
+      this.bagInCartQuantity,
       this.isLatest});
 
   @override
@@ -42,7 +46,10 @@ class Bag extends Equatable {
         desc: json['desc'],
         shipInfo: json['shipInfo'],
         payInfo: json['payInfo'],
-        isLatest: json['isLatest']);
+        isLatest: json['isLatest'],
+        stock: json['bagQuantity'] != null ? json['bagQuantity'] : 0,
+        bagInCartQuantity:
+            json['bagInCartQuantity'] != null ? json['bagInCartQuantity'] : 1);
   }
 
   Map<String, dynamic> bagsToJson(String id) {
@@ -52,14 +59,14 @@ class Bag extends Equatable {
       'title': title,
       'name': name,
       'price': price,
+      'stock': stock,
+      'bagInCartQuantity': bagInCartQuantity,
       'category': category,
       'style': style,
       'desc': desc,
       'shipInfo': shipInfo,
       'payInfo': payInfo,
-      'isLatest': isLatest
+      'isLatest': isLatest,
     };
   }
-
-
 }

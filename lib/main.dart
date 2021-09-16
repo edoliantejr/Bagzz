@@ -1,5 +1,6 @@
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
+import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/ui/views/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,10 @@ void main() async {
   final navigationService = locator<NavigationService>();
 
   runApp(GetMaterialApp(
+    theme: ThemeData(
+        fontFamily: FontNames.workSans,
+        accentColor: Colors.deepOrangeAccent,
+        iconTheme: IconThemeData(color: Colors.deepOrangeAccent)),
     debugShowCheckedModeBanner: false,
     home: Login(),
     navigatorKey: navigationService.navigatorKey,

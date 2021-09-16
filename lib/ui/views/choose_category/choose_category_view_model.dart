@@ -12,7 +12,6 @@ class ChooseCategoryViewModel extends BaseViewModel {
 
   final apiService = locator<ApiService>();
   final navigatorService = locator<NavigationService>();
-
   init() async {
     setBusy(true);
     getAllCategories();
@@ -28,10 +27,6 @@ class ChooseCategoryViewModel extends BaseViewModel {
         notifyListeners();
       });
     });
-  }
-
-  pop() {
-    navigatorService.pop();
   }
 
   setCategory(String category) {

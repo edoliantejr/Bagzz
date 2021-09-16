@@ -74,6 +74,7 @@ class BagUploadViewModel extends BaseViewModel {
               image: cloudStorageResult.imageUrl,
               name: prodName.text,
               price: double.tryParse(price.text)!,
+              stock: int.parse(stock.text),
               category: category.text,
               style: style.text,
               desc: desc.text,
@@ -140,10 +141,6 @@ class BagUploadViewModel extends BaseViewModel {
     }
 
     return isValid;
-  }
-
-  void cancelPublish() {
-    navigationService.pop();
   }
 
   void clearTextController() {

@@ -1,4 +1,3 @@
-import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/ui/views/choose_category/choose_category_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -13,85 +12,80 @@ class ChooseCategory extends StatelessWidget {
       viewModelBuilder: () => ChooseCategoryViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            accentColor: Colors.deepOrange,
-            fontFamily: FontNames.workSans,
-          ),
-          home: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.grey[50],
-              elevation: 0,
-              leadingWidth: 30,
-              leading: IconButton(
-                onPressed: model.pop,
-                icon: Icon(Icons.arrow_back),
-                color: Colors.deepOrangeAccent,
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.grey[50],
+            elevation: 0,
+            leading: IconButton(
+              onPressed: () => model.navigatorService.pop(),
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
               ),
-              title: Text(
-                'Choose Category',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
+            ),
+            leadingWidth: 30,
+            title: Text(
+              'Choose Category',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+            actions: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.search_rounded),
+                  color: Colors.deepOrange,
                 ),
-              ),
-              actions: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.search_rounded),
-                    color: Colors.deepOrange,
+              )
+            ],
+          ),
+          body: model.isBusy
+              ? Center(
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    child: CircularProgressIndicator(),
                   ),
                 )
-              ],
-            ),
-            body: model.isBusy
-                ? Center(
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : SingleChildScrollView(
-                    physics: ClampingScrollPhysics(),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.all(8),
-                            color: Colors.grey[200],
-                            child: Text('All Categories'),
+              : SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(8),
+                          color: Colors.grey[200],
+                          child: Text('All Categories'),
+                        ),
+                        StickyHeader(
+                          overlapHeaders: false,
+                          header: PleasChooseHeader(),
+                          content: ListView.builder(
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: model.categories.length,
+                            itemBuilder: (context, index) {
+                              return CategoryListItem(
+                                categoryTitle:
+                                    model.categories[index].categoryTitle,
+                                setProductCategory: model.setCategory,
+                              );
+                            },
                           ),
-                          StickyHeader(
-                            overlapHeaders: false,
-                            header: PleasChooseHeader(),
-                            content: ListView.builder(
-                              shrinkWrap: true,
-                              primary: false,
-                              itemCount: model.categories.length,
-                              itemBuilder: (context, index) {
-                                return CategoryListItem(
-                                  categoryTitle:
-                                      model.categories[index].categoryTitle,
-                                  setProductCategory: model.setCategory,
-                                );
-                              },
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
-          ),
+                ),
         );
       },
     );

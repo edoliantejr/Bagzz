@@ -3,26 +3,61 @@ import 'dart:async';
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/models/bag.dart';
+import 'package:bagzz/models/user.dart';
 import 'package:stacked/stacked.dart';
 
 class CartPageViewModel extends BaseViewModel {
-  final apiService = locator<ApiService>();
-  Map<Bag, int> shoppingCart = {};
+  List<Bag> bagsInCart = [];
+  User? currentUser;
+  StreamSubscription? bagsInCartSubscription;
+  StreamSubscription? userSubscription;
 
-  List<Bag> get bagsOnCart => shoppingCart.keys.toList();
-  late StreamSubscription<Map<Bag, int>> streamSubscription;
+  final apiService = locator<ApiService>();
 
   init() {
-    // listen for every cart changes and update the navigation cart icon count
-    // streamSubscription = apiService.getCart().listen((latestCart) {
-    //   shoppingCart = latestCart;
-    //   notifyListeners();
-    // });
+    setBusy(true);
+    getCurrentUser();
+    setBusy(false);
   }
 
   @override
   void dispose() {
-    // streamSubscription.cancel();
-    // super.dispose();
+    bagsInCartSubscription!.cancel();
+    userSubscription!.cancel();
+    super.dispose();
+  }
+
+  getCurrentUser() {
+    apiService.getCurrentUser().listen((event) {
+      userSubscription = apiService.getCurrentUser().listen((user) {
+        currentUser = user;
+        if (currentUser != null) {
+          getUsersCart(currentUser!.id);
+          notifyListeners();
+        }
+      });
+    });
+  }
+
+  getUsersCart(String userId) {
+    apiService.getAllBagsInCart(userId).listen((event) {
+      bagsInCartSubscription =
+          apiService.getAllBagsInCart(userId).listen((value) {
+        if (value.length >= 1) {
+          bagsInCart = value;
+        } else {
+          bagsInCart = [];
+        }
+        notifyListeners();
+      });
+    });
+  }
+
+  decrementOrDeleteBagInCartQuantity(Bag bag, String uid) {
+    apiService.deleteBagInCart(bag: bag, uid: uid);
+  }
+
+  incrementBagInCartQuantity(Bag bag, String uid) {
+    apiService.addToCart(bag: bag, uid: uid);
   }
 }

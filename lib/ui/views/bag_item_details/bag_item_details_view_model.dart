@@ -40,6 +40,7 @@ class BagItemDetailsViewModel extends BaseViewModel {
   @override
   void dispose() {
     pageController.dispose();
+    userSubscription!.cancel();
     super.dispose();
   }
 

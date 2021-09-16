@@ -24,6 +24,7 @@ class DrawerViewModel extends BaseViewModel {
   @override
   void dispose() {
     scrollController.dispose();
+    userSubscription!.cancel();
     super.dispose();
   }
 

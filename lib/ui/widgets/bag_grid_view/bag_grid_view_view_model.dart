@@ -26,6 +26,13 @@ class BagGridViewModel extends BaseViewModel {
     setBusy(false);
   }
 
+  @override
+  void dispose() {
+    listOfBagStreamSubscription!.cancel();
+    userSubscription!.cancel();
+    super.dispose();
+  }
+
   void onBagImagePressed(Bag bag) {
     navigatorService.pushNamed(Routes.BagItemDetailsPage,
         arguments: BagItemDetailsPageArguments(bag: bag));

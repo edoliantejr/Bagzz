@@ -49,7 +49,7 @@ class CartPage extends StatelessWidget {
                         color: Colors.black)),
                 SizedBox(height: 45),
                 Flexible(
-                  child: model.bagsOnCart.isEmpty
+                  child: model.bagsInCart.isEmpty
                       ? Container(
                           height: 100,
                           child: Center(child: Text('Cart is empty. Add item')),
@@ -58,19 +58,25 @@ class CartPage extends StatelessWidget {
                           physics: BouncingScrollPhysics(),
                           shrinkWrap: true,
                           primary: false,
-                          itemCount: model.bagsOnCart.length,
+                          itemCount: model.bagsInCart.length,
                           itemBuilder: (context, i) {
-                            final bag = model.bagsOnCart[i];
-                            final bagQuantity = model.shoppingCart[bag];
                             return CartItem(
-                              bag,
-                              quantity: bagQuantity ?? 0,
+                              bag: model.bagsInCart[i],
+                              quantity: model.bagsInCart[i].bagInCartQuantity!,
+                              decrementQuantity: () =>
+                                  model.decrementOrDeleteBagInCartQuantity(
+                                      model.bagsInCart[i],
+                                      model.currentUser!.id),
+                              incrementQuantity: () =>
+                                  model.incrementBagInCartQuantity(
+                                      model.bagsInCart[i],
+                                      model.currentUser!.id),
                             );
                           }),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 15, top: 15),
-                  child: model.bagsOnCart.isEmpty
+                  child: model.bagsInCart.isEmpty
                       ? Container()
                       : Container(
                           height: 43,
@@ -99,11 +105,15 @@ class CartPage extends StatelessWidget {
 class CartItem extends StatelessWidget {
   final Bag bag;
   final int quantity;
+  final VoidCallback decrementQuantity;
+  final VoidCallback incrementQuantity;
 
-  const CartItem(
-    this.bag, {
+  const CartItem({
     Key? key,
+    required this.bag,
     required this.quantity,
+    required this.decrementQuantity,
+    required this.incrementQuantity,
   }) : super(key: key);
 
   @override
@@ -130,14 +140,17 @@ class CartItem extends StatelessWidget {
                   Container(
                     child: Row(
                       children: [
-                        Container(
-                          width: 29,
-                          height: 25,
-                          color: Colors.black,
-                          child: Center(
-                              child: Text('-',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16))),
+                        GestureDetector(
+                          onTap: () => decrementQuantity(),
+                          child: Container(
+                            width: 29,
+                            height: 25,
+                            color: Colors.black,
+                            child: Center(
+                                child: Text('-',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16))),
+                          ),
                         ),
                         Container(
                           width: 29,
@@ -148,15 +161,19 @@ class CartItem extends StatelessWidget {
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 16))),
                         ),
-                        Container(
-                          width: 29,
-                          height: 25,
-                          color: Colors.black,
-                          child: Center(
-                              child: Text(
-                            '+',
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                          )),
+                        GestureDetector(
+                          onTap: () => incrementQuantity(),
+                          child: Container(
+                            width: 29,
+                            height: 25,
+                            color: Colors.black,
+                            child: Center(
+                                child: Text(
+                              '+',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14),
+                            )),
+                          ),
                         )
                       ],
                     ),

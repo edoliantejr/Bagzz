@@ -12,10 +12,17 @@ class ChooseCategoryViewModel extends BaseViewModel {
 
   final apiService = locator<ApiService>();
   final navigatorService = locator<NavigationService>();
+
   init() async {
     setBusy(true);
     getAllCategories();
     setBusy(false);
+  }
+
+  @override
+  void dispose() {
+    categorySubscription!.cancel();
+    super.dispose();
   }
 
   getAllCategories() async {

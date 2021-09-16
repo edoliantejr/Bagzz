@@ -182,43 +182,46 @@ class CartItem extends StatelessWidget {
               ),
 
               SizedBox(
-                width: 32,
+                width: 20,
               ),
               //column for bag info
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 18,
-                  ),
-                  Text(bag.name,
+              Container(
+                width: 150,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 18,
+                    ),
+                    Text(bag.name,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FontNames.playFair)),
+                    SizedBox(height: 8),
+                    Text(bag.category,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontFamily: FontNames.workSans,
+                            fontWeight: FontWeight.w400)),
+                    Text(bag.style,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 10,
+                            fontFamily: FontNames.workSans)),
+                    SizedBox(height: 20),
+                    Text(
+                      '${bag.price}',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: FontNames.playFair)),
-                  SizedBox(height: 8),
-                  Text(bag.category,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
                           fontFamily: FontNames.workSans,
-                          fontWeight: FontWeight.w400)),
-                  Text(bag.style,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 10,
-                          fontFamily: FontNames.workSans)),
-                  SizedBox(height: 20),
-                  Text(
-                    '${bag.price}',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontFamily: FontNames.workSans,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
               )
             ],
           ),

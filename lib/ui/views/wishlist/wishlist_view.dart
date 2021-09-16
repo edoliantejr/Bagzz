@@ -54,24 +54,20 @@ class WishListPage extends StatelessWidget {
                               child:
                                   Center(child: Text('No items on wishlist.')),
                             )
-                          : RefreshIndicator(
-                              onRefresh: () => model.getLikedBags(),
-                              child: ListView.builder(
-                                  key: ObjectKey(model.bagsList),
-                                  physics: BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  primary: true,
-                                  itemCount: model.bagsList.length,
-                                  itemBuilder: (context, i) {
-                                    return WishListItem(
-                                      key: ObjectKey(context),
-                                      bag: model.bagsList[i],
-                                      deleteLikedBag: () =>
-                                          model.deleteLikedBag(
-                                              model.bagsList[i].id!),
-                                    );
-                                  }),
-                            ),
+                          : ListView.builder(
+                              key: ObjectKey(model.bagsList),
+                              physics: BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              primary: true,
+                              itemCount: model.bagsList.length,
+                              itemBuilder: (context, i) {
+                                return WishListItem(
+                                  key: ObjectKey(context),
+                                  bag: model.bagsList[i],
+                                  deleteLikedBag: () => model
+                                      .deleteLikedBag(model.bagsList[i].id!),
+                                );
+                              }),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15, top: 25),

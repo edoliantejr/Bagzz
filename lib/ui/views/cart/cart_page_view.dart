@@ -61,6 +61,7 @@ class CartPage extends StatelessWidget {
                           itemCount: model.bagsInCart.length,
                           itemBuilder: (context, i) {
                             return CartItem(
+                              key: ObjectKey(model.bagsInCart[i]),
                               bag: model.bagsInCart[i],
                               quantity: model.bagsInCart[i].bagInCartQuantity!,
                               decrementQuantity: () =>
@@ -71,6 +72,8 @@ class CartPage extends StatelessWidget {
                                   model.incrementBagInCartQuantity(
                                       model.bagsInCart[i],
                                       model.currentUser!.id),
+                              goToBagDetails: () =>
+                                  model.goToBagDetailsPage(model.bagsInCart[i]),
                             );
                           }),
                 ),
@@ -107,6 +110,7 @@ class CartItem extends StatelessWidget {
   final int quantity;
   final VoidCallback decrementQuantity;
   final VoidCallback incrementQuantity;
+  final VoidCallback goToBagDetails;
 
   const CartItem({
     Key? key,
@@ -114,6 +118,7 @@ class CartItem extends StatelessWidget {
     required this.quantity,
     required this.decrementQuantity,
     required this.incrementQuantity,
+    required this.goToBagDetails,
   }) : super(key: key);
 
   @override
@@ -127,10 +132,13 @@ class CartItem extends StatelessWidget {
               //column for image
               Column(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: bag.image,
-                    height: 81,
-                    width: 81,
+                  GestureDetector(
+                    onTap: () => goToBagDetails(),
+                    child: CachedNetworkImage(
+                      imageUrl: bag.image,
+                      height: 81,
+                      width: 81,
+                    ),
                   ),
                   SizedBox(
                     height: 5,

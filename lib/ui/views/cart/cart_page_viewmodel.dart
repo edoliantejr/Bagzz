@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:bagzz/app/app.locator.dart';
+import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
+import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/models/user.dart';
 import 'package:stacked/stacked.dart';
@@ -13,6 +15,7 @@ class CartPageViewModel extends BaseViewModel {
   StreamSubscription? userSubscription;
 
   final apiService = locator<ApiService>();
+  final navigatorService = locator<NavigationService>();
 
   init() {
     setBusy(true);
@@ -59,5 +62,11 @@ class CartPageViewModel extends BaseViewModel {
 
   incrementBagInCartQuantity(Bag bag, String uid) {
     apiService.addToCart(bag: bag, uid: uid);
+  }
+
+  goToBagDetailsPage(Bag bag) {
+    navigatorService.pushNamedAndRemoveUntil(Routes.BagItemDetailsPage,
+        arguments: BagItemDetailsPageArguments(bag: bag),
+        predicate: (dynamic) => true);
   }
 }

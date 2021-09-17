@@ -66,6 +66,8 @@ class WishListPage extends StatelessWidget {
                                   bag: model.bagsList[i],
                                   deleteLikedBag: () => model
                                       .deleteLikedBag(model.bagsList[i].id!),
+                                  goToBagDetailsPage: () => model
+                                      .goToBagDetailsPage(model.bagsList[i]),
                                 );
                               }),
                     ),
@@ -129,10 +131,12 @@ class WishListPage extends StatelessWidget {
 class WishListItem extends StatelessWidget {
   final Bag bag;
   final VoidCallback deleteLikedBag;
+  final VoidCallback goToBagDetailsPage;
 
   const WishListItem({
     required this.bag,
     required this.deleteLikedBag,
+    required this.goToBagDetailsPage,
     Key? key,
   }) : super(key: key);
 
@@ -147,10 +151,13 @@ class WishListItem extends StatelessWidget {
               //column for image
               Column(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: bag.image,
-                    height: 81,
-                    width: 81,
+                  GestureDetector(
+                    onTap: () => goToBagDetailsPage(),
+                    child: CachedNetworkImage(
+                      imageUrl: bag.image,
+                      height: 81,
+                      width: 81,
+                    ),
                   ),
                   SizedBox(
                     height: 5,

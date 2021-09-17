@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bagzz/app/app.locator.dart';
+import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/dialog_service/dialog_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
@@ -70,4 +71,9 @@ class WishlistViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  goToBagDetailsPage(Bag bag) {
+    navigatorService.pushNamedAndRemoveUntil(Routes.BagItemDetailsPage,
+        arguments: BagItemDetailsPageArguments(bag: bag),
+        predicate: (dynamic) => true);
+  }
 }

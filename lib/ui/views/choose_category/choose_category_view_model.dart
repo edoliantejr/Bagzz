@@ -19,6 +19,12 @@ class ChooseCategoryViewModel extends BaseViewModel {
     setBusy(false);
   }
 
+  @override
+  void dispose() {
+    categorySubscription!.cancel();
+    super.dispose();
+  }
+
   getAllCategories() async {
     apiService.getRealTimeCategories().listen((event) {
       categorySubscription?.cancel();
@@ -28,10 +34,6 @@ class ChooseCategoryViewModel extends BaseViewModel {
         notifyListeners();
       });
     });
-  }
-
-  pop() {
-    navigatorService.pop();
   }
 
   setCategory(String category) {

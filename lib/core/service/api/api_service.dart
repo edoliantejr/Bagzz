@@ -16,4 +16,10 @@ abstract class ApiService {
   Stream<List<Category>> getRealTimeCategories();
 
   Future<List<Bag>> searchListOfBags(String query);
+
+  Future addToCart({required Bag bag, required String uid});
+
+  Stream<List<Bag>> getAllBagsInCart(String userId);
+
+  Future deleteBagInCart({required Bag bag, required String uid});
 }

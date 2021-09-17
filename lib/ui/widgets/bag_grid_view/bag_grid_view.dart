@@ -111,12 +111,14 @@ class BagGridViewItem extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(1.0),
-                  child: Text(
-                    bag.name,
-                    style: TextStyle(
-                        fontFamily: FontNames.playFair,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
+                  child: FittedBox(
+                    child: Text(
+                      bag.name,
+                      style: TextStyle(
+                          fontFamily: FontNames.playFair,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),

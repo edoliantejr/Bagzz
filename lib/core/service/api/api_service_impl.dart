@@ -84,4 +84,49 @@ class ApiServiceImpl extends ApiService {
     }
     return  bags;
   }
+
+  @override
+  Future addToCart({required Bag bag, required String uid}) async {
+    final usersCartDoc =
+        userCollection.doc(uid).collection('cart').doc(bag.id!);
+
+    final bagInCartExist =
+        await usersCartDoc.get().then((value) => value.exists);
+
+    if (bagInCartExist) {
+      usersCartDoc.update({'bagInCartQuantity': FieldValue.increment(1)});
+    } else {
+      usersCartDoc.set(bag.bagsToJson(bag.id!));
+    }
+  }
+
+  @override
+  Stream<List<Bag>> getAllBagsInCart(String userId) {
+    return userCollection.doc(userId).collection('cart').snapshots().map(
+        (event) =>
+            event.docs.map((value) => Bag.FromJson(value.data())).toList());
+  }
+
+  @override
+  Future deleteBagInCart({required Bag bag, required String uid}) async {
+    final usersCartDoc =
+        userCollection.doc(uid).collection('cart').doc(bag.id!);
+
+    final bool bagInCartExist =
+        await usersCartDoc.get().then((value) => value.exists);
+
+    if (bagInCartExist) {
+      if (bag.bagInCartQuantity! > 1) {
+        ///increment quantity if bagInCartQuantity is >=1
+        userCollection
+            .doc(uid)
+            .collection('cart')
+            .doc(bag.id!)
+            .update({'bagInCartQuantity': FieldValue.increment(-1)});
+      } else {
+        ///delete bag in cart if quantity is <=0
+        userCollection.doc(uid).collection('cart').doc(bag.id!).delete();
+      }
+    }
+  }
 }

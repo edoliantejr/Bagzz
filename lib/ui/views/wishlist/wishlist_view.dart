@@ -54,24 +54,22 @@ class WishListPage extends StatelessWidget {
                               child:
                                   Center(child: Text('No items on wishlist.')),
                             )
-                          : RefreshIndicator(
-                              onRefresh: () => model.getLikedBags(),
-                              child: ListView.builder(
-                                  key: ObjectKey(model.bagsList),
-                                  physics: BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  primary: true,
-                                  itemCount: model.bagsList.length,
-                                  itemBuilder: (context, i) {
-                                    return WishListItem(
-                                      key: ObjectKey(context),
-                                      bag: model.bagsList[i],
-                                      deleteLikedBag: () =>
-                                          model.deleteLikedBag(
-                                              model.bagsList[i].id!),
-                                    );
-                                  }),
-                            ),
+                          : ListView.builder(
+                              key: ObjectKey(model.bagsList),
+                              physics: BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              primary: true,
+                              itemCount: model.bagsList.length,
+                              itemBuilder: (context, i) {
+                                return WishListItem(
+                                  key: ObjectKey(context),
+                                  bag: model.bagsList[i],
+                                  deleteLikedBag: () => model
+                                      .deleteLikedBag(model.bagsList[i].id!),
+                                  goToBagDetailsPage: () => model
+                                      .goToBagDetailsPage(model.bagsList[i]),
+                                );
+                              }),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15, top: 25),
@@ -133,10 +131,12 @@ class WishListPage extends StatelessWidget {
 class WishListItem extends StatelessWidget {
   final Bag bag;
   final VoidCallback deleteLikedBag;
+  final VoidCallback goToBagDetailsPage;
 
   const WishListItem({
     required this.bag,
     required this.deleteLikedBag,
+    required this.goToBagDetailsPage,
     Key? key,
   }) : super(key: key);
 
@@ -151,10 +151,13 @@ class WishListItem extends StatelessWidget {
               //column for image
               Column(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: bag.image,
-                    height: 81,
-                    width: 81,
+                  GestureDetector(
+                    onTap: () => goToBagDetailsPage(),
+                    child: CachedNetworkImage(
+                      imageUrl: bag.image,
+                      height: 81,
+                      width: 81,
+                    ),
                   ),
                   SizedBox(
                     height: 5,

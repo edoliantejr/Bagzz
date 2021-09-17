@@ -60,7 +60,7 @@ class MainScreen extends StatelessWidget {
                       )
                     ],
                   )
-                    )];
+                    ];
               },
               body: RefreshIndicator(
                 onRefresh: () => model.refreshContent(),

@@ -251,7 +251,7 @@ class BagUpload extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   width:
-                                      MediaQuery.of(context).size.width / 1.7,
+                                      MediaQuery.of(context).size.width / 1.6,
                                   child: TextField(
                                     controller: model.brand,
                                     focusNode: model.brandFocus,
@@ -300,7 +300,7 @@ class BagUpload extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   width:
-                                      MediaQuery.of(context).size.width / 1.7,
+                                      MediaQuery.of(context).size.width / 1.6,
                                   child: TextField(
                                     controller: model.style,
                                     focusNode: model.styleFocus,
@@ -349,7 +349,7 @@ class BagUpload extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   width:
-                                      MediaQuery.of(context).size.width / 1.7,
+                                      MediaQuery.of(context).size.width / 1.6,
                                   child: TextField(
                                     controller: model.price,
                                     focusNode: model.priceFocus,
@@ -399,7 +399,7 @@ class BagUpload extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   width:
-                                      MediaQuery.of(context).size.width / 1.7,
+                                      MediaQuery.of(context).size.width / 1.6,
                                   child: TextField(
                                     controller: model.stock,
                                     focusNode: model.stockFocus,

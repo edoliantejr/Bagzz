@@ -84,8 +84,8 @@ class DrawerView extends StatelessWidget {
                       child: Column(
                         children: [
                           buildMenuItem(
-                              text: 'Plugins',
-                              icon: Icons.account_tree_outlined,
+                              text: 'Notifications',
+                              icon: Icons.notifications_outlined,
                               onTap: () {}),
                         ],
                       ),
@@ -96,10 +96,10 @@ class DrawerView extends StatelessWidget {
                       child: Column(
                         children: [
                           buildMenuItem(
-                              text: 'Notifications',
-                              icon: Icons.notifications_outlined,
-                              onTap: () {}),
-                        ],
+                              text: 'Logout',
+                              icon: Icons.logout,
+                               onTap:model.logout,
+                          )],
                       ),
                     ),
                   ],

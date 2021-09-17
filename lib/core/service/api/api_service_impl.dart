@@ -67,15 +67,21 @@ class ApiServiceImpl extends ApiService {
   }
 
   @override
-  Future<List<Bag>> searchListOfBags(String query) {
-    return bagCollection
-        .where(
-          'name',
-          isGreaterThanOrEqualTo: query,
-        )
-        .where('name', isLessThanOrEqualTo: query + '\uf8ff')
-        .get()
-        .then((value) =>
-            value.docs.map((bag) => Bag.FromJson(bag.data())).toList());
+  Future<List<Bag>> searchListOfBags(String query) async {
+    List<Bag> bags=[];
+    if(query.isNotEmpty){
+      bags= await bagCollection
+          .where(
+        'name',
+        isGreaterThanOrEqualTo: query,
+      )
+          .where('name', isLessThanOrEqualTo: query + '\uf8ff')
+          .get()
+          .then((value) =>
+          value.docs.map((bag) => Bag.FromJson(bag.data())).toList());
+    }else{
+      bags=[];
+    }
+    return  bags;
   }
 }

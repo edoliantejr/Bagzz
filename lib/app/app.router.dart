@@ -13,7 +13,7 @@ import 'package:stacked/stacked.dart';
 import '../models/bag.dart';
 import '../ui/views/bag_item_details/bag_item_details_page.dart';
 import '../ui/views/cart/cart_page_view.dart';
-import '../ui/views/choose_category/choose_category.dart';
+import '../ui/views/choose_category/choose_category_page.dart';
 import '../ui/views/home/home_screen.dart';
 import '../ui/views/login/login.dart';
 import '../ui/views/main/main_screen_view.dart';

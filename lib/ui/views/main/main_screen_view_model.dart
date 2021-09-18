@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
@@ -12,23 +14,33 @@ import 'package:stacked/stacked.dart';
 class MainScreenViewModel extends BaseViewModel {
   int numCartItems = 0;
   int currentIndex = 0;
+  String name = '';
+  String email = '';
+  String imageUrl = '';
   ScrollController scrollController = new ScrollController();
+  StreamSubscription? userSubscription;
+
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
   final apiService = locator<ApiService>();
-  final name = 'Test101';
-  final email = 'blendit.com';
-  final urlImage = 'assets/icons/drawer.svg';
-
-  init() {}
 
   @override
   void dispose() {
+    userSubscription!.cancel();
     scrollController.dispose();
-
-    // // ATOA GE CLOSE ANG GLOBAL STREAM.
-    // MOCK_CART_STREAM.close();
     super.dispose();
+  }
+
+  getUserDetails() {
+    apiService.getCurrentUser().listen((event) {
+      userSubscription?.cancel();
+      userSubscription = apiService.getCurrentUser().listen((user) {
+        name = user.name;
+        email = user.email;
+        imageUrl = user.image;
+        notifyListeners();
+      });
+    });
   }
 
   void onTabChange(int index, BuildContext context) {
@@ -51,9 +63,5 @@ class MainScreenViewModel extends BaseViewModel {
   void logout() async {
     await firebaseAuthService.logOut();
     navigationService.pushReplacementNamed(Routes.LogIn);
-  }
-
-  Future<void> refreshContent() {
-    return init();
   }
 }

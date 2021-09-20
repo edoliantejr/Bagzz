@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bagzz/constant/font_names.dart';
 import 'package:bagzz/models/bag.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -48,7 +49,7 @@ class CartPage extends StatelessWidget {
                         color: Colors.black)),
                 SizedBox(height: 45),
                 Flexible(
-                  child: model.bagsOnCart.isEmpty
+                  child: model.bagsInCart.isEmpty
                       ? Container(
                           height: 100,
                           child: Center(child: Text('Cart is empty. Add item')),
@@ -57,19 +58,28 @@ class CartPage extends StatelessWidget {
                           physics: BouncingScrollPhysics(),
                           shrinkWrap: true,
                           primary: false,
-                          itemCount: model.bagsOnCart.length,
+                          itemCount: model.bagsInCart.length,
                           itemBuilder: (context, i) {
-                            final bag = model.bagsOnCart[i];
-                            final bagQuantity = model.shoppingCart[bag];
                             return CartItem(
-                              bag,
-                              quantity: bagQuantity ?? 0,
+                              key: ObjectKey(model.bagsInCart[i]),
+                              bag: model.bagsInCart[i],
+                              quantity: model.bagsInCart[i].bagInCartQuantity!,
+                              decrementQuantity: () =>
+                                  model.decrementOrDeleteBagInCartQuantity(
+                                      model.bagsInCart[i],
+                                      model.currentUser!.id),
+                              incrementQuantity: () =>
+                                  model.incrementBagInCartQuantity(
+                                      model.bagsInCart[i],
+                                      model.currentUser!.id),
+                              goToBagDetails: () =>
+                                  model.goToBagDetailsPage(model.bagsInCart[i]),
                             );
                           }),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 15, top: 15),
-                  child: model.bagsOnCart.isEmpty
+                  child: model.bagsInCart.isEmpty
                       ? Container()
                       : Container(
                           height: 43,
@@ -86,7 +96,7 @@ class CartPage extends StatelessWidget {
                                     fontFamily: FontNames.workSans),
                               ),
                             ),
-                      )),
+                          )),
                 )
               ],
             ),
@@ -98,11 +108,17 @@ class CartPage extends StatelessWidget {
 class CartItem extends StatelessWidget {
   final Bag bag;
   final int quantity;
+  final VoidCallback decrementQuantity;
+  final VoidCallback incrementQuantity;
+  final VoidCallback goToBagDetails;
 
-  const CartItem(
-    this.bag, {
+  const CartItem({
     Key? key,
+    required this.bag,
     required this.quantity,
+    required this.decrementQuantity,
+    required this.incrementQuantity,
+    required this.goToBagDetails,
   }) : super(key: key);
 
   @override
@@ -116,10 +132,13 @@ class CartItem extends StatelessWidget {
               //column for image
               Column(
                 children: [
-                  Image(
-                    image: AssetImage(bag.image),
-                    height: 81,
-                    width: 81,
+                  GestureDetector(
+                    onTap: () => goToBagDetails(),
+                    child: CachedNetworkImage(
+                      imageUrl: bag.image,
+                      height: 81,
+                      width: 81,
+                    ),
                   ),
                   SizedBox(
                     height: 5,
@@ -129,14 +148,17 @@ class CartItem extends StatelessWidget {
                   Container(
                     child: Row(
                       children: [
-                        Container(
-                          width: 29,
-                          height: 25,
-                          color: Colors.black,
-                          child: Center(
-                              child: Text('-',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16))),
+                        GestureDetector(
+                          onTap: () => decrementQuantity(),
+                          child: Container(
+                            width: 29,
+                            height: 25,
+                            color: Colors.black,
+                            child: Center(
+                                child: Text('-',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16))),
+                          ),
                         ),
                         Container(
                           width: 29,
@@ -147,15 +169,19 @@ class CartItem extends StatelessWidget {
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 16))),
                         ),
-                        Container(
-                          width: 29,
-                          height: 25,
-                          color: Colors.black,
-                          child: Center(
-                              child: Text(
-                            '+',
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                          )),
+                        GestureDetector(
+                          onTap: () => incrementQuantity(),
+                          child: Container(
+                            width: 29,
+                            height: 25,
+                            color: Colors.black,
+                            child: Center(
+                                child: Text(
+                              '+',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14),
+                            )),
+                          ),
                         )
                       ],
                     ),
@@ -164,43 +190,46 @@ class CartItem extends StatelessWidget {
               ),
 
               SizedBox(
-                width: 32,
+                width: 20,
               ),
               //column for bag info
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 18,
-                  ),
-                  Text(bag.name,
+              Container(
+                width: 150,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 18,
+                    ),
+                    Text(bag.name,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FontNames.playFair)),
+                    SizedBox(height: 8),
+                    Text(bag.category,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontFamily: FontNames.workSans,
+                            fontWeight: FontWeight.w400)),
+                    Text(bag.style,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 10,
+                            fontFamily: FontNames.workSans)),
+                    SizedBox(height: 20),
+                    Text(
+                      '${bag.price}',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: FontNames.playFair)),
-                  SizedBox(height: 8),
-                  Text(bag.category,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
                           fontFamily: FontNames.workSans,
-                          fontWeight: FontWeight.w400)),
-                  Text(bag.style,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 10,
-                          fontFamily: FontNames.workSans)),
-                  SizedBox(height: 20),
-                  Text(
-                    '${bag.price}',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontFamily: FontNames.workSans,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
               )
             ],
           ),

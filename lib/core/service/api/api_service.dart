@@ -1,20 +1,25 @@
 import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/models/category.dart';
+import 'package:bagzz/models/user.dart';
 
 abstract class ApiService {
-  Future<List<Bag>> getAllBags({int max = -1});
+  Future publishBag(Bag bag);
 
-  Future<List<Category>> getBagCategories({int max = -1});
+  Stream<List<Bag>> getRealTimeBags();
 
-  Stream<Map<Bag, int>> getCart();
+  Stream<List<Bag>> getLikeBags(List<String> ids);
 
-  void addToCart(Bag bag);
+  Stream<User> getCurrentUser();
 
-  void removeFromCart(Bag bag);
+  Future<void> updateUser(User user);
 
-  void addToFavorite(Bag bag);
+  Stream<List<Category>> getRealTimeCategories();
 
-  void removeFromFavorite(Bag bag);
+  Future<List<Bag>> searchListOfBags(String query);
 
-  Future<List<Bag>> searchBag(String query);
+  Future addToCart({required Bag bag, required String uid});
+
+  Stream<List<Bag>> getAllBagsInCart(String userId);
+
+  Future deleteBagInCart({required Bag bag, required String uid});
 }

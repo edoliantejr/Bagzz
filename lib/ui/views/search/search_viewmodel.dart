@@ -1,79 +1,32 @@
+import 'package:bagzz/app/app.locator.dart';
+import 'package:bagzz/app/app.router.dart';
+import 'package:bagzz/core/service/api/api_service.dart';
+import 'package:bagzz/core/service/dialog_service/dialog_service.dart';
+import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:stacked/stacked.dart';
+import 'package:flutter/material.dart';
 
 class SearchBottomSheetViewModel extends BaseViewModel {
-  List<Bag> searchListOfBags = [];
+  List<Bag> bagsList = [];
+  TextEditingController editingController = TextEditingController();
+  final apiService = locator<ApiService>();
+  final dialogService = locator<DialogService>();
+  final navigatorService = locator<NavigationService>();
 
-  void init() {}
-
-  void getListOfBags() {
-    searchListOfBags.clear();
-    final addidasBag = Bag(
-      id: 1,
-      image: 'assets/images/bag-header-02.png',
-      title: " This season's popular",
-      name: "Artsy black sling bag",
-      price: 1364,
-      category: 'Wallet with chain',
-      style: 'Style #36252 0YK0G 1000',
-      desc: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      shipInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      payInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-    );
-    final nikeBag = Bag(
-      id: 2,
-      image: 'assets/images/bag-header-02.png',
-      title: " This season's popular",
-      name: "Berkeley sling bag",
-      price: 1364,
-      category: 'Wallet with chain',
-      style: 'Style #36252 0YK0G 1000',
-      desc: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      shipInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      payInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-    );
-    final pumaBag = Bag(
-      id: 3,
-      image: 'assets/images/bag-header-02.png',
-      title: " This season's popular",
-      name: "Sling bag blue color",
-      price: 1364,
-      category: 'Wallet with chain',
-      style: 'Style #36252 0YK0G 1000',
-      desc: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      shipInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-      payInfo: 'Lorem ipsum dolor sit amet, '
-          'consectetur adipiscing elit, sed do eiusmod tempor incididunt '
-          'ut labore et dolore magna aliqua.'
-          ' Vitae congue mauris rhoncus aenean vel elit. ',
-    );
-    searchListOfBags.add(addidasBag);
-    searchListOfBags.add(nikeBag);
-    searchListOfBags.add(pumaBag);
+  Future searchBag(query)async{
+    setBusy(true);
+    bagsList= await apiService.searchListOfBags(query);
     notifyListeners();
+    setBusy(false);
   }
+
+
+  void onBagSearchPressed(Bag bag) {
+    navigatorService.pushNamedAndRemoveUntil(Routes.BagItemDetailsPage,
+        arguments: BagItemDetailsPageArguments(bag: bag),
+    predicate: (dynamic) => true);
+  }
+
+
 }

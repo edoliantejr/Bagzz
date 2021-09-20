@@ -40,13 +40,16 @@ class CategoryGridView extends StatelessWidget {
 
   Widget gridViewCategory(List<Category> categories) {
     return GridView.builder(
+        padding:
+            const EdgeInsets.only(left: 12, right: 12, top: 15, bottom: 11),
         shrinkWrap: true,
         primary: false,
         itemCount: categories.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 16,
-          childAspectRatio: .84,
+          mainAxisSpacing: 24,
+          crossAxisSpacing: 16,
+          childAspectRatio: .76,
         ),
         itemBuilder: (context, index) {
           return CategoryItem(categories[index]);
@@ -81,35 +84,32 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 11, right: 15, bottom: 11),
-      height: 224,
-      width: 170,
-      child: Stack(
-        children: [
-          Image(
-            image: AssetImage(category.image),
-            fit: BoxFit.cover,
-          ),
-          Positioned(
-              bottom: 0,
-              right: 1,
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                color: Colors.black,
-                child: Text(
-                  category.categoryTitle,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: FontNames.playFair,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w700,
-                  ),
+    return Stack(
+      children: [
+        Container(
+            width: double.infinity,
+            child: Image(
+              image: AssetImage(category.coverImage),
+              fit: BoxFit.cover,
+            )),
+        Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              color: Colors.black,
+              child: Text(
+                category.categoryTitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: FontNames.playFair,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w700,
                 ),
-              ))
-        ],
-      ),
+              ),
+            ))
+      ],
     );
   }
 }

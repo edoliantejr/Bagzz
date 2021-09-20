@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "231630768373",
+    "project_id": "bagzz-dev",
+    "storage_bucket": "bagzz-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231630768373:android:31435f13a59fc30ccf1dbc",
+        "android_client_info": {
+          "package_name": "com.ojt.bagzz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231630768373-sfbq1tn49cq1m76cvfh2npcdslmoro2m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ojt.bagzz",
+            "certificate_hash": "d25025f5e984f473cd9cdd96c969c6726e984512"
+          }
+        },
+        {
+          "client_id": "231630768373-jdm53jkrrg7s3l27c9mk5frufs6ocdug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnCNrIyDkeLUk7G53I_6rrF3REPWAXK_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231630768373-jdm53jkrrg7s3l27c9mk5frufs6ocdug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

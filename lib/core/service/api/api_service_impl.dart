@@ -1,67 +1,132 @@
+import 'dart:async';
+
 import 'package:bagzz/core/service/api/api_service.dart';
-import 'package:bagzz/core/service/api/mock_data.dart';
 import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/models/category.dart';
+import 'package:bagzz/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
+
+final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+final userCollection = FirebaseFirestore.instance.collection('users');
+final bagCollection = FirebaseFirestore.instance.collection('bags');
+final categoryCollection = FirebaseFirestore.instance.collection('categories');
 
 class ApiServiceImpl extends ApiService {
   @override
-  void addToCart(Bag bag) {
-    var latestCart = MOCK_CART_STREAM.value;
-    int bagCartQuantity = latestCart[bag] ?? 0;
-    latestCart[bag] = ++bagCartQuantity;
-    MOCK_CART_STREAM.add(latestCart);
+  Future publishBag(Bag bag) async {
+    final bagRef = await FirebaseFirestore.instance.collection('bags').doc();
+    return bagRef
+        .set(bag.bagsToJson(bagRef.id))
+        .catchError((onError) => print(onError));
   }
 
   @override
-  void addToFavorite(Bag bag) {
-    // TODO: implement addToFavorite
+  Stream<List<Bag>> getRealTimeBags() {
+    return bagCollection
+        .orderBy('price', descending: false)
+        .limit(6)
+        .snapshots()
+        .map((data) =>
+            data.docs.map((doc) => Bag.FromJson(doc.data())).toList());
   }
 
   @override
-  Future<List<Bag>> getAllBags({int max = -1}) async {
-    if (max == 0) {
-      return [];
-    } else if (max < 0) {
-      return MOCK_BAGS;
+  Stream<List<Bag>> getLikeBags(List<String> ids) {
+    return bagCollection
+        .where('id', whereIn: ids)
+        .snapshots()
+        .map((event) => event.docs.map((e) => Bag.FromJson(e.data())).toList());
+  }
+
+  @override
+  Stream<User> getCurrentUser() {
+    final user = _firebaseAuth.currentUser;
+    var currentUser;
+    if (user!.uid.isNotEmpty) {
+      currentUser = userCollection
+          .doc(user.uid)
+          .snapshots()
+          .map((event) => User.fromJson(event.data() as Map<String, dynamic>));
     }
-    final maxCount = max > MOCK_BAGS.length ? MOCK_BAGS.length : max;
-    return MOCK_BAGS.sublist(0, maxCount);
+    return currentUser;
   }
 
   @override
-  Future<List<Category>> getBagCategories({int max = -1}) async {
-    if (max == 0) {
-      return [];
-    } else if (max < 0) {
-      return MOCK_CATEGORIES;
+  Future<void> updateUser(User user) async {
+    await userCollection.doc(user.id).update(user.toJson());
+  }
+
+  @override
+  Stream<List<Category>> getRealTimeCategories() {
+    return categoryCollection
+        .orderBy('name', descending: false)
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => Category.fromJson(e.data())).toList());
+  }
+
+  @override
+  Future<List<Bag>> searchListOfBags(String query) async {
+    List<Bag> bags=[];
+    if(query.isNotEmpty){
+      bags= await bagCollection
+          .where(
+        'name',
+        isGreaterThanOrEqualTo: query,
+      )
+          .where('name', isLessThanOrEqualTo: query + '\uf8ff')
+          .get()
+          .then((value) =>
+          value.docs.map((bag) => Bag.FromJson(bag.data())).toList());
+    }else{
+      bags=[];
     }
-    final maxCount =
-        max > MOCK_CATEGORIES.length ? MOCK_CATEGORIES.length : max;
-    return MOCK_CATEGORIES.sublist(0, maxCount);
+    return  bags;
   }
 
   @override
-  Stream<Map<Bag, int>> getCart() {
-    return MOCK_CART_STREAM.stream;
-  }
+  Future addToCart({required Bag bag, required String uid}) async {
+    final usersCartDoc =
+        userCollection.doc(uid).collection('cart').doc(bag.id!);
 
-  @override
-  void removeFromCart(Bag bag) {
-    var latestCart = MOCK_CART_STREAM.value;
-    int bagCartQuantity = latestCart[bag] ?? 0;
-    if (bagCartQuantity <= 1) {
-      latestCart.remove(bag);
+    final bagInCartExist =
+        await usersCartDoc.get().then((value) => value.exists);
+
+    if (bagInCartExist) {
+      usersCartDoc.update({'bagInCartQuantity': FieldValue.increment(1)});
     } else {
-      latestCart[bag] = --bagCartQuantity;
+      usersCartDoc.set(bag.bagsToJson(bag.id!));
     }
-    MOCK_CART_STREAM.add(latestCart);
   }
 
   @override
-  void removeFromFavorite(Bag bag) {}
+  Stream<List<Bag>> getAllBagsInCart(String userId) {
+    return userCollection.doc(userId).collection('cart').snapshots().map(
+        (event) =>
+            event.docs.map((value) => Bag.FromJson(value.data())).toList());
+  }
 
   @override
-  Future<List<Bag>> searchBag(String query) async {
-    return MOCK_BAGS.where((bag) => bag.name.contains(query)).toList();
+  Future deleteBagInCart({required Bag bag, required String uid}) async {
+    final usersCartDoc =
+        userCollection.doc(uid).collection('cart').doc(bag.id!);
+
+    final bool bagInCartExist =
+        await usersCartDoc.get().then((value) => value.exists);
+
+    if (bagInCartExist) {
+      if (bag.bagInCartQuantity! > 1) {
+        ///increment quantity if bagInCartQuantity is >=1
+        userCollection
+            .doc(uid)
+            .collection('cart')
+            .doc(bag.id!)
+            .update({'bagInCartQuantity': FieldValue.increment(-1)});
+      } else {
+        ///delete bag in cart if quantity is <=0
+        userCollection.doc(uid).collection('cart').doc(bag.id!).delete();
+      }
+    }
   }
 }

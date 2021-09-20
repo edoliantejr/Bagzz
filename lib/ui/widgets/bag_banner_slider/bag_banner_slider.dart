@@ -1,5 +1,6 @@
 import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/ui/widgets/bag_banner_slider/bag_banner_slider_view_model.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -18,42 +19,51 @@ class BagBannerSlider extends StatelessWidget {
               width: 714,
               child: Stack(
                 children: [
-                  PageView.builder(
-                      controller: model.controller,
-                      itemCount: model.bags.length,
-                      itemBuilder: (context, i) {
-                        //image slider item
-                        return Stack(
-                          children: [
-                            Container(
-                              color: Colors.grey[100],
-                              height: 195,
-                              width: 714,
-                              child: Image(
-                                image: AssetImage(model.bags[i].image),
-                                fit: BoxFit.cover,
-                              ),
+                  CarouselSlider.builder(
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      autoPlayInterval: Duration(seconds: 7),
+                      viewportFraction: 1,
+                      aspectRatio: 16 / 9,
+                      initialPage: 0,
+                    ),
+                    carouselController: model.buttonCarouselController,
+                    itemCount: model.bags.length,
+                    itemBuilder: (context, index, realIndex) {
+                      //image slider item
+                      return Stack(
+                        children: [
+                          Container(
+                            color: Colors.grey[100],
+                            height: 195,
+                            width: 714,
+                            child: Image(
+                              image: AssetImage(model.bags[index].image),
+                              fit: BoxFit.cover,
                             ),
-                            Positioned(
-                              bottom: 70,
-                              right: 13,
-                              child: Container(
-                                width: 92,
-                                child: Text(
-                                  model.bags[i].title,
-                                  style: TextStyle(
-                                    fontFamily: 'Playfair',
-                                    backgroundColor: Colors.white,
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
+                          ),
+                          Positioned(
+                            bottom: 70,
+                            right: 13,
+                            child: Container(
+                              width: 100,
+                              child: Text(
+                                model.bags[index].title!,
+                                style: TextStyle(
+                                  height: .99,
+                                  fontFamily: 'Playfair',
+                                  backgroundColor: Colors.white,
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
-                          ],
-                        );
-                      }),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                   Positioned(
                     top: 154,
                     right: 10,
@@ -65,7 +75,7 @@ class BagBannerSlider extends StatelessWidget {
                         child: IconButton(
                           color: Colors.white,
                           onPressed: () {
-                            model.controller.previousPage(
+                            model.buttonCarouselController.previousPage(
                                 duration: Duration(milliseconds: 300),
                                 curve: Curves.easeInOut);
                           },
@@ -83,7 +93,7 @@ class BagBannerSlider extends StatelessWidget {
                         child: IconButton(
                           color: Colors.white,
                           onPressed: () {
-                            model.controller.nextPage(
+                            model.buttonCarouselController.nextPage(
                                 duration: Duration(milliseconds: 300),
                                 curve: Curves.easeInOut);
                           },

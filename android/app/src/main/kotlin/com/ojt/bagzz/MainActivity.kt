@@ -1,4 +1,4 @@
-package com.example.bagzz
+package com.ojt.bagzz
 
 import io.flutter.embedding.android.FlutterActivity
 

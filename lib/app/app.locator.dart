@@ -19,6 +19,8 @@ import '../core/service/firebase_cloud_storage/cloud_storage_service.dart';
 import '../core/service/firebase_cloud_storage/cloud_storage_service_impl.dart';
 import '../core/service/navigation/navigator_service.dart';
 import '../core/service/navigation/navigator_service_impl.dart';
+import '../core/service/shared_preference_service/shared_preference_service.dart';
+import '../core/service/shared_preference_service/shared_preference_service_impl.dart';
 import '../core/service/snack_bar_service/snack_bar_service.dart';
 import '../core/service/snack_bar_service/snack_bar_service_impl.dart';
 import '../core/utility/image_selector.dart';
@@ -40,4 +42,6 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
       () => CloudStorageServiceImpl());
   locator.registerLazySingleton(() => ImageSelector());
   locator.registerLazySingleton<DialogService>(() => DialogServiceImpl());
+  locator.registerLazySingleton<SharedPreferenceService>(
+      () => SharedPreferenceServiceImpl());
 }

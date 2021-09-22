@@ -7,8 +7,8 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import '../models/bag.dart';
 import '../ui/views/bag_item_details/bag_item_details_page.dart';
@@ -58,13 +58,13 @@ class StackedRouter extends RouterBase {
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, StackedRouteFactory>{
     Login: (data) {
-      return MaterialPageRoute<dynamic>(
+      return MaterialPageRoute<MaterialRoute<dynamic>>(
         builder: (context) => const Login(),
         settings: data,
       );
     },
     MainScreen: (data) {
-      return PageRouteBuilder<dynamic>(
+      return PageRouteBuilder<CustomRoute<dynamic>>(
         pageBuilder: (context, animation, secondaryAnimation) =>
             const MainScreen(),
         settings: data,
@@ -73,7 +73,7 @@ class StackedRouter extends RouterBase {
       );
     },
     HomeScreen: (data) {
-      return PageRouteBuilder<dynamic>(
+      return PageRouteBuilder<CustomRoute<dynamic>>(
         pageBuilder: (context, animation, secondaryAnimation) =>
             const HomeScreen(),
         settings: data,
@@ -83,7 +83,7 @@ class StackedRouter extends RouterBase {
     },
     BagItemDetailsPage: (data) {
       var args = data.getArgs<BagItemDetailsPageArguments>(nullOk: false);
-      return PageRouteBuilder<dynamic>(
+      return PageRouteBuilder<CustomRoute<dynamic>>(
         pageBuilder: (context, animation, secondaryAnimation) =>
             BagItemDetailsPage(
           bag: args.bag,
@@ -95,7 +95,7 @@ class StackedRouter extends RouterBase {
       );
     },
     CartPage: (data) {
-      return PageRouteBuilder<dynamic>(
+      return PageRouteBuilder<CustomRoute<dynamic>>(
         pageBuilder: (context, animation, secondaryAnimation) =>
             const CartPage(),
         settings: data,
@@ -104,7 +104,7 @@ class StackedRouter extends RouterBase {
       );
     },
     BagUpload: (data) {
-      return PageRouteBuilder<dynamic>(
+      return PageRouteBuilder<CustomRoute<dynamic>>(
         pageBuilder: (context, animation, secondaryAnimation) =>
             const BagUpload(),
         settings: data,
@@ -113,7 +113,7 @@ class StackedRouter extends RouterBase {
       );
     },
     ChooseCategory: (data) {
-      return PageRouteBuilder<dynamic>(
+      return PageRouteBuilder<CustomRoute<dynamic>>(
         pageBuilder: (context, animation, secondaryAnimation) =>
             const ChooseCategory(),
         settings: data,
@@ -122,7 +122,7 @@ class StackedRouter extends RouterBase {
       );
     },
     Register: (data) {
-      return PageRouteBuilder<dynamic>(
+      return PageRouteBuilder<CustomRoute<dynamic>>(
         pageBuilder: (context, animation, secondaryAnimation) =>
             const Register(),
         settings: data,

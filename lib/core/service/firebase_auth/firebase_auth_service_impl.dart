@@ -1,6 +1,6 @@
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
-import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
+import 'package:bagzz/core/service/shared_preference_service/shared_preference_service.dart';
 import 'package:bagzz/models/login_response.dart';
 import 'package:bagzz/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,7 +15,8 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
   GoogleSignInAuthentication? googleSignInAuthentication;
   AuthCredential? authCredential;
   UserCredential? authResult;
-  final snackBar = locator<SnackBarService>();
+
+  final sharedPrefService = locator<SharedPreferenceService>();
 
   @override
   Future<LoginResponse> loginWithEmail(
@@ -103,9 +104,11 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
               favoriteBags: []),
         );
       }
+
+      sharedPrefService.saveLoginDetails(user: authResult!);
       return LoginResponse.success(authResult!.user!);
     } catch (e) {
-      return LoginResponse.error('Error Signing in');
+      return LoginResponse.error('$e');
     }
   }
 

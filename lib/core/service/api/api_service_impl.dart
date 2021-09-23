@@ -68,21 +68,21 @@ class ApiServiceImpl extends ApiService {
 
   @override
   Future<List<Bag>> searchListOfBags(String query) async {
-    List<Bag> bags=[];
-    if(query.isNotEmpty){
-      bags= await bagCollection
+    List<Bag> bags = [];
+    if (query.isNotEmpty) {
+      bags = await bagCollection
           .where(
-        'name',
-        isGreaterThanOrEqualTo: query,
-      )
+            'name',
+            isGreaterThanOrEqualTo: query,
+          )
           .where('name', isLessThanOrEqualTo: query + '\uf8ff')
           .get()
           .then((value) =>
-          value.docs.map((bag) => Bag.FromJson(bag.data())).toList());
-    }else{
-      bags=[];
+              value.docs.map((bag) => Bag.FromJson(bag.data())).toList());
+    } else {
+      bags = [];
     }
-    return  bags;
+    return bags;
   }
 
   @override
@@ -108,26 +108,27 @@ class ApiServiceImpl extends ApiService {
   }
 
   @override
-  Future deleteBagInCart({required Bag bag, required String uid}) async {
-    final usersCartDoc =
-        userCollection.doc(uid).collection('cart').doc(bag.id!);
-
-    final bool bagInCartExist =
-        await usersCartDoc.get().then((value) => value.exists);
-
-    if (bagInCartExist) {
-      if (bag.bagInCartQuantity! > 1) {
-        ///increment quantity if bagInCartQuantity is >=1
-        userCollection
-            .doc(uid)
-            .collection('cart')
-            .doc(bag.id!)
-            .update({'bagInCartQuantity': FieldValue.increment(-1)});
-      } else {
-        ///delete bag in cart if quantity is <=0
-        userCollection.doc(uid).collection('cart').doc(bag.id!).delete();
-      }
+  Future decrementBagQuantity({required Bag bag, required String uid}) async {
+    if (bag.bagInCartQuantity! > 1) {
+      ///increment quantity if bagInCartQuantity is >=1
+      userCollection
+          .doc(uid)
+          .collection('cart')
+          .doc(bag.id!)
+          .update({'bagInCartQuantity': FieldValue.increment(-1)});
+    } else {
+      ///delete bag in cart if quantity is <=0
+      userCollection.doc(uid).collection('cart').doc(bag.id!).delete();
     }
+  }
+
+  @override
+  Future incrementBagQuantity({required Bag bag, required String uid}) async {
+    userCollection
+        .doc(uid)
+        .collection('cart')
+        .doc(bag.id!)
+        .update({'bagInCartQuantity': FieldValue.increment(1)});
   }
 
   @override

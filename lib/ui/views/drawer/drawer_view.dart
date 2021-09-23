@@ -146,7 +146,9 @@ class DrawerHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(50),
             child: CachedNetworkImage(
               imageUrl: imageUrl,
-              placeholder: (context, url) => Text('User photo'),
+              placeholder: (context, url) => Center(
+                child: Text('User photo'),
+              ),
               height: 60,
               width: 60,
             ),

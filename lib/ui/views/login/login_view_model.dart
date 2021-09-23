@@ -2,6 +2,7 @@ import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
+import 'package:bagzz/core/service/shared_preference_service/shared_preference_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -9,19 +10,28 @@ import 'package:stacked/stacked.dart';
 class LoginViewModel extends BaseViewModel {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   final snackBarService = locator<SnackBarService>();
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
+  final sharedPrefService = locator<SharedPreferenceService>();
+
   bool isObscure = true;
   bool isEmailValid = false;
   bool isEmailEmpty = true;
   bool isPasswordEmpty = true;
-  late FocusNode emailFocusNode;
-  late FocusNode passFocusNode;
+  FocusNode emailFocusNode = FocusNode();
+  late FocusNode passFocusNode = FocusNode();
 
-  void init() {
-    emailFocusNode = FocusNode();
-    passFocusNode = FocusNode();
+  void init() async {
+    await checkLoginData();
+  }
+
+  checkLoginData() async {
+    if (await sharedPrefService.checkSavedLoginDetails()) {
+      navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
+          predicate: (route) => false);
+    }
   }
 
   Future loginNow({required String email, required String password}) async {
@@ -69,9 +79,9 @@ class LoginViewModel extends BaseViewModel {
         await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
       print(onError);
     });
-    if (response.success)
+    if (response.success) {
       navigationService.pushReplacementNamed(Routes.MainScreen);
-    else
+    } else
       snackBarService.showSnackBar(response.errorMessage!);
     setBusy(false);
   }

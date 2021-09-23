@@ -23,5 +23,7 @@ abstract class ApiService {
 
   Stream<List<Bag>> getAllBagsInCart(String userId);
 
-  Future deleteBagInCart({required Bag bag, required String uid});
+  Future decrementBagQuantity({required Bag bag, required String uid});
+
+  Future incrementBagQuantity({required Bag bag, required String uid});
 }

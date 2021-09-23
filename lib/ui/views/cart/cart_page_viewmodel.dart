@@ -57,11 +57,11 @@ class CartPageViewModel extends BaseViewModel {
   }
 
   decrementOrDeleteBagInCartQuantity(Bag bag, String uid) {
-    apiService.deleteBagInCart(bag: bag, uid: uid);
+    apiService.decrementBagQuantity(bag: bag, uid: uid);
   }
 
   incrementBagInCartQuantity(Bag bag, String uid) {
-    apiService.addToCart(bag: bag, uid: uid);
+    apiService.incrementBagQuantity(bag: bag, uid: uid);
   }
 
   goToBagDetailsPage(Bag bag) {

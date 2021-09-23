@@ -54,7 +54,7 @@ class ApiServiceImpl extends ApiService {
 
   @override
   Future<void> updateUser(User user) async {
-    await userCollection.doc(user.id).update(user.toJson());
+    await userCollection.doc(user.id).update(user.toJson(user.id));
   }
 
   @override
@@ -128,5 +128,13 @@ class ApiServiceImpl extends ApiService {
         userCollection.doc(uid).collection('cart').doc(bag.id!).delete();
       }
     }
+  }
+
+  @override
+  Future registerNow(User user) async{
+    final userRef = await FirebaseFirestore.instance.collection('users').doc();
+    return userRef
+        .set(user.toJson(userRef.id))
+        .catchError((onError) => print(onError));
   }
 }

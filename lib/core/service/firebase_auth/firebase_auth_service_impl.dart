@@ -100,7 +100,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
               email: authResult!.user!.email!,
               name: authResult!.user!.displayName!,
               image: authResult!.user!.photoURL!,
-              favoriteBags: []),
+              favoriteBags: [], password: ''),
         );
       }
       return LoginResponse.success(authResult!.user!);
@@ -136,7 +136,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
         await FirebaseFirestore.instance.collection('users').doc(user.id);
     final userDoc = await userRef.get();
     if (!userDoc.exists) {
-      userRef.set(user.toJson());
+      userRef.set(user.toJson(userRef.id));
     }
   }
 }

@@ -1,85 +1,125 @@
+import 'dart:io';
+
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
+import 'package:bagzz/core/service/api/api_service.dart';
+import 'package:bagzz/core/service/dialog_service/dialog_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
+import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
+import 'package:bagzz/core/utility/image_selector.dart';
+import 'package:bagzz/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
 
 class RegisterViewModel extends BaseViewModel {
-  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordControllers = TextEditingController();
   final snackBarService = locator<SnackBarService>();
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigationService = locator<NavigationService>();
+  final email = TextEditingController();
+  final name = TextEditingController();
+  final password = TextEditingController();
+  final style = TextEditingController();
+
+  final emailFocus = FocusNode();
+  final nameFocus = FocusNode();
+  final passFocus = FocusNode();
+  final categoryFocus = FocusNode();
+
   bool isObscure = true;
   bool isObscures = true;
-  bool isEmailValid = false;
   bool isEmailEmpty = true;
+  bool isNameEmpty = true;
   bool isPasswordEmpty = true;
   bool isPasswordsEmpty = true;
-  late FocusNode emailFocusNode;
-  late FocusNode passFocusNode;
-  late FocusNode passFocusNodes;
 
-  void init() {
-    emailFocusNode = FocusNode();
-    passFocusNode = FocusNode();
-    passFocusNodes = FocusNode();
+  XFile? selectedImage;
+
+  final imageSelector = locator<ImageSelector>();
+  final cloudStorageService = locator<CloudStorageService>();
+  final apiService = locator<ApiService>();
+  final dialogService = locator<DialogService>();
+
+  Future selectImage() async {
+    setBusy(true);
+    final tempImage = await imageSelector.selectImage();
+    if (tempImage != null) {
+      selectedImage = await tempImage;
+      setBusy(false);
+    }
   }
 
-  Future loginNow({required String email, required String password}) async {
+  void clearImageSelection() {
+    selectedImage = null;
+    notifyListeners();
+  }
+
+
+
+  Future registerNow() async {
     setBusy(true);
+    var cloudStorageResult;
+    if (isAllRequiredValid()) {
+      dialogService.showLoadingDialog(message: 'Please wait...', willPop: true);
+      if (selectedImage != null) {
+        cloudStorageResult = await cloudStorageService.uploadImage(
+            imageToUpload: File(selectedImage!.path),
+            title: (File(selectedImage!.path).path));
+        if (cloudStorageResult.isUploaded == true) {
+          await apiService.registerNow(
+            User(
+              image: cloudStorageResult.imageUrl,
+              name: name.text,
+              email: email.text,
+              password: password.text, favoriteBags: [], id: '',
+            ),
+          );
+          clearTextController();
+          Get.back(canPop: false);
+          navigationService.pop();
+          snackBarService.showSnackBar('Account Registered.');
+        }
 
-    if (isEmailEmpty) {
-      snackBarService.showSnackBar('Email is empty');
-    } else if (isEmailValid == false) {
-      emailFocusNode.requestFocus();
-
-      snackBarService.showSnackBar('Email is invalid');
-      // emailController.
-    } else if (isPasswordEmpty) {
-      snackBarService.showSnackBar('Password is empty');
-    } else if (passwordController.text.length < 8) {
-      snackBarService.showSnackBar('Password must be at least 8 characters');
-    } else {
-      final response = await firebaseAuthService.loginWithEmail(
-          email: email, password: password);
-      if (response.success) {
-        navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
-            predicate: (route) => false);
-        snackBarService.showSnackBar('Successful login');
-      } else
-        snackBarService.showSnackBar(response.errorMessage!);
+        notifyListeners();
+      }
     }
 
     setBusy(false);
   }
 
-  Future signUpNow({required String email, required String password}) async {
-    setBusy(true);
 
-    final response = await firebaseAuthService.signUpWithEmail(
-        email: email, password: password);
-    if (response.success) {
+  bool isAllRequiredValid() {
+    bool isValid = false;
+    if (selectedImage == null) {
+      snackBarService.showSnackBar('Should have an image',
+          isError: true);
+    } else if (name.text.isEmpty) {
+      snackBarService.showSnackBar('Name is empty', isError: true);
+      nameFocus.requestFocus();
+    } else if (email.text.isEmpty) {
+      snackBarService.showSnackBar('Email is empty', isError: true);
+      emailFocus.requestFocus();
+    } else if (password.text.isEmpty) {
+      snackBarService.showSnackBar('Password is empty',
+          isError: true);
+      passFocus.requestFocus();
     } else {
-      snackBarService.showSnackBar(response.errorMessage!);
+      isValid = true;
     }
-    setBusy(false);
+
+    return isValid;
   }
 
-  Future loginWithGoogle() async {
-    setBusy(true);
-    final response =
-    await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
-      print(onError);
-    });
-    if (response.success)
-      navigationService.pushReplacementNamed(Routes.MainScreen);
-    else
-      snackBarService.showSnackBar(response.errorMessage!);
-    setBusy(false);
+  void clearTextController() {
+    email.clear();
+    name.clear();
+    password.clear();
+    selectedImage = null;
   }
 
   void showPassword() {
@@ -95,19 +135,7 @@ class RegisterViewModel extends BaseViewModel {
   }
 
 
-  checkEmail() {
-    emailController.text != '' ? isEmailEmpty = false : isEmailEmpty = true;
-    final regExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
-    if (regExp.hasMatch(emailController.text)) {
-      isEmailValid = true;
-    } else {
-      isEmailValid = false;
-    }
-
-    // isEmailValid=true;
-    notifyListeners();
-  }
 
   checkPass() {
     passwordController.text != ''
@@ -130,3 +158,4 @@ class RegisterViewModel extends BaseViewModel {
     navigationService.pushNamed(Routes.LogIn);
   }
 }
+

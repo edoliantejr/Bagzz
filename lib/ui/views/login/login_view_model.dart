@@ -31,7 +31,6 @@ class LoginViewModel extends BaseViewModel {
       snackBarService.showSnackBar('Email is empty');
     } else if (isEmailValid == false) {
       emailFocusNode.requestFocus();
-
       snackBarService.showSnackBar('Email is invalid');
       // emailController.
     } else if (isPasswordEmpty) {

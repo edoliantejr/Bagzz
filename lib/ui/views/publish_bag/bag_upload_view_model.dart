@@ -49,7 +49,7 @@ class BagUploadViewModel extends BaseViewModel {
     setBusy(true);
     final tempImage = await imageSelector.selectImage();
     if (tempImage != null) {
-      selectedImage = await tempImage;
+      selectedImage = tempImage;
       setBusy(false);
     }
   }

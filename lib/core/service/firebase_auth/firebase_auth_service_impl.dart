@@ -135,8 +135,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
 
   @override
   Future<void> createUserIfNotExist(User user) async {
-    final userRef =
-        await FirebaseFirestore.instance.collection('users').doc(user.id);
+    final userRef = FirebaseFirestore.instance.collection('users').doc(user.id);
     final userDoc = await userRef.get();
     if (!userDoc.exists) {
       userRef.set(user.toJson());

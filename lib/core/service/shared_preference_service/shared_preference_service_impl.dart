@@ -35,6 +35,9 @@ class SharedPreferenceServiceImpl extends SharedPreferenceService {
   @override
   Future deleteSavedLoginDetails() async {
     final sharedPref = await _sharedPreferences;
+    sharedPref.remove('uid');
+    sharedPref.remove('token');
+    sharedPref.remove('credentials');
     sharedPref.clear();
   }
 }

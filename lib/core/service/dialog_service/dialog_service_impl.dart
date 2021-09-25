@@ -5,17 +5,11 @@ import 'package:get/get.dart';
 
 class DialogServiceImpl extends DialogService {
   @override
-  Future showDialog(String message) {
-    // TODO: implement showDialog
-    throw UnimplementedError();
-  }
-
-  @override
   Future showLoadingDialog({required String message, required bool willPop}) {
     return Get.defaultDialog(
         barrierDismissible: false,
         onWillPop: () async {
-          return await willPop;
+          return willPop;
         },
         title: message,
         content: Center(
@@ -31,5 +25,25 @@ class DialogServiceImpl extends DialogService {
             ),
           ),
         ));
+  }
+
+  @override
+  Future showConfirmationDialog({
+    required String title,
+    required String middleText,
+    required Function onCancel,
+    required Function onContinue,
+    required String textConfirm,
+  }) {
+    return Get.defaultDialog(
+      barrierDismissible: false,
+      title: title,
+      middleText: middleText,
+      onCancel: () => onCancel(),
+      onConfirm: () => onContinue(),
+      textCancel: 'Cancel',
+      textConfirm: textConfirm,
+      confirmTextColor: Colors.white,
+    );
   }
 }

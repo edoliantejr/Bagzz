@@ -65,9 +65,11 @@ class PreLoaderScreenViewModel extends BaseViewModel {
           },
           textConfirm: 'Retry');
     } else if (isConnected && !userExist) {
-      navigatorService.pushNamed(Routes.LogIn);
+      navigatorService.pushNamedAndRemoveUntil(Routes.LogIn,
+          predicate: (route) => false);
     } else if (isConnected && userExist) {
-      navigatorService.pushNamed(Routes.MainScreen);
+      navigatorService.pushNamedAndRemoveUntil(Routes.MainScreen,
+          predicate: (route) => false);
     }
   }
 }

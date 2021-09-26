@@ -16,10 +16,14 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<MainScreenViewModel>.reactive(
         viewModelBuilder: () => MainScreenViewModel(),
-        onModelReady: (model) => model.init(),
+        onModelReady: (model) => model.getUserDetails(),
         builder: (context, model, widget) {
           return Scaffold(
-            drawer: DrawerView(),
+            drawer: DrawerView(
+              name: model.name,
+              email: model.email,
+              imageUrl: model.imageUrl,
+            ),
             body: NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
@@ -47,7 +51,7 @@ class MainScreen extends StatelessWidget {
                     ),
                     actions: [
                       InkWell(
-                        onTap: (){},
+                        onTap: () {},
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: CircleAvatar(
@@ -60,7 +64,7 @@ class MainScreen extends StatelessWidget {
                       )
                     ],
                   )
-                    ];
+                ];
               },
               body: HomeScreen(),
             ),

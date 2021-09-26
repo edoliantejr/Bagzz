@@ -19,7 +19,7 @@ class BagUpload extends StatelessWidget {
           backgroundColor: Colors.white,
           appBar: AppBar(
             leading: IconButton(
-              onPressed: () => model.navigationService.pop(),
+              onPressed: () => model.navigatorService.pop(),
               icon: Icon(
                 Icons.arrow_back,
                 color: Colors.black,
@@ -534,7 +534,7 @@ class BagUpload extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width / 2.3,
                   child: OutlinedButton(
-                    onPressed: () => model.navigationService.pop(),
+                    onPressed: () => model.navigatorService.pop(),
                     child: Text('Cancel'),
                     style: OutlinedButton.styleFrom(
                       primary: Colors.grey,

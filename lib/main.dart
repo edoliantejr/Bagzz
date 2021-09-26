@@ -1,7 +1,7 @@
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/constant/font_names.dart';
-import 'package:bagzz/ui/views/login/login.dart';
+import 'package:bagzz/ui/views/pre_loader_screen/pre_loader_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ void main() async {
         accentColor: Colors.deepOrangeAccent,
         iconTheme: IconThemeData(color: Colors.deepOrangeAccent)),
     debugShowCheckedModeBanner: false,
-    home: Login(),
+    home: PreLoaderScreen(),
     navigatorKey: navigationService.navigatorKey,
     onGenerateRoute: StackedRouter().onGenerateRoute,
   ));

@@ -8,22 +8,31 @@ import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service.
 import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service_impl.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service_impl.dart';
+import 'package:bagzz/core/service/shared_preference_service/shared_preference_service.dart';
+import 'package:bagzz/core/service/shared_preference_service/shared_preference_service_impl.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service_impl.dart';
+import 'package:bagzz/core/utility/connectivity_state.dart';
 import 'package:bagzz/core/utility/image_selector.dart';
 import 'package:bagzz/ui/views/bag_item_details/bag_item_details_page.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
-import 'package:bagzz/ui/views/choose_category/choose_category.dart';
+import 'package:bagzz/ui/views/choose_category/choose_category_page.dart';
 import 'package:bagzz/ui/views/home/home_screen.dart';
 import 'package:bagzz/ui/views/login/login.dart';
 import 'package:bagzz/ui/views/main/main_screen_view.dart';
+import 'package:bagzz/ui/views/pre_loader_screen/pre_loader_screen.dart';
 import 'package:bagzz/ui/views/publish_bag/bag_upload.dart';
 import 'package:bagzz/ui/views/register/register_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
 @StackedApp(routes: [
-  MaterialRoute(page: Login, name: 'LogIn', initial: true),
+  MaterialRoute(page: PreLoaderScreen, name: 'PreLoaderScreen', initial: true),
+  CustomRoute(
+      page: Login,
+      name: 'LogIn',
+      durationInMilliseconds: 300,
+      transitionsBuilder: TransitionsBuilders.fadeIn),
   CustomRoute(
       page: MainScreen,
       name: 'MainScreen',
@@ -50,8 +59,8 @@ import 'package:stacked/stacked_annotations.dart';
       durationInMilliseconds: 200,
       transitionsBuilder: TransitionsBuilders.fadeIn),
   CustomRoute(
-      page: ChooseCategory,
-      name: 'ChooseCategory',
+      page: ChooseCategoryPage,
+      name: 'ChooseCategoryPage',
       durationInMilliseconds: 200,
       transitionsBuilder: TransitionsBuilders.slideLeft),
   CustomRoute(
@@ -68,6 +77,9 @@ import 'package:stacked/stacked_annotations.dart';
   LazySingleton(
       classType: CloudStorageServiceImpl, asType: CloudStorageService),
   LazySingleton(classType: ImageSelector),
-  LazySingleton(classType: DialogServiceImpl, asType: DialogService)
+  LazySingleton(classType: DialogServiceImpl, asType: DialogService),
+  LazySingleton(
+      classType: SharedPreferenceServiceImpl, asType: SharedPreferenceService),
+  LazySingleton(classType: ConnectivityStateCheck),
 ])
 class App {}

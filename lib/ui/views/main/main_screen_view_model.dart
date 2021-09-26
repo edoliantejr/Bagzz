@@ -21,7 +21,7 @@ class MainScreenViewModel extends BaseViewModel {
   StreamSubscription? userSubscription;
 
   final firebaseAuthService = locator<FireBaseAuthService>();
-  final navigationService = locator<NavigationService>();
+  final navigatorService = locator<NavigationService>();
   final apiService = locator<ApiService>();
 
   @override
@@ -62,6 +62,6 @@ class MainScreenViewModel extends BaseViewModel {
 
   void logout() async {
     await firebaseAuthService.logOut();
-    navigationService.pushReplacementNamed(Routes.LogIn);
+    navigatorService.pushReplacementNamed(Routes.LogIn);
   }
 }

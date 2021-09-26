@@ -15,7 +15,7 @@ class PreLoaderScreenViewModel extends BaseViewModel {
   final connectivityService = locator<ConnectivityStateCheck>();
   final dialogService = locator<DialogService>();
   final sharedPrefService = locator<SharedPreferenceService>();
-  final navigationService = locator<NavigationService>();
+  final navigatorService = locator<NavigationService>();
 
   bool userExist = false;
   bool isConnected = false;
@@ -50,7 +50,7 @@ class PreLoaderScreenViewModel extends BaseViewModel {
             exit(0);
           },
           onContinue: () {
-            navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
+            navigatorService.pushNamedAndRemoveUntil(Routes.MainScreen,
                 predicate: (route) => false);
           },
           textConfirm: 'Continue offline?');
@@ -65,11 +65,9 @@ class PreLoaderScreenViewModel extends BaseViewModel {
           },
           textConfirm: 'Retry');
     } else if (isConnected && !userExist) {
-      navigationService.pushNamedAndRemoveUntil(Routes.LogIn,
-          predicate: (route) => false);
+      navigatorService.pushNamed(Routes.LogIn);
     } else if (isConnected && userExist) {
-      navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
-          predicate: (route) => false);
+      navigatorService.pushNamed(Routes.MainScreen);
     }
   }
 }

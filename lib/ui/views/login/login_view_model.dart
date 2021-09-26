@@ -13,7 +13,7 @@ class LoginViewModel extends BaseViewModel {
 
   final snackBarService = locator<SnackBarService>();
   final firebaseAuthService = locator<FireBaseAuthService>();
-  final navigationService = locator<NavigationService>();
+  final navigatorService = locator<NavigationService>();
   final sharedPrefService = locator<SharedPreferenceService>();
 
   bool isObscure = true;
@@ -29,8 +29,7 @@ class LoginViewModel extends BaseViewModel {
 
   checkLoginData() async {
     if (await sharedPrefService.checkSavedLoginDetails()) {
-      navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
-          predicate: (route) => false);
+      navigatorService.pushReplacementNamed(Routes.MainScreen);
     }
   }
 
@@ -52,8 +51,7 @@ class LoginViewModel extends BaseViewModel {
       final response = await firebaseAuthService.loginWithEmail(
           email: email, password: password);
       if (response.success) {
-        navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
-            predicate: (route) => false);
+        navigatorService.pushReplacementNamed(Routes.MainScreen);
         snackBarService.showSnackBar('Successful login');
       } else
         snackBarService.showSnackBar(response.errorMessage!);
@@ -81,7 +79,7 @@ class LoginViewModel extends BaseViewModel {
       print(onError);
     });
     if (response.success) {
-      navigationService.pushReplacementNamed(Routes.MainScreen);
+      navigatorService.pushReplacementNamed(Routes.MainScreen);
     } else
       snackBarService.showSnackBar(response.errorMessage!);
     setBusy(false);
@@ -115,6 +113,6 @@ class LoginViewModel extends BaseViewModel {
   }
 
   void onRegisterTap() {
-    navigationService.pushNamed(Routes.Register);
+    navigatorService.pushNamed(Routes.Register);
   }
 }

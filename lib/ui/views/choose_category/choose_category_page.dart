@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
-class ChooseCategory extends StatelessWidget {
-  const ChooseCategory({Key? key}) : super(key: key);
+class ChooseCategoryPage extends StatelessWidget {
+  const ChooseCategoryPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +75,8 @@ class ChooseCategory extends StatelessWidget {
                             itemCount: model.categories.length,
                             itemBuilder: (context, index) {
                               return CategoryListItem(
+                                key: ObjectKey(
+                                    model.categories[index].categoryTitle),
                                 categoryTitle:
                                     model.categories[index].categoryTitle,
                                 setProductCategory: model.setCategory,

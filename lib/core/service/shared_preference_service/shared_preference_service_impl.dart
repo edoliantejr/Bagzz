@@ -3,12 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceServiceImpl extends SharedPreferenceService {
-  Future<SharedPreferences> _sharedPreferences =
-      SharedPreferences.getInstance();
-
   @override
   Future saveLoginDetails({required UserCredential user}) async {
-    final sharedPref = await _sharedPreferences;
+    final sharedPref = await SharedPreferences.getInstance();
 
     sharedPref.setString('uid', user.user!.uid);
     sharedPref.setString('token', await user.user!.getIdToken());
@@ -18,7 +15,7 @@ class SharedPreferenceServiceImpl extends SharedPreferenceService {
   @override
   Future checkSavedLoginDetails() async {
     bool doesExist = false;
-    final sharedPref = await _sharedPreferences;
+    final sharedPref = await SharedPreferences.getInstance();
     try {
       final uid = sharedPref.getString('uid');
       final token = sharedPref.getString('token');
@@ -34,7 +31,7 @@ class SharedPreferenceServiceImpl extends SharedPreferenceService {
 
   @override
   Future deleteSavedLoginDetails() async {
-    final sharedPref = await _sharedPreferences;
+    final sharedPref = await SharedPreferences.getInstance();
     sharedPref.remove('uid');
     sharedPref.remove('token');
     sharedPref.remove('credentials');

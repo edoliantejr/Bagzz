@@ -59,8 +59,8 @@ import 'package:stacked/stacked_annotations.dart';
       durationInMilliseconds: 200,
       transitionsBuilder: TransitionsBuilders.fadeIn),
   CustomRoute(
-      page: ChooseCategory,
-      name: 'ChooseCategory',
+      page: ChooseCategoryPage,
+      name: 'ChooseCategoryPage',
       durationInMilliseconds: 200,
       transitionsBuilder: TransitionsBuilders.slideLeft),
   CustomRoute(

@@ -8,18 +8,18 @@ import 'package:stacked/stacked.dart';
 
 class DrawerViewModel extends BaseViewModel {
   final firebaseAuthService = locator<FireBaseAuthService>();
-  final navigationService = locator<NavigationService>();
+  final navigatorService = locator<NavigationService>();
   final apiService = locator<ApiService>();
   final sharedPrefService = locator<SharedPreferenceService>();
 
   void goToPublishBag() async {
-    navigationService.pushNamedAndRemoveUntil(Routes.BagUpload,
-        predicate: (dynamic) => true);
+    navigatorService.pop();
+    navigatorService.pushNamed(Routes.BagUpload);
   }
 
   void logout() async {
     await firebaseAuthService.logOut();
     await sharedPrefService.deleteSavedLoginDetails();
-    navigationService.pushReplacementNamed(Routes.LogIn);
+    navigatorService.pushReplacementNamed(Routes.LogIn);
   }
 }

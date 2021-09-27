@@ -1,5 +1,5 @@
 abstract class DialogService {
-  Future showConfirmationDialog({
+  Future<dynamic> showConfirmationDialog({
     required String title,
     required String middleText,
     required Function onCancel,
@@ -7,7 +7,7 @@ abstract class DialogService {
     required String textConfirm,
   });
 
-  Future showLoadingDialog({
+  Future<dynamic> showLoadingDialog({
     required String message,
     required bool willPop,
   });

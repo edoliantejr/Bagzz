@@ -34,10 +34,14 @@ class DialogServiceImpl extends DialogService {
     required Function onCancel,
     required Function onContinue,
     required String textConfirm,
+    required bool willPop,
   }) {
     return Get.defaultDialog(
       barrierDismissible: false,
       title: title,
+      onWillPop: () async {
+        return willPop;
+      },
       middleText: middleText,
       onCancel: () => onCancel(),
       onConfirm: () => onContinue(),

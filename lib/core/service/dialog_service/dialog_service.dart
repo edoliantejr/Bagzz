@@ -5,6 +5,7 @@ abstract class DialogService {
     required Function onCancel,
     required Function onContinue,
     required String textConfirm,
+    required bool willPop,
   });
 
   Future<dynamic> showLoadingDialog({

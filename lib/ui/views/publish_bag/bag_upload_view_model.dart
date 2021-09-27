@@ -43,13 +43,13 @@ class BagUploadViewModel extends BaseViewModel {
   final apiService = locator<ApiService>();
   final dialogService = locator<DialogService>();
   final snackBarService = locator<SnackBarService>();
-  final navigationService = locator<NavigationService>();
+  final navigatorService = locator<NavigationService>();
 
   Future selectImage() async {
     setBusy(true);
     final tempImage = await imageSelector.selectImage();
     if (tempImage != null) {
-      selectedImage = await tempImage;
+      selectedImage = tempImage;
       setBusy(false);
     }
   }
@@ -85,7 +85,7 @@ class BagUploadViewModel extends BaseViewModel {
           );
           clearTextController();
           Get.back(canPop: false);
-          navigationService.pop();
+          navigatorService.pop();
           snackBarService.showSnackBar('Bag was published.');
         }
 
@@ -158,7 +158,7 @@ class BagUploadViewModel extends BaseViewModel {
 
   void goToChooseCategory() async {
     final selectedCategory =
-        await navigationService.pushNamed(Routes.ChooseCategory);
+        await navigatorService.pushNamed(Routes.ChooseCategoryPage);
     if (selectedCategory != null) {
       category.text = selectedCategory;
     }

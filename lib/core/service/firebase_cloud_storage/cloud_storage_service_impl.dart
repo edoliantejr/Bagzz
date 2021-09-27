@@ -11,7 +11,7 @@ class CloudStorageServiceImpl extends CloudStorageService {
       {required File imageToUpload, required String title}) async {
     var downloadUrl;
     bool isUploaded;
-    String progress;
+    //String progress;
 
     var imageFileName = title;
 
@@ -20,15 +20,15 @@ class CloudStorageServiceImpl extends CloudStorageService {
 
     final uploadTask = fireBaseStorageRef.putFile(imageToUpload);
 
-    final StreamSubscription<TaskSnapshot> taskSnapshot =
-        await uploadTask.snapshotEvents.listen((event) {
-      //get upload status
-      // var uploadPercent = event.bytesTransferred / event.totalBytes * 100;
-      //progress = '$uploadPercent %';
-    }, onError: (error) {
-      print(error);
-      uploadTask.cancel();
-    });
+    // final StreamSubscription<TaskSnapshot> taskSnapshot =
+    //     uploadTask.snapshotEvents.listen((event) {
+    //   //get upload status
+    //   // var uploadPercent = event.bytesTransferred / event.totalBytes * 100;
+    //   //progress = '$uploadPercent %';
+    // }, onError: (error) {
+    //   print(error);
+    //   uploadTask.cancel();
+    // });
 
     await uploadTask;
     downloadUrl = await uploadTask.snapshot.ref.getDownloadURL();

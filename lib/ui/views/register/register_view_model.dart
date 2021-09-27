@@ -12,7 +12,7 @@ class RegisterViewModel extends BaseViewModel {
   final TextEditingController passwordControllers = TextEditingController();
   final snackBarService = locator<SnackBarService>();
   final firebaseAuthService = locator<FireBaseAuthService>();
-  final navigationService = locator<NavigationService>();
+  final navigatorService = locator<NavigationService>();
   bool isObscure = true;
   bool isObscures = true;
   bool isEmailValid = false;
@@ -47,7 +47,7 @@ class RegisterViewModel extends BaseViewModel {
       final response = await firebaseAuthService.loginWithEmail(
           email: email, password: password);
       if (response.success) {
-        navigationService.pushNamedAndRemoveUntil(Routes.MainScreen,
+        navigatorService.pushNamedAndRemoveUntil(Routes.MainScreen,
             predicate: (route) => false);
         snackBarService.showSnackBar('Successful login');
       } else
@@ -72,11 +72,11 @@ class RegisterViewModel extends BaseViewModel {
   Future loginWithGoogle() async {
     setBusy(true);
     final response =
-    await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
+        await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
       print(onError);
     });
     if (response.success)
-      navigationService.pushReplacementNamed(Routes.MainScreen);
+      navigatorService.pushReplacementNamed(Routes.MainScreen);
     else
       snackBarService.showSnackBar(response.errorMessage!);
     setBusy(false);
@@ -93,7 +93,6 @@ class RegisterViewModel extends BaseViewModel {
     if (!isPasswordsEmpty) isObscures = !isObscures;
     setBusy(false);
   }
-
 
   checkEmail() {
     emailController.text != '' ? isEmailEmpty = false : isEmailEmpty = true;
@@ -115,6 +114,7 @@ class RegisterViewModel extends BaseViewModel {
         : isPasswordEmpty = true;
     notifyListeners();
   }
+
   checkPass2() {
     passwordController.text != ''
         ? isPasswordEmpty = false
@@ -122,11 +122,10 @@ class RegisterViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-
   validateEmail() {}
 
-  void logout() async{
-    await  firebaseAuthService.logOut();
-    navigationService.pushNamed(Routes.LogIn);
+  void logout() async {
+    await firebaseAuthService.logOut();
+    navigatorService.pushNamed(Routes.LogIn);
   }
 }

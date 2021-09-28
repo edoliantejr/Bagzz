@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceServiceImpl extends SharedPreferenceService {
   @override
-  Future saveLoginDetails({required UserCredential user}) async {
+  Future<void> saveLoginDetails({required UserCredential user}) async {
     final sharedPref = await SharedPreferences.getInstance();
 
     sharedPref.setString('uid', user.user!.uid);
@@ -13,7 +13,7 @@ class SharedPreferenceServiceImpl extends SharedPreferenceService {
   }
 
   @override
-  Future checkSavedLoginDetails() async {
+  Future<bool> checkSavedLoginDetails() async {
     bool doesExist = false;
     final sharedPref = await SharedPreferences.getInstance();
     try {
@@ -30,7 +30,7 @@ class SharedPreferenceServiceImpl extends SharedPreferenceService {
   }
 
   @override
-  Future deleteSavedLoginDetails() async {
+  Future<void> deleteSavedLoginDetails() async {
     final sharedPref = await SharedPreferences.getInstance();
     sharedPref.remove('uid');
     sharedPref.remove('token');

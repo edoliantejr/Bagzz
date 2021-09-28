@@ -42,18 +42,20 @@ class PreLoaderScreenViewModel extends BaseViewModel {
   verifyData() {
     if (!isConnected && userExist) {
       dialogService.showConfirmationDialog(
-          title: 'No Internet Connection',
-          middleText:
-              'Check your Internet Connection \n or Continue without Internet',
-          onCancel: () {
-            Get.back(canPop: false);
-            exit(0);
-          },
-          onContinue: () {
-            navigatorService.pushNamedAndRemoveUntil(Routes.MainScreen,
-                predicate: (route) => false);
-          },
-          textConfirm: 'Continue offline?');
+        title: 'No Internet Connection',
+        middleText:
+            'Check your Internet Connection \n or Continue without Internet',
+        onCancel: () {
+          Get.back(canPop: false);
+          exit(0);
+        },
+        onContinue: () {
+          navigatorService.pushNamedAndRemoveUntil(Routes.MainScreen,
+              predicate: (route) => false);
+        },
+        textConfirm: 'Continue offline?',
+        willPop: false,
+      );
     } else if (!isConnected && !userExist) {
       dialogService.showConfirmationDialog(
           title: 'No Internet Connection',
@@ -63,6 +65,7 @@ class PreLoaderScreenViewModel extends BaseViewModel {
             Get.back(canPop: false);
             init();
           },
+          willPop: false,
           textConfirm: 'Retry');
     } else if (isConnected && !userExist) {
       navigatorService.pushNamedAndRemoveUntil(Routes.LogIn,

@@ -6,7 +6,7 @@ abstract class FireBaseAuthService {
 
   Future<LoginResponse> signUpWithEmail({required String email, required String password});
 
-  Future? loginWithGoogle();
+  Future loginWithGoogle();
 
   Future? loginWithFacebook();
 

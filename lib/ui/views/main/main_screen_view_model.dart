@@ -37,14 +37,18 @@ class MainScreenViewModel extends BaseViewModel {
   void init() {
     configureFireBaseMessaging();
     getUserDetails();
+    subscribeToTopic();
   }
 
   void configureFireBaseMessaging() {
     FirebaseMessaging.onMessage.listen((remoteMessage) {
-      final message = remoteMessage.data;
       notificationService.pushNotificationReceiverHandler(
           message: remoteMessage);
     });
+  }
+
+  void subscribeToTopic() {
+    FirebaseMessaging.instance.subscribeToTopic('BAG_TOPIC');
   }
 
   void getUserDetails() {

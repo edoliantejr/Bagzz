@@ -75,7 +75,7 @@ class LoginViewModel extends BaseViewModel {
   Future loginWithGoogle() async {
     setBusy(true);
     final response =
-        await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
+        await firebaseAuthService.loginWithGoogle().catchError((onError) {
       print(onError);
     });
     if (response.success) {

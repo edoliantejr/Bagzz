@@ -8,21 +8,23 @@ class LocalNotificationServiceImpl extends LocalNotificationService {
   @override
   void pushNotificationReceiverHandler({required RemoteMessage message}) async {
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'channelId',
-      'channelName',
-      'channelDescription',
+      'Bag',
+      'Bag Notification',
+      'New bag notification',
       importance: Importance.max,
       priority: Priority.high,
     );
 
-    final platformNotificationDetails = NotificationDetails(
+    final NotificationDetails platformNotificationDetails = NotificationDetails(
       android: androidPlatformChannelSpecifics,
     );
 
+    final messageData = message.data;
+
     await flutterLocalNotificationPlugin.show(
-      0,
-      message.notification!.title,
-      message.notification!.body,
+      int.parse(messageData['notificationId'] ?? 0),
+      messageData['title'] ?? '',
+      messageData['body'] ?? '',
       platformNotificationDetails,
     );
   }

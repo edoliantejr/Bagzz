@@ -10,7 +10,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class FireBaseAuthServiceImpl implements FireBaseAuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   String errorMessage = '';
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   GoogleSignInAccount? googleSignInAccount;
   GoogleSignInAuthentication? googleSignInAuthentication;
   AuthCredential? authCredential;
@@ -79,6 +79,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
   @override
   Future<LoginResponse> loginWithGoogle() async {
     try {
+
       googleSignInAccount = await _googleSignIn.signIn().catchError((onError) {
         print(onError);
       });

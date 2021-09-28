@@ -101,6 +101,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
               email: authResult!.user!.email!,
               name: authResult!.user!.displayName!,
               image: authResult!.user!.photoURL!,
+              token: await authResult!.user!.getIdToken(),
               favoriteBags: []),
         );
       }

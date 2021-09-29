@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 class FirebaseMessagingServiceImpl extends FirebaseMessagingService {
   @override
   Future<void> sendTopicNotification(
-      {required String toTopic,
+      {required int notificationId,
+      required String toTopic,
       required String title,
       required String message}) async {
     final url = Uri.parse('https://fcm.googleapis.com/fcm/send');
@@ -21,7 +22,9 @@ class FirebaseMessagingServiceImpl extends FirebaseMessagingService {
         headers: headers,
         body: jsonEncode(<String, dynamic>{
           'notification': <String, dynamic>{},
+          'priority': 'high',
           'data': <String, dynamic>{
+            'notificationId': notificationId,
             'title': title,
             'body': message,
           },

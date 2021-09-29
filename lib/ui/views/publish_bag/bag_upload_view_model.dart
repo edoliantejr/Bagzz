@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
@@ -63,6 +64,7 @@ class BagUploadViewModel extends BaseViewModel {
 
   Future publishBag() async {
     var cloudStorageResult;
+    var random = Random();
     setBusy(true);
     if (isAllRequiredValid()) {
       dialogService.showLoadingDialog(message: 'Please wait...', willPop: true);
@@ -90,6 +92,7 @@ class BagUploadViewModel extends BaseViewModel {
           navigatorService.pop();
           snackBarService.showSnackBar('Bag was published.');
           firebaseMessagingService.sendTopicNotification(
+              notificationId: random.nextInt(100),
               toTopic: '/topics/BAG_TOPIC',
               title: 'New Published Bag',
               message: 'Check it out');

@@ -5,7 +5,6 @@ import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
-import 'package:bagzz/core/service/notification_service/local_notification_service.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
 import 'package:bagzz/ui/views/search/search_view.dart';
 import 'package:bagzz/ui/views/wishlist/wishlist_view.dart';
@@ -25,7 +24,6 @@ class MainScreenViewModel extends BaseViewModel {
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigatorService = locator<NavigationService>();
   final apiService = locator<ApiService>();
-  final notificationService = locator<LocalNotificationService>();
 
   @override
   void dispose() {
@@ -35,17 +33,8 @@ class MainScreenViewModel extends BaseViewModel {
   }
 
   void init() {
-    configureFireBaseMessaging();
-
     getUserDetails();
     subscribeToTopic();
-  }
-
-  Future<void> configureFireBaseMessaging() async {
-    FirebaseMessaging.onMessage.listen((remoteMessage) {
-      notificationService.pushNotificationReceiverHandler(
-          message: remoteMessage);
-    });
   }
 
   void subscribeToTopic() {

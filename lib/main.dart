@@ -1,7 +1,6 @@
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/constant/font_names.dart';
-import 'package:bagzz/core/service/notification_service/local_notification_service.dart';
 import 'package:bagzz/ui/views/pre_loader_screen/pre_loader_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -17,10 +16,9 @@ import 'core/service/navigation/navigator_service.dart';
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 final navigationService = locator<NavigationService>();
-final notificationService = locator<LocalNotificationService>();
 
 Future<void> backgroundNotificationHandler(RemoteMessage remoteMessage) async {
-  notificationService.pushNotificationReceiverHandler(message: remoteMessage);
+  pushNotificationReceiverHandler(message: remoteMessage);
 }
 
 void main() async {
@@ -39,7 +37,7 @@ void main() async {
       onSelectNotification: (String? payload) async {});
 
   FirebaseMessaging.onBackgroundMessage(backgroundNotificationHandler);
-
+  configureFireBaseMessaging();
   runApp(GetMaterialApp(
     theme: ThemeData(
         fontFamily: FontNames.workSans,
@@ -50,4 +48,30 @@ void main() async {
     navigatorKey: navigationService.navigatorKey,
     onGenerateRoute: StackedRouter().onGenerateRoute,
   ));
+}
+
+Future<void> pushNotificationReceiverHandler(
+    {required RemoteMessage message}) async {
+  final androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'Bag', 'Bag Notification', 'New bag notification',
+      importance: Importance.max, priority: Priority.high);
+
+  final NotificationDetails platformNotificationDetails = NotificationDetails(
+    android: androidPlatformChannelSpecifics,
+  );
+
+  final messageData = message.data;
+
+  await flutterLocalNotificationsPlugin.show(
+    messageData['notificationId'] ?? 0,
+    messageData['title'] ?? message.notification!.title ?? 'Empty',
+    messageData['body'] ?? message.notification!.body ?? 'No Body',
+    platformNotificationDetails,
+  );
+}
+
+Future<void> configureFireBaseMessaging() async {
+  FirebaseMessaging.onMessage.listen((remoteMessage) {
+    pushNotificationReceiverHandler(message: remoteMessage);
+  });
 }

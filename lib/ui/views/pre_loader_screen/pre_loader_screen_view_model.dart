@@ -4,9 +4,11 @@ import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/dialog_service/dialog_service.dart';
+import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/shared_preference_service/shared_preference_service.dart';
 import 'package:bagzz/core/utility/connectivity_state.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
@@ -16,6 +18,7 @@ class PreLoaderScreenViewModel extends BaseViewModel {
   final dialogService = locator<DialogService>();
   final sharedPrefService = locator<SharedPreferenceService>();
   final navigatorService = locator<NavigationService>();
+  final fireBaseAuthService = locator<FireBaseAuthService>();
 
   bool userExist = false;
   bool isConnected = false;
@@ -25,11 +28,19 @@ class PreLoaderScreenViewModel extends BaseViewModel {
     await checkNetworkState();
     await Future.delayed(Duration(milliseconds: 500));
     await checkLoginState();
+    await updateToken();
     verifyData();
     setBusy(false);
   }
 
-  Future checkNetworkState() async {
+  Future<void> updateToken() async {
+    if (userExist) {
+      String? token = await FirebaseMessaging.instance.getToken();
+      await fireBaseAuthService.saveTokenToDatabase(token: token!);
+    }
+  }
+
+  Future<void> checkNetworkState() async {
     isConnected = await connectivityService.checkConnectivity();
     notifyListeners();
   }
@@ -39,7 +50,7 @@ class PreLoaderScreenViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  verifyData() {
+  void verifyData() {
     if (!isConnected && userExist) {
       dialogService.showConfirmationDialog(
         title: 'No Internet Connection',

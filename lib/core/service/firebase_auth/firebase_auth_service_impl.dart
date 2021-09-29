@@ -5,6 +5,7 @@ import 'package:bagzz/models/login_response.dart';
 import 'package:bagzz/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FireBaseAuthServiceImpl implements FireBaseAuthService {
@@ -79,7 +80,6 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
   @override
   Future<LoginResponse> loginWithGoogle() async {
     try {
-
       googleSignInAccount = await _googleSignIn.signIn().catchError((onError) {
         print(onError);
       });
@@ -95,14 +95,15 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
         print(onError);
       });
 
-      if (authResult!.user!.uid.isNotEmpty) {
+      if (authResult != null) {
+        var token = await FirebaseMessaging.instance.getToken();
         createUserIfNotExist(
           User(
               id: authResult!.user!.uid,
               email: authResult!.user!.email!,
               name: authResult!.user!.displayName!,
               image: authResult!.user!.photoURL!,
-              token: await authResult!.user!.getIdToken(),
+              token: token ?? await authResult!.user!.getIdToken(),
               favoriteBags: []),
         );
       }
@@ -142,5 +143,14 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
     if (!userDoc.exists) {
       userRef.set(user.toJson());
     }
+  }
+
+  @override
+  Future<void> saveTokenToDatabase({required String token}) async {
+    String userId = _firebaseAuth.currentUser!.uid;
+
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'token': FieldValue.arrayUnion([token]),
+    });
   }
 }

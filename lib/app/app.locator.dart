@@ -17,6 +17,8 @@ import '../core/service/firebase_auth/firebase_auth_service.dart';
 import '../core/service/firebase_auth/firebase_auth_service_impl.dart';
 import '../core/service/firebase_cloud_storage/cloud_storage_service.dart';
 import '../core/service/firebase_cloud_storage/cloud_storage_service_impl.dart';
+import '../core/service/firebase_messaging/firebase_messaging_service.dart';
+import '../core/service/firebase_messaging/firebase_messaging_service_impl.dart';
 import '../core/service/navigation/navigator_service.dart';
 import '../core/service/navigation/navigator_service_impl.dart';
 import '../core/service/notification_service/local_notification_service.dart';
@@ -50,4 +52,6 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
   locator.registerLazySingleton(() => ConnectivityStateCheck());
   locator.registerLazySingleton<LocalNotificationService>(
       () => LocalNotificationServiceImpl());
+  locator.registerLazySingleton<FirebaseMessagingService>(
+      () => FirebaseMessagingServiceImpl());
 }

@@ -6,6 +6,8 @@ import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service_impl.dart';
 import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service.dart';
 import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service_impl.dart';
+import 'package:bagzz/core/service/firebase_messaging/firebase_messaging_service.dart';
+import 'package:bagzz/core/service/firebase_messaging/firebase_messaging_service_impl.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service_impl.dart';
 import 'package:bagzz/core/service/notification_service/local_notification_service.dart';
@@ -86,5 +88,8 @@ import 'package:stacked/stacked_annotations.dart';
   LazySingleton(
       classType: LocalNotificationServiceImpl,
       asType: LocalNotificationService),
+  LazySingleton(
+      classType: FirebaseMessagingServiceImpl,
+      asType: FirebaseMessagingService),
 ])
 class App {}

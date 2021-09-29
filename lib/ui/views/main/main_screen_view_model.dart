@@ -36,11 +36,12 @@ class MainScreenViewModel extends BaseViewModel {
 
   void init() {
     configureFireBaseMessaging();
+
     getUserDetails();
     subscribeToTopic();
   }
 
-  void configureFireBaseMessaging() {
+  Future<void> configureFireBaseMessaging() async {
     FirebaseMessaging.onMessage.listen((remoteMessage) {
       notificationService.pushNotificationReceiverHandler(
           message: remoteMessage);

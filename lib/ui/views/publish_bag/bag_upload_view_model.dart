@@ -5,6 +5,7 @@ import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/dialog_service/dialog_service.dart';
 import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service.dart';
+import 'package:bagzz/core/service/firebase_messaging/firebase_messaging_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:bagzz/core/utility/image_selector.dart';
@@ -44,6 +45,7 @@ class BagUploadViewModel extends BaseViewModel {
   final dialogService = locator<DialogService>();
   final snackBarService = locator<SnackBarService>();
   final navigatorService = locator<NavigationService>();
+  final firebaseMessagingService = locator<FirebaseMessagingService>();
 
   Future selectImage() async {
     setBusy(true);
@@ -87,6 +89,10 @@ class BagUploadViewModel extends BaseViewModel {
           Get.back(canPop: false);
           navigatorService.pop();
           snackBarService.showSnackBar('Bag was published.');
+          firebaseMessagingService.sendTopicNotification(
+              toTopic: '/topics/BAG_TOPIC',
+              title: 'New Published Bag',
+              message: 'Check it out');
         }
 
         notifyListeners();

@@ -3,7 +3,7 @@ class User {
   String email;
   String name;
   String image;
-  String token;
+  dynamic token;
   List<String> favoriteBags;
 
   User({

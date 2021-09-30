@@ -63,7 +63,7 @@ Future<void> pushNotificationReceiverHandler(
   final messageData = message.data;
 
   await flutterLocalNotificationsPlugin.show(
-    messageData['notificationId'] ?? 0,
+    int.tryParse(messageData['notificationId']) ?? 0,
     messageData['title'] ?? message.notification!.title ?? 'Empty',
     messageData['body'] ?? message.notification!.body ?? 'No Body',
     platformNotificationDetails,

@@ -24,6 +24,7 @@ class MainScreenViewModel extends BaseViewModel {
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigatorService = locator<NavigationService>();
   final apiService = locator<ApiService>();
+  final fireBaseAuthService = locator<FireBaseAuthService>();
 
   @override
   void dispose() {
@@ -32,13 +33,20 @@ class MainScreenViewModel extends BaseViewModel {
     super.dispose();
   }
 
-  void init() {
+  void init() async {
     getUserDetails();
     subscribeToTopic();
+    await updateToken();
   }
 
   void subscribeToTopic() {
     FirebaseMessaging.instance.subscribeToTopic('BAG_TOPIC');
+  }
+
+  Future<void> updateToken() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    if(token!=null)
+    await fireBaseAuthService.saveTokenToDatabase(token: token);
   }
 
   void getUserDetails() {

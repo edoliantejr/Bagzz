@@ -150,7 +150,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
     String userId = _firebaseAuth.currentUser!.uid;
 
     await FirebaseFirestore.instance.collection('users').doc(userId).update({
-      'token': FieldValue.arrayUnion([token]),
+      'token': token,
     });
   }
 }

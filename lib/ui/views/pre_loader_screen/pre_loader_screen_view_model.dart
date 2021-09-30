@@ -8,7 +8,6 @@ import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/shared_preference_service/shared_preference_service.dart';
 import 'package:bagzz/core/utility/connectivity_state.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
@@ -28,16 +27,8 @@ class PreLoaderScreenViewModel extends BaseViewModel {
     await checkNetworkState();
     await Future.delayed(Duration(milliseconds: 500));
     await checkLoginState();
-    await updateToken();
     verifyData();
     setBusy(false);
-  }
-
-  Future<void> updateToken() async {
-    if (userExist) {
-      String? token = await FirebaseMessaging.instance.getToken();
-      await fireBaseAuthService.saveTokenToDatabase(token: token!);
-    }
   }
 
   Future<void> checkNetworkState() async {

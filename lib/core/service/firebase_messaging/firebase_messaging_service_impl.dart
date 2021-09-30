@@ -34,6 +34,7 @@ class FirebaseMessagingServiceImpl extends FirebaseMessagingService {
             'body': message,
             'image_url': imageUrl,
             'route': route,
+            'payload': bagId
           },
           'to': toTopic
         }));

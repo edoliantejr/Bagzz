@@ -5,6 +5,8 @@ import 'package:bagzz/models/user.dart';
 abstract class ApiService {
   Future<String> publishBag(Bag bag);
 
+  Future<Bag> getBagDetails({required String bagId});
+
   Stream<List<Bag>> getRealTimeBags();
 
   Stream<List<Bag>> getLikeBags(List<String> ids);

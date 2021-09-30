@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/constant/font_names.dart';
+import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/ui/views/pre_loader_screen/pre_loader_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -31,7 +32,7 @@ void main() async {
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
+  final apiService = locator<ApiService>();
   const initializationSettingsIOS = IOSInitializationSettings();
   const initializationSettingsAndroid =
       AndroidInitializationSettings('ic_launcher');
@@ -40,7 +41,9 @@ void main() async {
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (dynamic payload) async {
     if (payload != null) {
-      navigationService.pushNamed(payload);
+      final bag = await apiService.getBagDetails(bagId: payload);
+      navigationService.pushNamed(Routes.BagItemDetailsPage,
+          arguments: BagItemDetailsPageArguments(bag: bag));
     } else {
       navigationService.pushNamed(Routes.PreLoaderScreen);
     }
@@ -85,7 +88,7 @@ Future<void> pushNotificationReceiverHandler(
     messageData['title'] ?? message.notification!.title ?? 'Empty',
     messageData['body'] ?? message.notification!.body ?? 'No Body',
     platformNotificationDetails,
-    payload: messageData['route'],
+    payload: messageData['payload'],
   );
 }
 

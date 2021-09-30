@@ -133,4 +133,12 @@ class ApiServiceImpl extends ApiService {
         .doc(bag.id!)
         .update({'bagInCartQuantity': FieldValue.increment(1)});
   }
+
+  @override
+  Future<Bag> getBagDetails({required String bagId}) async {
+    return await bagCollection
+        .doc(bagId)
+        .get()
+        .then((bag) => Bag.FromJson(bag.data()!));
+  }
 }

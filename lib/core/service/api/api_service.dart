@@ -3,7 +3,7 @@ import 'package:bagzz/models/category.dart';
 import 'package:bagzz/models/user.dart';
 
 abstract class ApiService {
-  Future publishBag(Bag bag);
+  Future<String> publishBag(Bag bag);
 
   Stream<List<Bag>> getRealTimeBags();
 
@@ -21,7 +21,7 @@ abstract class ApiService {
 
   Stream<List<Bag>> getAllBagsInCart(String userId);
 
-  Future decrementBagQuantity({required Bag bag, required String uid});
+  Future<void> decrementBagQuantity({required Bag bag, required String uid});
 
-  Future incrementBagQuantity({required Bag bag, required String uid});
+  Future<void> incrementBagQuantity({required Bag bag, required String uid});
 }

@@ -73,7 +73,7 @@ class BagUploadViewModel extends BaseViewModel {
             imageToUpload: File(selectedImage!.path),
             title: basename(File(selectedImage!.path).path));
         if (cloudStorageResult.isUploaded == true) {
-          await apiService.publishBag(
+          final getPublishBagId = await apiService.publishBag(
             Bag(
               image: cloudStorageResult.imageUrl,
               name: prodName.text,
@@ -92,10 +92,14 @@ class BagUploadViewModel extends BaseViewModel {
           navigatorService.pop();
           snackBarService.showSnackBar('Bag was published.');
           firebaseMessagingService.sendTopicNotification(
-              notificationId: random.nextInt(100),
-              toTopic: '/topics/BAG_TOPIC',
-              title: 'New Published Bag',
-              message: 'Check it out');
+            notificationId: random.nextInt(100),
+            toTopic: '/topics/BAG_TOPIC',
+            bagId: getPublishBagId,
+            title: 'New Published Bag',
+            message: 'Check it out',
+            imageUrl: cloudStorageResult.imageUrl,
+            route: Routes.BagItemDetailsPage,
+          );
         }
 
         notifyListeners();

@@ -38,9 +38,16 @@ void main() async {
   const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String? payload) async {});
+      onSelectNotification: (dynamic payload) async {
+    if (payload != null) {
+      navigationService.pushNamed(payload);
+    } else {
+      navigationService.pushNamed(Routes.PreLoaderScreen);
+    }
+  });
 
   FirebaseMessaging.onBackgroundMessage(backgroundNotificationHandler);
+
   configureFireBaseMessaging();
   runApp(GetMaterialApp(
     theme: ThemeData(
@@ -78,6 +85,7 @@ Future<void> pushNotificationReceiverHandler(
     messageData['title'] ?? message.notification!.title ?? 'Empty',
     messageData['body'] ?? message.notification!.body ?? 'No Body',
     platformNotificationDetails,
+    payload: messageData['route'],
   );
 }
 

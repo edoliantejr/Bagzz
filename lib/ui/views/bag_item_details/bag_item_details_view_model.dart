@@ -76,4 +76,6 @@ class BagItemDetailsViewModel extends BaseViewModel {
     await apiService.addToCart(bag: bag, uid: uid);
     Get.back(canPop: false);
   }
+
+  getBag(String bagId) async {}
 }

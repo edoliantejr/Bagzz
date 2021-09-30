@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/constant/font_names.dart';
@@ -10,6 +12,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 import 'core/service/navigation/navigator_service.dart';
 
@@ -52,9 +56,16 @@ void main() async {
 
 Future<void> pushNotificationReceiverHandler(
     {required RemoteMessage message}) async {
+  final String largeIconPath =
+      await _downloadAndSaveFile(message.data['image_url'], 'largeIcon');
   final androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'Bag', 'Bag Notification', 'New bag notification',
-      importance: Importance.max, priority: Priority.high);
+    'Bag',
+    'Bag Notification',
+    'New bag notification',
+    importance: Importance.max,
+    priority: Priority.high,
+    largeIcon: FilePathAndroidBitmap(largeIconPath),
+  );
 
   final NotificationDetails platformNotificationDetails = NotificationDetails(
     android: androidPlatformChannelSpecifics,
@@ -74,4 +85,13 @@ Future<void> configureFireBaseMessaging() async {
   FirebaseMessaging.onMessage.listen((remoteMessage) {
     pushNotificationReceiverHandler(message: remoteMessage);
   });
+}
+
+Future<String> _downloadAndSaveFile(String url, String fileName) async {
+  final Directory directory = await getApplicationDocumentsDirectory();
+  final String filePath = '${directory.path}/$fileName';
+  final response = await http.get(Uri.parse(url));
+  final File file = File(filePath);
+  await file.writeAsBytes(response.bodyBytes);
+  return filePath;
 }

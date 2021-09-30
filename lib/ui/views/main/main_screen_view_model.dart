@@ -45,8 +45,8 @@ class MainScreenViewModel extends BaseViewModel {
 
   Future<void> updateToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
-    if(token!=null)
-    await fireBaseAuthService.saveTokenToDatabase(token: token);
+    if (token != null)
+      await fireBaseAuthService.saveTokenToDatabase(token: token);
   }
 
   void getUserDetails() {

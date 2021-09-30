@@ -15,7 +15,7 @@ final categoryCollection = FirebaseFirestore.instance.collection('categories');
 class ApiServiceImpl extends ApiService {
   @override
   Future publishBag(Bag bag) async {
-    final bagRef = FirebaseFirestore.instance.collection('bags').doc();
+    final bagRef = await FirebaseFirestore.instance.collection('bags').doc();
     return bagRef
         .set(bag.bagsToJson(bagRef.id))
         .catchError((onError) => print(onError));
@@ -54,7 +54,7 @@ class ApiServiceImpl extends ApiService {
 
   @override
   Future<void> updateUser(User user) async {
-    await userCollection.doc(user.id).update(user.toJson());
+    await userCollection.doc(user.id).update(user.toJson(user.id));
   }
 
   @override
@@ -129,5 +129,13 @@ class ApiServiceImpl extends ApiService {
         .collection('cart')
         .doc(bag.id!)
         .update({'bagInCartQuantity': FieldValue.increment(1)});
+  }
+
+  @override
+  Future registerNow(User user) async{
+    final userRef = await FirebaseFirestore.instance.collection('users').doc();
+    return userRef
+        .set(user.toJson(userRef.id))
+        .catchError((onError) => print(onError));
   }
 }

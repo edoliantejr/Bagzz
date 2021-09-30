@@ -2,7 +2,7 @@
     package="com.ojt.bagzz">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="bagzz"
+        android:label="BagHub"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

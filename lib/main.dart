@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 import 'core/service/navigation/navigator_service.dart';
+import 'models/bag.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -41,7 +42,7 @@ void main() async {
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (dynamic payload) async {
     if (payload != null) {
-      final bag = await apiService.getBagDetails(bagId: payload);
+      Bag bag = await apiService.getBagDetails(bagId: payload);
       navigationService.pushNamed(Routes.BagItemDetailsPage,
           arguments: BagItemDetailsPageArguments(bag: bag));
     } else {

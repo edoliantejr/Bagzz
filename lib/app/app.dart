@@ -6,6 +6,8 @@ import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service_impl.dart';
 import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service.dart';
 import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service_impl.dart';
+import 'package:bagzz/core/service/firebase_messaging/firebase_messaging_service.dart';
+import 'package:bagzz/core/service/firebase_messaging/firebase_messaging_service_impl.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service_impl.dart';
 import 'package:bagzz/core/service/shared_preference_service/shared_preference_service.dart';
@@ -81,5 +83,8 @@ import 'package:stacked/stacked_annotations.dart';
   LazySingleton(
       classType: SharedPreferenceServiceImpl, asType: SharedPreferenceService),
   LazySingleton(classType: ConnectivityStateCheck),
+  LazySingleton(
+      classType: FirebaseMessagingServiceImpl,
+      asType: FirebaseMessagingService),
 ])
 class App {}

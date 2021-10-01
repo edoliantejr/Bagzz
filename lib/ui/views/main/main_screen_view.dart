@@ -16,7 +16,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<MainScreenViewModel>.reactive(
         viewModelBuilder: () => MainScreenViewModel(),
-        onModelReady: (model) => model.getUserDetails(),
+        onModelReady: (model) => model.init(),
         builder: (context, model, widget) {
           return Scaffold(
             drawer: DrawerView(

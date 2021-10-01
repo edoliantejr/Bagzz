@@ -8,6 +8,7 @@ import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
 import 'package:bagzz/ui/views/search/search_view.dart';
 import 'package:bagzz/ui/views/wishlist/wishlist_view.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
@@ -23,6 +24,7 @@ class MainScreenViewModel extends BaseViewModel {
   final firebaseAuthService = locator<FireBaseAuthService>();
   final navigatorService = locator<NavigationService>();
   final apiService = locator<ApiService>();
+  final fireBaseAuthService = locator<FireBaseAuthService>();
 
   @override
   void dispose() {
@@ -31,7 +33,23 @@ class MainScreenViewModel extends BaseViewModel {
     super.dispose();
   }
 
-  getUserDetails() {
+  void init() async {
+    getUserDetails();
+    subscribeToTopic();
+    await updateToken();
+  }
+
+  void subscribeToTopic() {
+    FirebaseMessaging.instance.subscribeToTopic('BAG_TOPIC');
+  }
+
+  Future<void> updateToken() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    if (token != null)
+      await fireBaseAuthService.saveTokenToDatabase(token: token);
+  }
+
+  void getUserDetails() {
     apiService.getCurrentUser().listen((event) {
       userSubscription?.cancel();
       userSubscription = apiService.getCurrentUser().listen((user) {

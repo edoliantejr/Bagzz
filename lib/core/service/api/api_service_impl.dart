@@ -14,11 +14,12 @@ final categoryCollection = FirebaseFirestore.instance.collection('categories');
 
 class ApiServiceImpl extends ApiService {
   @override
-  Future publishBag(Bag bag) async {
-    final bagRef = await FirebaseFirestore.instance.collection('bags').doc();
-    return bagRef
+  Future<String> publishBag(Bag bag) async {
+    final bagRef = FirebaseFirestore.instance.collection('bags').doc();
+    await bagRef
         .set(bag.bagsToJson(bagRef.id))
         .catchError((onError) => print(onError));
+    return bagRef.id;
   }
 
   @override
@@ -54,7 +55,7 @@ class ApiServiceImpl extends ApiService {
 
   @override
   Future<void> updateUser(User user) async {
-    await userCollection.doc(user.id).update(user.toJson(user.id));
+    await userCollection.doc(user.id).update(user.toJson());
   }
 
   @override
@@ -108,7 +109,8 @@ class ApiServiceImpl extends ApiService {
   }
 
   @override
-  Future decrementBagQuantity({required Bag bag, required String uid}) async {
+  Future<void> decrementBagQuantity(
+      {required Bag bag, required String uid}) async {
     if (bag.bagInCartQuantity! > 1) {
       ///increment quantity if bagInCartQuantity is >=1
       userCollection
@@ -123,7 +125,8 @@ class ApiServiceImpl extends ApiService {
   }
 
   @override
-  Future incrementBagQuantity({required Bag bag, required String uid}) async {
+  Future<void> incrementBagQuantity(
+      {required Bag bag, required String uid}) async {
     userCollection
         .doc(uid)
         .collection('cart')
@@ -131,4 +134,11 @@ class ApiServiceImpl extends ApiService {
         .update({'bagInCartQuantity': FieldValue.increment(1)});
   }
 
+  @override
+  Future<Bag> getBagDetails({required String bagId}) async {
+    return await bagCollection
+        .doc(bagId)
+        .get()
+        .then((bag) => Bag.FromJson(bag.data()!));
+  }
 }

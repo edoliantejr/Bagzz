@@ -7,7 +7,6 @@ import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-
 class LoginViewModel extends BaseViewModel {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -60,23 +59,22 @@ class LoginViewModel extends BaseViewModel {
     setBusy(false);
   }
 
-  Future loginWithGoogle() async {
+  Future signUpNow({required String email, required String password}) async {
     setBusy(true);
-    final response =
-        await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
-      print(onError);
-    });
+
+    final response = await firebaseAuthService.signUpWithEmail(
+        email: email, password: password);
     if (response.success) {
-      navigatorService.pushReplacementNamed(Routes.MainScreen);
-    } else
+    } else {
       snackBarService.showSnackBar(response.errorMessage!);
+    }
     setBusy(false);
   }
 
-  Future loginWithFacebook() async {
+  Future loginWithGoogle() async {
     setBusy(true);
     final response =
-    await firebaseAuthService.loginWithFacebook()!.catchError((onError) {
+        await firebaseAuthService.loginWithGoogle().catchError((onError) {
       print(onError);
     });
     if (response.success) {

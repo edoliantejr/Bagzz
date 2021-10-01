@@ -131,11 +131,4 @@ class ApiServiceImpl extends ApiService {
         .update({'bagInCartQuantity': FieldValue.increment(1)});
   }
 
-  @override
-  Future registerNow(User user) async{
-    final userRef = await FirebaseFirestore.instance.collection('users').doc();
-    return userRef
-        .set(user.toJson(userRef.id))
-        .catchError((onError) => print(onError));
-  }
 }

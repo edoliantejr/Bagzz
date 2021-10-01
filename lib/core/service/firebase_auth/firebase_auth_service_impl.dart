@@ -49,10 +49,20 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
 
   @override
   Future<LoginResponse> signUpWithEmail(
-      {required String email, required String password}) async {
+      {required String email, required String password,required String name, required String image}) async {
     try {
       var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      if (authResult.user!.uid.isNotEmpty) {
+        createUserIfNotExist(
+          User(
+              id: authResult.user!.uid,
+              email: authResult.user!.email!,
+              name: name,
+              image: image,
+              favoriteBags: []),
+        );
+      }
       return LoginResponse.success(authResult.user!);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -72,7 +82,9 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
           errorMessage = e.toString();
           break;
       }
-      return LoginResponse.error(errorMessage);
+
+      sharedPrefService.saveLoginDetails(user: authResult!);
+      return LoginResponse.success(authResult!.user!);
     }
   }
 
@@ -101,7 +113,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
               email: authResult!.user!.email!,
               name: authResult!.user!.displayName!,
               image: authResult!.user!.photoURL!,
-              favoriteBags: [], password: ''),
+              favoriteBags: []),
         );
       }
 

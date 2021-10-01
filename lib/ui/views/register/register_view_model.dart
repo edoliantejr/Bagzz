@@ -44,12 +44,11 @@ class RegisterViewModel extends BaseViewModel {
   final cloudStorageService = locator<CloudStorageService>();
   final apiService = locator<ApiService>();
   final dialogService = locator<DialogService>();
-
   Future selectImage() async {
     setBusy(true);
     final tempImage = await imageSelector.selectImage();
     if (tempImage != null) {
-      selectedImage = await tempImage;
+      selectedImage =  tempImage;
       setBusy(false);
     }
   }
@@ -71,13 +70,12 @@ class RegisterViewModel extends BaseViewModel {
             imageToUpload: File(selectedImage!.path),
             title: (File(selectedImage!.path).path));
         if (cloudStorageResult.isUploaded == true) {
-          await apiService.registerNow(
-            User(
-              image: cloudStorageResult.imageUrl,
-              name: name.text,
-              email: email.text,
-              password: password.text, favoriteBags: [], id: '',
-            ),
+          await firebaseAuthService.signUpWithEmail(
+           email: email.text,
+            password: password.text,
+            name: name.text,
+            image: cloudStorageResult.imageUrl,
+
           );
           clearTextController();
           Get.back(canPop: false);
@@ -151,11 +149,5 @@ class RegisterViewModel extends BaseViewModel {
   }
 
 
-  validateEmail() {}
-
-  void logout() async{
-    await  firebaseAuthService.logOut();
-    navigationService.pushNamed(Routes.LogIn);
-  }
 }
 

@@ -1,7 +1,6 @@
 class User {
   String id;
   String email;
-  String password;
   String name;
   String image;
   List<String> favoriteBags;
@@ -9,7 +8,6 @@ class User {
   User({
     required this.id,
     required this.email,
-    required this.password,
     required this.name,
     required this.image,
     required this.favoriteBags,
@@ -19,7 +17,6 @@ class User {
     return User(
       id: json['id'],
       email: json['email'],
-      password: json['password'],
       name: json['name'],
       image: json['image'],
       favoriteBags:
@@ -32,7 +29,6 @@ class User {
       'id': id,
       'name': name,
       'email': email,
-      'password': password,
       'image': image,
       'favoriteBags': favoriteBags,
     };

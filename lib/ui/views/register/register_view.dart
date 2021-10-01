@@ -216,7 +216,7 @@ class Register extends StatelessWidget {
                               )),
                           child: InkWell(
                             highlightColor: Colors.white60,
-                            onTap: model.logout,
+                            onTap: model.navigationService.pop,
                             child: Text(
                               'Login',
                               style: TextStyle(

@@ -59,18 +59,6 @@ class LoginViewModel extends BaseViewModel {
     setBusy(false);
   }
 
-  Future signUpNow({required String email, required String password}) async {
-    setBusy(true);
-
-    final response = await firebaseAuthService.signUpWithEmail(
-        email: email, password: password);
-    if (response.success) {
-    } else {
-      snackBarService.showSnackBar(response.errorMessage!);
-    }
-    setBusy(false);
-  }
-
   Future loginWithGoogle() async {
     setBusy(true);
     final response =

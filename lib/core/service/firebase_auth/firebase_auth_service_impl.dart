@@ -50,19 +50,23 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
 
   @override
   Future<LoginResponse> signUpWithEmail(
-      {required String email, required String password,required String name, required String image}) async {
+      {required String email,
+      required String password,
+      required String name,
+      required String image}) async {
     try {
       var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      var token = await FirebaseMessaging.instance.getToken();
       if (authResult.user!.uid.isNotEmpty) {
-        createUserIfNotExist(
-          User(
-              id: authResult.user!.uid,
-              email: authResult.user!.email!,
-              name: name,
-              image: image,
-              favoriteBags: []),
-        );
+        createUserIfNotExist(User(
+          id: authResult.user!.uid,
+          email: authResult.user!.email!,
+          name: name,
+          image: image,
+          favoriteBags: [],
+          token: token ?? await authResult.user!.getIdToken(),
+        ));
       }
       return LoginResponse.success(authResult.user!);
     } on FirebaseAuthException catch (e) {
@@ -153,7 +157,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
     final userRef = FirebaseFirestore.instance.collection('users').doc(user.id);
     final userDoc = await userRef.get();
     if (!userDoc.exists) {
-      userRef.set(user.toJson(userRef.id));
+      userRef.set(user.toJson());
     }
   }
 

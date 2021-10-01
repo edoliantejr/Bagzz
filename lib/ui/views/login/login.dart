@@ -170,15 +170,10 @@ class Login extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 16),
-                        GestureDetector(
-                          onTap: () {
-                            if (!model.isBusy) model.loginWithFacebook();
-                          },
-                          child: SvgPicture.asset(
-                            'assets/icons/facebook.svg',
-                            height: 32,
-                            width: 32,
-                          ),
+                        SvgPicture.asset(
+                          'assets/icons/facebook.svg',
+                          height: 32,
+                          width: 32,
                         ),
                         SizedBox(width: 16),
                         SvgPicture.asset(

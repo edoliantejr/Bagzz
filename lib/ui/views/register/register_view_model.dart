@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:bagzz/app/app.locator.dart';
-import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/dialog_service/dialog_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
@@ -9,7 +8,6 @@ import 'package:bagzz/core/service/firebase_cloud_storage/cloud_storage_service.
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/core/service/snack_bar_service/snack_bar_service.dart';
 import 'package:bagzz/core/utility/image_selector.dart';
-import 'package:bagzz/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -48,7 +46,7 @@ class RegisterViewModel extends BaseViewModel {
     setBusy(true);
     final tempImage = await imageSelector.selectImage();
     if (tempImage != null) {
-      selectedImage =  tempImage;
+      selectedImage = tempImage;
       setBusy(false);
     }
   }
@@ -57,8 +55,6 @@ class RegisterViewModel extends BaseViewModel {
     selectedImage = null;
     notifyListeners();
   }
-
-
 
   Future registerNow() async {
     setBusy(true);
@@ -71,11 +67,10 @@ class RegisterViewModel extends BaseViewModel {
             title: (File(selectedImage!.path).path));
         if (cloudStorageResult.isUploaded == true) {
           await firebaseAuthService.signUpWithEmail(
-           email: email.text,
+            email: email.text,
             password: password.text,
             name: name.text,
             image: cloudStorageResult.imageUrl,
-
           );
           clearTextController();
           Get.back(canPop: false);
@@ -90,12 +85,10 @@ class RegisterViewModel extends BaseViewModel {
     setBusy(false);
   }
 
-
   bool isAllRequiredValid() {
     bool isValid = false;
     if (selectedImage == null) {
-      snackBarService.showSnackBar('Should have an image',
-          isError: true);
+      snackBarService.showSnackBar('Should have an image', isError: true);
     } else if (name.text.isEmpty) {
       snackBarService.showSnackBar('Name is empty', isError: true);
       nameFocus.requestFocus();
@@ -103,8 +96,7 @@ class RegisterViewModel extends BaseViewModel {
       snackBarService.showSnackBar('Email is empty', isError: true);
       emailFocus.requestFocus();
     } else if (password.text.isEmpty) {
-      snackBarService.showSnackBar('Password is empty',
-          isError: true);
+      snackBarService.showSnackBar('Password is empty', isError: true);
       passFocus.requestFocus();
     } else {
       isValid = true;
@@ -132,22 +124,17 @@ class RegisterViewModel extends BaseViewModel {
     setBusy(false);
   }
 
-
-
-
   checkPass() {
     passwordController.text != ''
         ? isPasswordEmpty = false
         : isPasswordEmpty = true;
     notifyListeners();
   }
+
   checkPass2() {
     passwordController.text != ''
         ? isPasswordEmpty = false
         : isPasswordEmpty = true;
     notifyListeners();
   }
-
-
 }
-

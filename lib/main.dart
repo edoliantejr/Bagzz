@@ -49,6 +49,7 @@ void main() async {
     }
   });
 
+  ///show notification when app is on background
   FirebaseMessaging.onBackgroundMessage(backgroundNotificationHandler);
 
   configureFireBaseMessaging();

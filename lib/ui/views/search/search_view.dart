@@ -1,5 +1,4 @@
 import 'package:bagzz/constant/font_names.dart';
-import 'package:bagzz/models/bag.dart';
 import 'package:bagzz/ui/views/search/search_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

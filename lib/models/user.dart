@@ -3,6 +3,7 @@ class User {
   String email;
   String name;
   String image;
+  dynamic token;
   List<String> favoriteBags;
 
   User({
@@ -11,6 +12,7 @@ class User {
     required this.name,
     required this.image,
     required this.favoriteBags,
+    required this.token,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class User {
       email: json['email'],
       name: json['name'],
       image: json['image'],
+      token: json['token'] ?? '',
       favoriteBags:
           json['favoriteBags'] != null ? List.from(json['favoriteBags']) : [],
     );
@@ -31,6 +34,7 @@ class User {
       'email': email,
       'image': image,
       'favoriteBags': favoriteBags,
+      'token': token,
     };
   }
 }

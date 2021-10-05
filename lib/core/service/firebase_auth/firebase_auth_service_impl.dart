@@ -5,12 +5,14 @@ import 'package:bagzz/models/login_response.dart';
 import 'package:bagzz/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FireBaseAuthServiceImpl implements FireBaseAuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   String errorMessage = '';
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   GoogleSignInAccount? googleSignInAccount;
   GoogleSignInAuthentication? googleSignInAuthentication;
   AuthCredential? authCredential;
@@ -49,10 +51,24 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
 
   @override
   Future<LoginResponse> signUpWithEmail(
-      {required String email, required String password}) async {
+      {required String email,
+      required String password,
+      required String name,
+      required String image}) async {
     try {
       var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      var token = await FirebaseMessaging.instance.getToken();
+      if (authResult.user!.uid.isNotEmpty) {
+        await createUserIfNotExist(User(
+          id: authResult.user!.uid,
+          email: authResult.user!.email!,
+          name: name,
+          image: image,
+          favoriteBags: [],
+          token: token ?? await authResult.user!.getIdToken(),
+        ));
+      }
       return LoginResponse.success(authResult.user!);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -72,7 +88,9 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
           errorMessage = e.toString();
           break;
       }
-      return LoginResponse.error(errorMessage);
+
+      sharedPrefService.saveLoginDetails(user: authResult!);
+      return LoginResponse.success(authResult!.user!);
     }
   }
 
@@ -94,28 +112,88 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
         print(onError);
       });
 
-      if (authResult!.user!.uid.isNotEmpty) {
-        createUserIfNotExist(
+      if (authResult != null) {
+        var token = await FirebaseMessaging.instance.getToken();
+        await createUserIfNotExist(
           User(
               id: authResult!.user!.uid,
               email: authResult!.user!.email!,
               name: authResult!.user!.displayName!,
               image: authResult!.user!.photoURL!,
+              token: token ?? await authResult!.user!.getIdToken(),
               favoriteBags: []),
         );
       }
 
       sharedPrefService.saveLoginDetails(user: authResult!);
       return LoginResponse.success(authResult!.user!);
-    } catch (e) {
-      return LoginResponse.error('$e');
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "unknown":
+          errorMessage = e.code;
+          break;
+        case "invalid-email":
+          errorMessage = "Invalid Email Account.";
+          break;
+        case "user-not-found":
+          errorMessage = "No account associated with this email.";
+          break;
+        case "wrong-password":
+          errorMessage = "Incorrect password";
+          break;
+        default:
+          errorMessage = e.code;
+          break;
+      }
+      return LoginResponse.error(errorMessage);
     }
   }
 
   @override
-  Future? loginWithFacebook() {
-    // TODO: implement loginWithFacebook
-    throw UnimplementedError();
+  Future<LoginResponse> loginWithFacebook() async {
+    try {
+      final loginResult = await FacebookAuth.instance.login();
+      final facebookAuthCredential =
+          FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+      authResult =
+          await _firebaseAuth.signInWithCredential(facebookAuthCredential);
+
+      if (authResult != null) {
+        var token = await FirebaseMessaging.instance.getToken();
+        await createUserIfNotExist(
+          User(
+              id: authResult!.user!.uid,
+              email: authResult!.user!.email!,
+              name: authResult!.user!.displayName!,
+              image: authResult!.user!.photoURL!,
+              token: token ?? await authResult!.user!.getIdToken(),
+              favoriteBags: []),
+        );
+      }
+
+      sharedPrefService.saveLoginDetails(user: authResult!);
+      return LoginResponse.success(authResult!.user!);
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "unknown":
+          errorMessage = e.code;
+          break;
+        case "invalid-email":
+          errorMessage = "Invalid Email Account.";
+          break;
+        case "user-not-found":
+          errorMessage = "No account associated with this email.";
+          break;
+        case "wrong-password":
+          errorMessage = "Incorrect password";
+          break;
+        default:
+          errorMessage = e.code;
+          break;
+      }
+      return LoginResponse.error(errorMessage);
+    }
   }
 
   @override
@@ -140,5 +218,14 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
     if (!userDoc.exists) {
       userRef.set(user.toJson());
     }
+  }
+
+  @override
+  Future<void> saveTokenToDatabase({required String token}) async {
+    String userId = _firebaseAuth.currentUser!.uid;
+
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'token': token,
+    });
   }
 }

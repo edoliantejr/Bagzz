@@ -40,7 +40,6 @@ class LoginViewModel extends BaseViewModel {
       snackBarService.showSnackBar('Email is empty');
     } else if (isEmailValid == false) {
       emailFocusNode.requestFocus();
-
       snackBarService.showSnackBar('Email is invalid');
       // emailController.
     } else if (isPasswordEmpty) {
@@ -60,22 +59,10 @@ class LoginViewModel extends BaseViewModel {
     setBusy(false);
   }
 
-  Future signUpNow({required String email, required String password}) async {
-    setBusy(true);
-
-    final response = await firebaseAuthService.signUpWithEmail(
-        email: email, password: password);
-    if (response.success) {
-    } else {
-      snackBarService.showSnackBar(response.errorMessage!);
-    }
-    setBusy(false);
-  }
-
-  Future loginWithGoogle() async {
+  Future<void> loginWithGoogle() async {
     setBusy(true);
     final response =
-        await firebaseAuthService.loginWithGoogle()!.catchError((onError) {
+        await firebaseAuthService.loginWithGoogle().catchError((onError) {
       print(onError);
     });
     if (response.success) {
@@ -114,5 +101,19 @@ class LoginViewModel extends BaseViewModel {
 
   void onRegisterTap() {
     navigatorService.pushNamed(Routes.Register);
+  }
+
+  Future<void> loginWithFacebook() async {
+    try {
+      setBusy(true);
+      final response = await firebaseAuthService.loginWithFacebook();
+      if (response.success) {
+        navigatorService.pushReplacementNamed(Routes.MainScreen);
+      } else
+        snackBarService.showSnackBar(response.errorMessage!);
+      setBusy(false);
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 }

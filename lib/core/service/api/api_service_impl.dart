@@ -44,7 +44,7 @@ class ApiServiceImpl extends ApiService {
   Stream<User> getCurrentUser() {
     final user = _firebaseAuth.currentUser;
     var currentUser;
-    if (user!.uid.isNotEmpty) {
+    if (user != null) {
       currentUser = userCollection
           .doc(user.uid)
           .snapshots()

@@ -13,7 +13,7 @@ abstract class FireBaseAuthService {
 
   Future loginWithGoogle();
 
-  Future? loginWithFacebook();
+  Future<LoginResponse> loginWithFacebook();
 
   Future? loginWithTwitter();
 

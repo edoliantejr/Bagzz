@@ -59,7 +59,7 @@ class LoginViewModel extends BaseViewModel {
     setBusy(false);
   }
 
-  Future loginWithGoogle() async {
+  Future<void> loginWithGoogle() async {
     setBusy(true);
     final response =
         await firebaseAuthService.loginWithGoogle().catchError((onError) {
@@ -101,5 +101,19 @@ class LoginViewModel extends BaseViewModel {
 
   void onRegisterTap() {
     navigatorService.pushNamed(Routes.Register);
+  }
+
+  Future<void> loginWithFacebook() async {
+    try {
+      setBusy(true);
+      final response = await firebaseAuthService.loginWithFacebook();
+      if (response.success) {
+        navigatorService.pushReplacementNamed(Routes.MainScreen);
+      } else
+        snackBarService.showSnackBar(response.errorMessage!);
+      setBusy(false);
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 }

@@ -6,6 +6,7 @@ import 'package:bagzz/core/service/api/api_service.dart';
 import 'package:bagzz/core/service/dialog_service/dialog_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
+import 'package:bagzz/core/service/shared_preference_service/shared_preference_service.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
 import 'package:bagzz/ui/views/search/search_view.dart';
 import 'package:bagzz/ui/views/wishlist/wishlist_view.dart';
@@ -31,6 +32,7 @@ class MainScreenViewModel extends BaseViewModel {
   final apiService = locator<ApiService>();
   final fireBaseAuthService = locator<FireBaseAuthService>();
   final dialogService = locator<DialogService>();
+  final sharedPrefService = locator<SharedPreferenceService>();
 
   @override
   void dispose() {
@@ -40,10 +42,10 @@ class MainScreenViewModel extends BaseViewModel {
   }
 
   void init() async {
-    getUserDetails();
     subscribeToTopic();
     await updateToken();
     await checkAppLaunchDetails();
+    getUserDetails();
   }
 
   void subscribeToTopic() {
@@ -58,8 +60,11 @@ class MainScreenViewModel extends BaseViewModel {
     if (notificationAppLaunchDetails!.didNotificationLaunchApp) {
       final payload = notificationAppLaunchDetails.payload;
       final bag = await apiService.getBagDetails(bagId: payload!);
-      navigatorService.pushNamed(Routes.BagItemDetailsPage,
-          arguments: BagItemDetailsPageArguments(bag: bag));
+      bool userExist = await sharedPrefService.checkSavedLoginDetails();
+      if (userExist) {
+        navigatorService.pushNamed(Routes.BagItemDetailsPage,
+            arguments: BagItemDetailsPageArguments(bag: bag));
+      }
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:bagzz/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FireBaseAuthServiceImpl implements FireBaseAuthService {
@@ -59,7 +60,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
           email: email, password: password);
       var token = await FirebaseMessaging.instance.getToken();
       if (authResult.user!.uid.isNotEmpty) {
-        createUserIfNotExist(User(
+       await createUserIfNotExist(User(
           id: authResult.user!.uid,
           email: authResult.user!.email!,
           name: name,
@@ -113,7 +114,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
 
       if (authResult != null) {
         var token = await FirebaseMessaging.instance.getToken();
-        createUserIfNotExist(
+        await createUserIfNotExist(
           User(
               id: authResult!.user!.uid,
               email: authResult!.user!.email!,
@@ -126,15 +127,73 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
 
       sharedPrefService.saveLoginDetails(user: authResult!);
       return LoginResponse.success(authResult!.user!);
-    } catch (e) {
-      return LoginResponse.error('$e');
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "unknown":
+          errorMessage = e.code;
+          break;
+        case "invalid-email":
+          errorMessage = "Invalid Email Account.";
+          break;
+        case "user-not-found":
+          errorMessage = "No account associated with this email.";
+          break;
+        case "wrong-password":
+          errorMessage = "Incorrect password";
+          break;
+        default:
+          errorMessage = e.code;
+          break;
+      }
+      return LoginResponse.error(errorMessage);
     }
   }
 
   @override
-  Future? loginWithFacebook() {
-    // TODO: implement loginWithFacebook
-    throw UnimplementedError();
+  Future<LoginResponse> loginWithFacebook() async {
+    try {
+      final loginResult = await FacebookAuth.instance.login();
+      final facebookAuthCredential =
+          FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+      authResult =
+          await _firebaseAuth.signInWithCredential(facebookAuthCredential);
+
+      if (authResult != null) {
+        var token = await FirebaseMessaging.instance.getToken();
+        await createUserIfNotExist(
+          User(
+              id: authResult!.user!.uid,
+              email: authResult!.user!.email!,
+              name: authResult!.user!.displayName!,
+              image: authResult!.user!.photoURL!,
+              token: token ?? await authResult!.user!.getIdToken(),
+              favoriteBags: []),
+        );
+      }
+
+      sharedPrefService.saveLoginDetails(user: authResult!);
+      return LoginResponse.success(authResult!.user!);
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "unknown":
+          errorMessage = e.code;
+          break;
+        case "invalid-email":
+          errorMessage = "Invalid Email Account.";
+          break;
+        case "user-not-found":
+          errorMessage = "No account associated with this email.";
+          break;
+        case "wrong-password":
+          errorMessage = "Incorrect password";
+          break;
+        default:
+          errorMessage = e.code;
+          break;
+      }
+      return LoginResponse.error(errorMessage);
+    }
   }
 
   @override

@@ -21,7 +21,7 @@ class User {
       email: json['email'],
       name: json['name'],
       image: json['image'],
-      token: json['token'],
+      token: json['token'] ?? '',
       favoriteBags:
           json['favoriteBags'] != null ? List.from(json['favoriteBags']) : [],
     );

@@ -3,14 +3,19 @@ import 'dart:async';
 import 'package:bagzz/app/app.locator.dart';
 import 'package:bagzz/app/app.router.dart';
 import 'package:bagzz/core/service/api/api_service.dart';
+import 'package:bagzz/core/service/dialog_service/dialog_service.dart';
 import 'package:bagzz/core/service/firebase_auth/firebase_auth_service.dart';
 import 'package:bagzz/core/service/navigation/navigator_service.dart';
 import 'package:bagzz/ui/views/cart/cart_page_view.dart';
 import 'package:bagzz/ui/views/search/search_view.dart';
 import 'package:bagzz/ui/views/wishlist/wishlist_view.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:stacked/stacked.dart';
+
+import '../../../main.dart';
 
 class MainScreenViewModel extends BaseViewModel {
   int numCartItems = 0;
@@ -25,6 +30,7 @@ class MainScreenViewModel extends BaseViewModel {
   final navigatorService = locator<NavigationService>();
   final apiService = locator<ApiService>();
   final fireBaseAuthService = locator<FireBaseAuthService>();
+  final dialogService = locator<DialogService>();
 
   @override
   void dispose() {
@@ -37,10 +43,24 @@ class MainScreenViewModel extends BaseViewModel {
     getUserDetails();
     subscribeToTopic();
     await updateToken();
+    await checkAppLaunchDetails();
   }
 
   void subscribeToTopic() {
     FirebaseMessaging.instance.subscribeToTopic('BAG_TOPIC');
+  }
+
+  Future<void> checkAppLaunchDetails() async {
+    ///handles opening the app from terminated state
+    ///when flutter local notification is clicked
+    final NotificationAppLaunchDetails? notificationAppLaunchDetails =
+        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    if (notificationAppLaunchDetails!.didNotificationLaunchApp) {
+      final payload = notificationAppLaunchDetails.payload;
+      final bag = await apiService.getBagDetails(bagId: payload!);
+      navigatorService.pushNamed(Routes.BagItemDetailsPage,
+          arguments: BagItemDetailsPageArguments(bag: bag));
+    }
   }
 
   Future<void> updateToken() async {

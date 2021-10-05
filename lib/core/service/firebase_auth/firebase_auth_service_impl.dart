@@ -60,7 +60,7 @@ class FireBaseAuthServiceImpl implements FireBaseAuthService {
           email: email, password: password);
       var token = await FirebaseMessaging.instance.getToken();
       if (authResult.user!.uid.isNotEmpty) {
-       await createUserIfNotExist(User(
+        await createUserIfNotExist(User(
           id: authResult.user!.uid,
           email: authResult.user!.email!,
           name: name,
